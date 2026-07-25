@@ -266,6 +266,12 @@ def sync_usuarios_licenca(auth_store_path: Path, pg_con, log: logging.Logger) ->
     if not users:
         return 0
 
+    # Licenca e' da aplicacao (uma instalacao = uma licenca), nao por usuario --
+    # o mesmo plano/vencimento vale para todo mundo (ver AuthState no backend).
+    lic_plano = state.get("LicensePlano") or state.get("license_plano")
+    lic_vence = state.get("LicenseVenceEm") or state.get("license_vence_em")
+    lic_inicio = state.get("LicenseInicioEm") or state.get("license_inicio_em")
+
     sql = """
 INSERT INTO usuarios_licenca
   (id, username, display_name, roles, is_active, must_change_password,
@@ -292,9 +298,9 @@ ON CONFLICT (id) DO UPDATE SET
             u.get("Roles") or u.get("roles") or [],
             bool(u.get("IsActive", u.get("is_active", True))),
             bool(u.get("MustChangePassword", u.get("must_change_password", False))),
-            u.get("LicensePlano") or u.get("license_plano"),
-            u.get("LicenseVenceEm") or u.get("license_vence_em"),
-            u.get("LicenseInicioEm") or u.get("license_inicio_em"),
+            lic_plano,
+            lic_vence,
+            lic_inicio,
             u.get("LastLoginAt") or u.get("last_login_at"),
         ))
 

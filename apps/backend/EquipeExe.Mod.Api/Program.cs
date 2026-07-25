@@ -26,6 +26,8 @@ auth.ImportLegacyUsers();
 var db = new PdvDb(dataDirectory);
 db.Initialize();
 
+TrustedClock.StartBackgroundSync();
+
 var app = builder.Build();
 app.UseCors();
 app.UseDefaultFiles();
@@ -5209,7 +5211,11 @@ sealed class AuthStore
     [
         ("administrador", "Administrador", ["*"]),
         ("operacional",   "Operacional",   [Perm.CadastroWrite]),
-        ("supervisor",    "Supervisor",    [Perm.UsuariosRead, Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead]),
+        // usuarios.read e config.write ficam fora de propósito: só o
+        // administrador acessa as telas de Usuários e Configurações (tokens
+        // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
+        // não administrativo.
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead]),
         ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
         ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
     ];
@@ -5342,7 +5348,7 @@ sealed class AuthStore
         }
         _loginAttempts.TryRemove(key, out _);
 
-        var lic = AvaliarLicenca(user);
+        var lic = AvaliarLicenca(user, state);
         // Licença vencida não bloqueia mais o login em si — o usuário entra
         // normalmente, mas o frontend mostra uma tela de regularização travando
         // o resto do sistema (ver user.LicenseVencida em UserSummary/Describe).
@@ -5493,40 +5499,43 @@ sealed class AuthStore
 
     private UserSummary Describe(UserAccount u, AuthState s)
     {
-        var lic = AvaliarLicenca(u);
+        var lic = AvaliarLicenca(u, s);
         return new(u.Id, u.Username, u.DisplayName, u.Roles, ResolvePerm(u, s), u.IsActive, u.MustChangePassword, u.LastLoginAt,
-            u.LicensePlano, u.LicenseVenceEm, lic.isenta, lic.bloqueada);
+            s.LicensePlano, s.LicenseVenceEm, lic.isenta, lic.bloqueada);
     }
 
     private static List<string> ResolvePerm(UserAccount u, AuthState s) =>
         s.Roles.Where(r => u.Roles.Contains(r.Name, StringComparer.OrdinalIgnoreCase))
                .SelectMany(r => r.Permissions).Distinct(StringComparer.OrdinalIgnoreCase).Order().ToList();
 
-    /// Avalia a situação da licença de um usuário. Administradores são sempre isentos.
-    /// Sem plano configurado (LicensePlano nulo) é tratado como vencida — bloqueia o login
-    /// até o fornecedor configurar um plano (decisão explícita: só a conta admin fica livre
-    /// na transição, os demais usuários pré-existentes ficam vencidos).
-    private static (bool isenta, bool bloqueada, int? diasParaVencer, string? aviso) AvaliarLicenca(UserAccount u)
+    /// Licença é da aplicação (uma instalação = uma licença), não por usuário —
+    /// se qualquer pessoa da loja paga, libera o acesso para todo mundo daquela
+    /// instalação. Administradores são sempre isentos (acesso do fornecedor).
+    /// Sem plano configurado (LicenseVenceEm nulo e não vitalício) é tratado
+    /// como vencida — bloqueia todo mundo, menos admin, até alguém pagar.
+    private static (bool isenta, bool bloqueada, int? diasParaVencer, string? aviso) AvaliarLicenca(UserAccount u, AuthState s)
     {
         if (u.Roles.Contains("administrador", StringComparer.OrdinalIgnoreCase))
             return (true, false, null, null);
-        if (string.Equals(u.LicensePlano, "vitalicio", StringComparison.OrdinalIgnoreCase))
+        if (string.Equals(s.LicensePlano, "vitalicio", StringComparison.OrdinalIgnoreCase))
             return (true, false, null, null);
-        if (u.LicenseVenceEm is null)
+        if (s.LicenseVenceEm is null)
             return (false, true, null, null);
 
-        var dias = (int)Math.Ceiling((u.LicenseVenceEm.Value - DateTimeOffset.UtcNow).TotalDays);
+        var dias = (int)Math.Ceiling((s.LicenseVenceEm.Value - TrustedClock.UtcNow).TotalDays);
         if (dias < 0) return (false, true, dias, null);
         var aviso = dias <= 10
-            ? $"Sua licença vence em {dias} dia(s), em {u.LicenseVenceEm.Value:dd/MM/yyyy}. Renove para evitar bloqueio de acesso."
+            ? $"A licença do sistema vence em {dias} dia(s), em {s.LicenseVenceEm.Value:dd/MM/yyyy}. Renove para evitar bloqueio de acesso."
             : null;
         return (false, false, dias, aviso);
     }
 
-    /// Renova/atribui a licença de um usuário. Se ainda faltam dias para o vencimento atual,
-    /// eles são preservados: a nova data parte do vencimento atual (não de hoje), depois soma
-    /// os meses do plano. Ex.: vence dia 10, renova dia 02 → fica valendo até dia 10 do mês
-    /// seguinte (dias que faltavam + o novo ciclo inteiro).
+    /// Renova/atribui a licença da aplicação (compartilhada por todos os usuários
+    /// da instalação). Se ainda faltam dias para o vencimento atual, eles são
+    /// preservados: a nova data parte do vencimento atual (não de hoje), depois
+    /// soma os meses do plano. Ex.: vence dia 10, renova dia 02 → fica valendo
+    /// até dia 10 do mês seguinte (dias que faltavam + o novo ciclo inteiro).
+    /// userId identifica só quem disparou a renovação, para auditoria.
     public object RenovarLicenca(Guid userId, string plano, string by)
     {
         var state = Load();
@@ -5534,23 +5543,23 @@ sealed class AuthStore
         var meses = LicencaPlanos.MesesDoPlano(plano);
         var valor = LicencaPlanos.ValorFixo(plano);
 
-        user.LicenseInicioEm ??= DateTimeOffset.UtcNow;
+        state.LicenseInicioEm ??= TrustedClock.UtcNow;
         if (meses is null)
         {
-            user.LicensePlano = "vitalicio";
-            user.LicenseVenceEm = null;
+            state.LicensePlano = "vitalicio";
+            state.LicenseVenceEm = null;
         }
         else
         {
-            var baseData = (user.LicenseVenceEm.HasValue && user.LicenseVenceEm.Value > DateTimeOffset.UtcNow)
-                ? user.LicenseVenceEm.Value
-                : DateTimeOffset.UtcNow;
-            user.LicensePlano = plano.ToLowerInvariant();
-            user.LicenseVenceEm = baseData.AddMonths(meses.Value);
+            var baseData = (state.LicenseVenceEm.HasValue && state.LicenseVenceEm.Value > TrustedClock.UtcNow)
+                ? state.LicenseVenceEm.Value
+                : TrustedClock.UtcNow;
+            state.LicensePlano = plano.ToLowerInvariant();
+            state.LicenseVenceEm = baseData.AddMonths(meses.Value);
         }
         Save(state);
-        Audit(by, "licenca.renovada", $"user={user.Username};plano={user.LicensePlano};valor={valor};venceEm={user.LicenseVenceEm:O}");
-        return new { plano = user.LicensePlano, venceEm = user.LicenseVenceEm, valor };
+        Audit(by, "licenca.renovada", $"disparadoPor={user.Username};plano={state.LicensePlano};valor={valor};venceEm={state.LicenseVenceEm:O}");
+        return new { plano = state.LicensePlano, venceEm = state.LicenseVenceEm, valor };
     }
 
     private string MkToken(AuthState s, UserAccount u)
@@ -5688,11 +5697,59 @@ record DoacaoRequest(int ClienteId, int? OsId, string Descricao, double Valor, s
 record PixCriarRequest(int? RolId, double Valor, string? Contexto, string? Descricao);
 record MinhaLicencaPixRequest(string? Plano);
 
+// Relógio confiável para a validação de licença: não basta o relógio local do
+// appliance, já que atrasá-lo manualmente burlaria o vencimento. Usa o
+// cabeçalho HTTP "Date" de uma resposta HTTPS (presente em qualquer servidor,
+// sem precisar de API de NTP dedicada) para calcular um desvio (skew) em
+// relação ao relógio local, atualizado a cada 30min em segundo plano. Se
+// ficar offline, mantém o último desvio conhecido — nunca bloqueia o app por
+// falta de internet (o resto do sistema já é offline-first); só evita que
+// atrasar o relógio manualmente engane a licença enquanto há conexão.
+static class TrustedClock
+{
+    private static TimeSpan? _skew;
+    private static readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(5) };
+
+    public static DateTimeOffset UtcNow => DateTimeOffset.UtcNow + (_skew ?? TimeSpan.Zero);
+
+    public static void StartBackgroundSync()
+    {
+        _ = Task.Run(async () =>
+        {
+            while (true)
+            {
+                await TrySyncOnce();
+                await Task.Delay(TimeSpan.FromMinutes(30));
+            }
+        });
+    }
+
+    private static async Task TrySyncOnce()
+    {
+        try
+        {
+            using var req = new HttpRequestMessage(HttpMethod.Head, "https://www.google.com");
+            using var resp = await _http.SendAsync(req);
+            if (resp.Headers.Date is { } serverDate)
+                _skew = serverDate - DateTimeOffset.UtcNow;
+        }
+        catch { /* offline — mantém o último desvio conhecido */ }
+    }
+}
+
 sealed class AuthState
 {
     public List<UserAccount> Users { get; set; } = [];
     public List<RoleDefinition> Roles { get; set; } = [];
     public string SigningKey { get; set; } = "";
+
+    // Licenciamento é da APLICAÇÃO (uma instalação = uma licença), não por
+    // usuário: se qualquer pessoa paga, libera para todo mundo daquela loja.
+    // Campos por-usuário (UserAccount.LicensePlano/...) ficam só como legado
+    // para migração de instalações antigas (ver AuthStore.MigrarLicencaLegado).
+    public string? LicensePlano { get; set; }
+    public DateTimeOffset? LicenseVenceEm { get; set; }
+    public DateTimeOffset? LicenseInicioEm { get; set; }
 }
 
 sealed class UserAccount
