@@ -5,8 +5,11 @@ using System.Globalization;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
-    p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+// Frontend e API são sempre same-origin (o Kestrel serve o wwwroot/index.html
+// que consome esta mesma API) — não há necessidade legítima de chamada
+// cross-origin. Sem AllowAnyOrigin: nenhum outro site consegue usar um token
+// roubado/vazado para chamar a API via fetch() do navegador do usuário.
+builder.Services.AddCors(o => o.AddDefaultPolicy(p => p.AllowAnyHeader().AllowAnyMethod()));
 
 var modRoot        = builder.Configuration["EquipeExe:ModRoot"]       ?? @"E:\Projeto Luci\MOD";
 var dataDirectory  = builder.Configuration["EquipeExe:DataDirectory"]  ?? Path.Combine(modRoot, "data", "sandbox");
@@ -27,6 +30,17 @@ var app = builder.Build();
 app.UseCors();
 app.UseDefaultFiles();
 app.UseStaticFiles();
+
+// Cabeçalhos básicos de segurança — mitigam clickjacking, MIME-sniffing e
+// vazamento de URL via Referer; custo zero, sem efeito colateral conhecido
+// nesta aplicação (não embeda nem é embedada em iframes de terceiros).
+app.Use(async (ctx, next) =>
+{
+    ctx.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    ctx.Response.Headers["X-Frame-Options"] = "DENY";
+    ctx.Response.Headers["Referrer-Policy"] = "same-origin";
+    await next();
+});
 
 app.Use(async (ctx, next) =>
 {
@@ -101,6 +115,13 @@ app.MapDelete("/admin/usuarios/{id:guid}", (Guid id, HttpRequest http) =>
 {
     var session = auth.RequirePermission(http, Perm.UsuariosWrite);
     auth.DeactivateUser(id, session.Username);
+    return Results.Ok(new { ok = true });
+});
+
+app.MapPost("/admin/usuarios/{id:guid}/ativar", (Guid id, HttpRequest http) =>
+{
+    var session = auth.RequirePermission(http, Perm.UsuariosWrite);
+    auth.ReactivateUser(id, session.Username);
     return Results.Ok(new { ok = true });
 });
 
@@ -5285,15 +5306,41 @@ sealed class AuthStore
             Audit("legacy-import", "users.import", $"{imported} usuarios importados de Usuarios.DB com senha temporaria 12345.");
     }
 
+    // Proteção contra força bruta: 5 tentativas erradas por usuário em 15min
+    // bloqueiam novas tentativas por 15min. Em memória (por processo) — reinicia
+    // sozinho a cada restart da API, o que é aceitável para um kiosk local.
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, (int Fails, DateTimeOffset WindowStart, DateTimeOffset? LockedUntil)> _loginAttempts = new();
+    private const int MaxLoginFails = 5;
+    private static readonly TimeSpan LoginLockDuration = TimeSpan.FromMinutes(15);
+    private static readonly TimeSpan LoginWindowDuration = TimeSpan.FromMinutes(15);
+
     public LoginResponse? Login(string username, string password, string? ip)
     {
+        var key = username.Trim().ToLowerInvariant();
+        var now = DateTimeOffset.UtcNow;
+        if (_loginAttempts.TryGetValue(key, out var throttle) && throttle.LockedUntil is { } until && until > now)
+        {
+            Audit(username, "auth.login.blocked_lockout", $"ip={ip}");
+            throw new InvalidOperationException("Muitas tentativas de login. Tente novamente em alguns minutos.");
+        }
+
         var state = Load();
         var user = state.Users.FirstOrDefault(x => x.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
         if (user is null || !user.IsActive || !FixedEq(user.PasswordHash, HashPwd(password, user.PasswordSalt)))
         {
+            _loginAttempts.AddOrUpdate(key,
+                _ => (1, now, null),
+                (_, old) =>
+                {
+                    if (now - old.WindowStart > LoginWindowDuration) return (1, now, null);
+                    var fails = old.Fails + 1;
+                    DateTimeOffset? locked = fails >= MaxLoginFails ? now.Add(LoginLockDuration) : null;
+                    return (fails, old.WindowStart, locked);
+                });
             Audit(username, "auth.login.failed", $"ip={ip}");
             return null;
         }
+        _loginAttempts.TryRemove(key, out _);
 
         var lic = AvaliarLicenca(user);
         // Licença vencida não bloqueia mais o login em si — o usuário entra
@@ -5409,6 +5456,15 @@ sealed class AuthStore
         user.IsActive = false;
         Save(state);
         Audit(by, "users.deactivate", user.Username);
+    }
+
+    public void ReactivateUser(Guid id, string by)
+    {
+        var state = Load();
+        var user = state.Users.FirstOrDefault(x => x.Id == id) ?? throw new KeyNotFoundException("Usuário não encontrado.");
+        user.IsActive = true;
+        Save(state);
+        Audit(by, "users.reactivate", user.Username);
     }
 
     public UserSummary AssignRoles(Guid id, IEnumerable<string> roles, string by)
