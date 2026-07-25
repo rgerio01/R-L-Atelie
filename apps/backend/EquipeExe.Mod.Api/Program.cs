@@ -127,6 +127,13 @@ app.MapPost("/admin/usuarios/{id:guid}/ativar", (Guid id, HttpRequest http) =>
     return Results.Ok(new { ok = true });
 });
 
+app.MapDelete("/admin/usuarios/{id:guid}/permanente", (Guid id, HttpRequest http) =>
+{
+    var session = auth.RequirePermission(http, Perm.UsuariosWrite);
+    auth.DeleteUserPermanently(id, session.Username);
+    return Results.Ok(new { ok = true });
+});
+
 app.MapPost("/admin/usuarios/{id:guid}/perfis", (Guid id, AssignRolesRequest req, HttpRequest http) =>
 {
     var session = auth.RequirePermission(http, Perm.UsuariosWrite);
@@ -5558,6 +5565,19 @@ sealed class AuthStore
         user.IsActive = true;
         Save(state);
         Audit(by, "users.reactivate", user.Username);
+    }
+
+    /// Remove o registro do usuário definitivamente. Só permitido para contas já
+    /// inativas — histórico operacional (caixa, vendas, auditoria) referencia o
+    /// usuário por nome de texto, não por Id, então não quebra nada existente.
+    public void DeleteUserPermanently(Guid id, string by)
+    {
+        var state = Load();
+        var user = state.Users.FirstOrDefault(x => x.Id == id) ?? throw new KeyNotFoundException("Usuário não encontrado.");
+        if (user.IsActive) throw new InvalidOperationException("Desative o usuário antes de excluir permanentemente.");
+        state.Users.Remove(user);
+        Save(state);
+        Audit(by, "users.delete-permanent", user.Username);
     }
 
     public UserSummary AssignRoles(Guid id, IEnumerable<string> roles, string by)

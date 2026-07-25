@@ -1622,9 +1622,33 @@ async function vUsuarios(){
         <button class="btn sm" onclick='editarUsuario(${JSON.stringify(x)},${JSON.stringify(perfis)})'>Editar</button>
         <button class="btn sm warn" onclick='resetSenha(${JSON.stringify(x)})'>Reset senha</button>
         ${!x.licenseIsenta?`<button class="btn sm ok" onclick='dlgLicenca(${JSON.stringify(x)})'>Licença</button>`:''}
+        ${x.isActive
+          ?`<button class="btn sm bad" onclick="desativarUsuario('${x.id}','${esc(x.username)}')">Desativar</button>`
+          :`<button class="btn sm ok" onclick="reativarUsuario('${x.id}','${esc(x.username)}')">Reativar</button>
+            <button class="btn sm bad" onclick="excluirUsuarioPermanente('${x.id}','${esc(x.username)}')">Excluir</button>`}
       </td>
     </tr>`).join('')}</tbody>
   </table>`;
+}
+
+async function desativarUsuario(id,username){
+  if(!confirm(`Desativar o usuário "${username}"? Ele perde o acesso, mas pode ser reativado depois.`)) return;
+  await api(`/admin/usuarios/${id}`,{method:'DELETE'});
+  toast('Usuário desativado.');
+  vUsuarios();
+}
+
+async function reativarUsuario(id,username){
+  await api(`/admin/usuarios/${id}/ativar`,{method:'POST'});
+  toast('Usuário reativado.');
+  vUsuarios();
+}
+
+async function excluirUsuarioPermanente(id,username){
+  if(!confirm(`Excluir PERMANENTEMENTE o usuário "${username}"? Essa ação não pode ser desfeita (o histórico de vendas/caixa dele é preservado, só a conta de login é removida).`)) return;
+  await api(`/admin/usuarios/${id}/permanente`,{method:'DELETE'});
+  toast('Usuário excluído permanentemente.');
+  vUsuarios();
 }
 
 function licencaBadge(x){
