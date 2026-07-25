@@ -2709,9 +2709,41 @@ async function dlgImpressoras(){
     <label>Tamanho do papel (impressora térmica)</label>
     <select id="impLargura">${optLargura}</select>
   </div>
-  <p class="muted mt" style="font-size:12px">Impressoras instaladas via CUPS. Se a lista estiver vazia, cadastre-as no painel do sistema (localhost:631) e clique em Atualizar.</p>
-  <button class="btn sm mt" onclick="dlgImpressoras()">↻ Atualizar lista</button>`,
+  <p class="muted mt" style="font-size:12px">Impressoras instaladas via CUPS. Se a térmica não aparecer na lista, conecte-a via USB e clique em "Detectar impressora".</p>
+  <div class="row mt">
+    <button class="btn sm" onclick="dlgImpressoras()">↻ Atualizar lista</button>
+    <button class="btn sm ok" onclick="detectarImpressoraTermica()">🔍 Detectar impressora térmica</button>
+  </div>
+  <div id="impDetectArea" class="mt"></div>`,
   [{txt:'Salvar',cls:'primary',fn:salvarImpressoras}]);
+}
+
+async function detectarImpressoraTermica(){
+  const area=$('impDetectArea');
+  area.innerHTML='<div class="spin" style="margin:10px auto"></div>';
+  try{
+    const r=await api('/sistema/impressoras/detectar');
+    const cand=r.candidatos||[];
+    if(cand.length===0){
+      area.innerHTML='<p class="muted" style="font-size:12px">Nenhuma impressora USB nova encontrada. Confira o cabo/energia e tente de novo.</p>';
+      return;
+    }
+    area.innerHTML=`<div class="fld"><label>Impressora encontrada</label>
+      <select id="impDetectUri">${cand.map(c=>`<option value="${esc(c.uri)}">${esc(c.label)}</option>`).join('')}</select>
+    </div>
+    <button class="btn sm primary mt" onclick="confirmarAutoConfigTermica()">Configurar esta impressora</button>`;
+  }catch(e){ area.innerHTML=`<p style="color:var(--bad);font-size:12px">Erro ao detectar: ${esc(e.message)}</p>`; }
+}
+
+async function confirmarAutoConfigTermica(){
+  const uri=$('impDetectUri').value;
+  const area=$('impDetectArea');
+  area.innerHTML='<div class="spin" style="margin:10px auto"></div><p class="muted" style="font-size:12px;text-align:center">Configurando e testando impressão...</p>';
+  try{
+    const r=await api('/sistema/impressoras/termica/auto-configurar',{method:'POST',body:JSON.stringify({uri})});
+    toast(r.testeImpressao?'Impressora configurada e teste impresso com sucesso!':'Configurada, mas o teste de impressão falhou.');
+    dlgImpressoras();
+  }catch(e){ area.innerHTML=`<p style="color:var(--bad);font-size:12px">Erro ao configurar: ${esc(e.message)}</p>`; }
 }
 
 async function salvarImpressoras(){

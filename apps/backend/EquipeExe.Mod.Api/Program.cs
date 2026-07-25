@@ -1062,6 +1062,23 @@ app.MapPost("/sistema/impressoras/{nome}/testar", async (string nome, HttpReques
     return ok ? Results.Ok(new { ok = true, msg = saida }) : Results.BadRequest(new { error = saida });
 });
 
+app.MapGet("/sistema/impressoras/detectar", async (HttpRequest req) =>
+{
+    auth.RequirePermission(req, Perm.ConfigWrite);
+    var (ok, erro, candidatos) = await SystemCommands.ImpressorasDetectarUsb();
+    return ok ? Results.Ok(new { candidatos }) : Results.BadRequest(new { error = erro });
+});
+
+app.MapPost("/sistema/impressoras/termica/auto-configurar", async (AutoConfigurarTermicaRequest body, HttpRequest http) =>
+{
+    auth.RequirePermission(http, Perm.ConfigWrite);
+    var (ok, saida) = await SystemCommands.ImpressoraAutoConfigurarTermica(body.Uri);
+    if (!ok) return Results.BadRequest(new { error = saida });
+    var (testeOk, testeSaida) = await SystemCommands.ImpressoraTestar("termica", "termica");
+    db.SetConfiguracao("impressora_termica", "termica");
+    return Results.Ok(new { ok = true, msg = saida, testeImpressao = testeOk, testeDetalhe = testeSaida });
+});
+
 // ── Navegador auxiliar (e-mail / consultas) ───────────────────────────────────
 app.MapPost("/sistema/navegador/abrir", async (NavegadorAbrirRequest body, HttpRequest http) =>
 {
@@ -5239,6 +5256,39 @@ static class SystemCommands
         return (true, null, lista);
     }
 
+    /// Detecta impressoras USB conectadas (via lpinfo -v) que ainda nao tem fila
+    /// no CUPS — usado pelo botao "Detectar impressora" na tela de Configuracoes,
+    /// pra nao precisar de SSH/terminal na maquina fisica.
+    public static async Task<(bool ok, string? erro, List<object> candidatos)> ImpressorasDetectarUsb()
+    {
+        var (ok, saida) = await RunAsync("lpinfo", new[] { "-v" });
+        if (!ok) return (false, saida, new List<object>());
+
+        var candidatos = saida.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(l => l.Trim())
+            .Where(l => l.StartsWith("direct ") && l.Contains("usb://"))
+            .Select(l =>
+            {
+                var uri = l["direct ".Length..].Trim();
+                var label = Uri.UnescapeDataString(uri.Replace("usb://", "").Split('?')[0].Replace("/", " "));
+                return (object)new { uri, label };
+            })
+            .ToList();
+        return (true, null, candidatos);
+    }
+
+    /// Cria (ou recria) a fila "termica" no CUPS como raw — sem driver/PPD, o app
+    /// ja manda os bytes ESC/POS prontos (ver ImpressoraTestar). Mesmo padrao de
+    /// sudo ja usado em /admin/reboot e WifiConectar.
+    public static async Task<(bool ok, string output)> ImpressoraAutoConfigurarTermica(string uri)
+    {
+        var (okAdd, outAdd) = await RunAsync("sudo", new[] { "lpadmin", "-p", "termica", "-E", "-v", uri, "-m", "raw" });
+        if (!okAdd) return (false, outAdd);
+        await RunAsync("sudo", new[] { "cupsenable", "termica" });
+        await RunAsync("sudo", new[] { "cupsaccept", "termica" });
+        return (true, "Fila 'termica' configurada.");
+    }
+
     public static async Task<(bool ok, string output)> ImpressoraTestar(string nome, string tipo)
     {
         var tmp = Path.GetTempFileName();
@@ -5850,6 +5900,7 @@ record ReceberRequest(double ValorRecebido, string Metodo, string? Observacao);
 record ConfigRequest(string Valor);
 record WifiConectarRequest(string Ssid, string? Senha);
 record ImpressorasConfigRequest(string? ImpressoraA4, string? ImpressoraTermica, string? LarguraTermica);
+record AutoConfigurarTermicaRequest(string Uri);
 record NavegadorAbrirRequest(string? Url);
 record CreditoRequest(string Tipo, double Valor, string? Descricao, string? Referencia);
 record CoverageStatusRequest(string Status, string? Observacao);
