@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-05-24T15:34:54.800323+00:00",
+  "tokens_logged": false,
+  "rogerio": {
+    "env": "MERCADOPAGO_ROGERIO_TOKEN",
+    "status": "VALIDATED",
+    "account_id": 127892299,
+    "nickname": "RGERIO1",
+    "site_id": "MLB",
+    "email_masked": "ro***@gmail.com",
+    "raw_saved": false
+  },
+  "luci": {
+    "env": "MERCADOPAGO_LUCI_TOKEN",
+    "status": "VALIDATED",
+    "account_id": 753639594,
+    "nickname": "LUCIDALVAALVESDEOLIVEIRAOL",
+    "site_id": "MLB",
+    "email_masked": "lu***@hotmail.com",
+    "raw_saved": false
+  },
+  "required_manual_check": [
+    "confirmar se account_id/nickname correspondem a Rogerio",
+    "confirmar se account_id/nickname correspondem a Luci",
+    "rotacionar tokens expostos em imagem/chat antes de producao"
+  ]
+}

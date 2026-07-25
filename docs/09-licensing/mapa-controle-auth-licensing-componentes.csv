@@ -1,0 +1,11 @@
+﻿Componente,PapelProvavel,Criticidade,SinaisLicenciamento,SinaisAuthPermissao,SinaisDeviceBinding,SinaisComunicacaoRemota,SinaisAtualizacao,DLLsRelevantes,ComunicacaoRuntime,WorkingSetPicoMB,ThreadsPico,HandlesPico,Evidencia
+EquConfig.exe,infraestrutura/configuracao/atualizacao,media,5,0,0,1,10,advapi32.dll; oleaut32.dll,,,,,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+EquEstruAtu.exe,infraestrutura/configuracao/atualizacao,alta,5,7,5,14,53,advapi32.dll; oleaut32.dll; wininet.dll,,,,,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+Estoque.exe,modulo operacional com comunicacao real observada,alta,5,7,5,21,46,advapi32.dll; oleaut32.dll; wininet.dll,191.6.218.152:80,37.75,12,486,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+Financeiro.exe,modulo operacional com regras de bloqueio,critica,33,133,0,0,40,advapi32.dll; oleaut32.dll,,21.06,6,245,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+Gerenciador.exe,broker remoto/admin forte,critica,2,8,16,64,41,mscoree.dll,,20.41,6,232,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+LavFacilLan.exe,modulo operacional com comunicacao real observada,alta,5,12,0,8,51,advapi32.dll; oleaut32.dll; wininet.dll,191.6.218.152:80,51.16,10,475,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+LavSoft.exe,core operacional com bloqueio/licenca,critica,29,128,0,0,31,advapi32.dll; oleaut32.dll,,19.44,6,257,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+NFE.exe,secundario,critica,32,15,0,14,127,advapi32.dll; oleaut32.dll; wininet.dll,,,,,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+SAT.exe,modulo operacional com regras de bloqueio,critica,18,119,0,1,51,advapi32.dll; oleaut32.dll,,,,,strings executaveis; imports PE; baselines runtime; mapas de comunicacao
+Senhas.exe,controle de usuarios/permissoes/bloqueios,critica,34,146,0,5,36,advapi32.dll; oleaut32.dll,,,,,strings executaveis; imports PE; baselines runtime; mapas de comunicacao

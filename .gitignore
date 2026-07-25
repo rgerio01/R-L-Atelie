@@ -1,0 +1,72 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+secrets/
+**/secrets/
+
+# Mercado Pago / GitHub / Supabase sensitive dumps
+*access_token*
+*client_secret*
+*service_role*
+*connection-string*
+*credentials*
+
+# Runtime data
+logs/
+tmp/
+cache/
+*.log
+*.tmp
+
+# Local databases and backups
+*.sqlite
+*.sqlite3
+*.db
+*.db-wal
+*.db-shm
+*.bak
+*.backup
+*.zip
+*.7z
+
+# Dados reais de clientes (histórico desde 2018) e credenciais de usuários —
+# nunca devem sair desta máquina, muito menos ir pra um repositório no GitHub.
+data/
+
+# Build output (.NET) — regenerado por dotnet build/publish, não é código-fonte.
+**/bin/
+**/obj/
+
+# Scratch/runtime local
+runtime/
+*.pid
+
+# Binários/DLLs do sistema legado (referência histórica apenas — não fazem
+# parte do código novo, e alguns passam de 60MB, acima do limite do GitHub).
+apps/legacy-runtime/Equipexe/Exe/
+
+# Dumps brutos de investigação do sistema legado (centenas de MB cada, texto
+# de captura/log — sem valor como código, e violam o limite de arquivo do
+# GitHub de 100MB).
+docs/02-arquitetura-legada/sinais-profundos/
+
+# Generated evidence with possible operational data
+final-execution-parity/evidence/*.local.json
+physical-validation/*.local.json
+hardening/backups/
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE / OS
+.vs/
+.vscode/
+Thumbs.db
+desktop.ini

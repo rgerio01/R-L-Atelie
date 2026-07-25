@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-05-24T15:48:41.933035+00:00",
+  "level": "NO-GO",
+  "ownership_allowed": false,
+  "shadow_go_allowed": false,
+  "policy": "Ownership permanece bloqueado; esta fase busca no maximo CONDITIONAL-GO/SHADOW-GO baseado em evidencia real.",
+  "gates": {
+    "replay": "NO-GO",
+    "runtime": "NO-GO",
+    "print": "NO-GO",
+    "ui": "NO-GO",
+    "reports": "NO-GO",
+    "permissions": "NO-GO",
+    "dell_hardware": "NO-GO",
+    "bluetooth": "NO-GO",
+    "appliance": "NO-GO",
+    "restore": "NO-GO",
+    "recovery": "NO-GO",
+    "rollback": "NO-GO",
+    "shadow_execution": "NO-GO",
+    "divergence_elimination": "NO-GO"
+  },
+  "upstream": {
+    "absolute_legacy_parity": "NO-GO",
+    "physical_readiness": "NO-GO",
+    "hardening": "NO-GO"
+  },
+  "blockers": [
+    "replay_not_validated",
+    "runtime_not_validated",
+    "print_not_validated",
+    "ui_not_validated",
+    "reports_not_validated",
+    "permissions_not_validated",
+    "dell_hardware_not_validated",
+    "bluetooth_not_validated",
+    "appliance_not_validated",
+    "restore_not_validated",
+    "recovery_not_validated",
+    "rollback_not_validated",
+    "shadow_execution_not_validated",
+    "divergence_elimination_not_validated",
+    "absolute_legacy_parity_not_go",
+    "physical_readiness_not_go",
+    "hardening_not_go"
+  ],
+  "required_next_actions": [
+    "executar replay real e anexar evidencia",
+    "executar tracing runtime real",
+    "executar impressao fisica real",
+    "executar UI replay real",
+    "executar diff real de relatorios",
+    "executar replay real de permissoes",
+    "validar Dell, Bluetooth e appliance reais",
+    "validar restore, recovery e rollback reais",
+    "executar shadow execution definitiva",
+    "zerar divergencias criticas"
+  ]
+}

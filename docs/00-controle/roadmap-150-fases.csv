@@ -1,0 +1,151 @@
+﻿Fase,Titulo,Diretorio,Area,Criticidade,Status
+FASE 001,Inventario raiz completo,docs\01-inventario,inventario,media,parcial/em andamento
+FASE 002,Hash e integridade,docs\01-inventario,integridade,alta,parcial/em andamento
+FASE 003,Snapshot e rollback,docs\19-snapshots,rollback,alta,parcial/em andamento
+FASE 004,Inventario de executaveis,docs\01-inventario,binarios,alta,parcial/em andamento
+FASE 005,Inventario de DLLs,docs\06-dependencias,dependencias,alta,parcial/em andamento
+FASE 006,Identificacao de frameworks,docs\06-dependencias,arquitetura,media,parcial/em andamento
+FASE 007,Engenharia reversa estatica,docs\02-runtime,reversing,alta,parcial/em andamento
+FASE 008,Engenharia reversa dinamica,docs\02-runtime,runtime,alta,parcial/em andamento
+FASE 009,Mapa de inicializacao,docs\02-runtime,startup,alta,planejada
+FASE 010,Baseline de memoria,docs\03-memoria,memoria,media,planejada
+FASE 011,Baseline de performance,docs\04-performance,performance,media,planejada
+FASE 012,Mapa de processos filhos,docs\02-runtime,runtime,media,planejada
+FASE 013,Mapa de handles e GDI,docs\03-memoria,memoria,media,planejada
+FASE 014,Mapa de I/O e arquivos temporarios,docs\02-runtime,runtime,alta,planejada
+FASE 015,Mapa de registry,docs\02-runtime,runtime,media,planejada
+FASE 016,Mapa de configuracoes,docs\01-inventario,config,media,planejada
+FASE 017,Mapa de logs legados,docs\07-observabilidade,logs,media,planejada
+FASE 018,Mapa de banco Paradox/BDE,docs\10-database,database,critica,planejada
+FASE 019,Dicionario de dados refinado,docs\10-database,database,alta,planejada
+FASE 020,Relacionamentos e entidades,docs\10-database,database,alta,planejada
+FASE 021,Integridade e corrupcao de dados,docs\10-database,database,critica,planejada
+FASE 022,Mapa de permissoes legado,docs\08-auth,auth,alta,planejada
+FASE 023,Fluxo de login legado,docs\08-auth,auth,alta,planejada
+FASE 024,Persistencia de sessao,docs\08-auth,auth,alta,planejada
+FASE 025,Codificacao de senha,docs\08-auth,auth,alta,planejada
+FASE 026,Licenciamento legado,docs\09-licensing,licensing,critica,planejada
+FASE 027,Hardware binding legado,docs\09-licensing,licensing,alta,planejada
+FASE 028,Mapa de dispositivos,docs\09-licensing,licensing,media,planejada
+FASE 029,Mapa de comunicacao externa,docs\05-comunicacoes,comunicacao,critica,planejada
+FASE 030,Captura de trafego HTTP,docs\05-comunicacoes,comunicacao,critica,planejada
+FASE 031,Comportamento offline,docs\05-comunicacoes,offline,alta,planejada
+FASE 032,Comportamento online,docs\05-comunicacoes,online,alta,planejada
+FASE 033,Mapa de sincronizacao,docs\05-comunicacoes,sync,critica,planejada
+FASE 034,Mapa de atualizacao automatica,docs\05-comunicacoes,update,critica,planejada
+FASE 035,Classificacao de endpoint externo,docs\05-comunicacoes,comunicacao,critica,planejada
+FASE 036,Tracing WinINet/Winsock,docs\05-comunicacoes,comunicacao,alta,planejada
+FASE 037,ProcMon de inicializacao,docs\02-runtime,startup,alta,planejada
+FASE 038,ETW de runtime,docs\07-observabilidade,observabilidade,media,planejada
+FASE 039,API Monitor de rede,docs\05-comunicacoes,comunicacao,alta,planejada
+FASE 040,Mapa de modulos principais,docs\11-modulos,modulos,alta,planejada
+FASE 041,Core engine operacional,docs\11-modulos,modulos,critica,planejada
+FASE 042,Mapa LavFacilLan,docs\11-modulos,modulos,alta,planejada
+FASE 043,Mapa LavSoft,docs\11-modulos,modulos,alta,planejada
+FASE 044,Mapa Gerenciador,docs\11-modulos,modulos,alta,planejada
+FASE 045,Mapa Financeiro,docs\11-modulos,modulos,alta,planejada
+FASE 046,Mapa Estoque,docs\11-modulos,modulos,alta,planejada
+FASE 047,Mapa NFE,docs\11-modulos,fiscal,critica,planejada
+FASE 048,Mapa SAT,docs\11-modulos,fiscal,critica,planejada
+FASE 049,Mapa fiscal consolidado,docs\11-modulos,fiscal,critica,planejada
+FASE 050,Mapa de relatorios,docs\11-modulos,relatorios,alta,planejada
+FASE 051,Mapa de menus e telas,docs\11-modulos,frontend,alta,planejada
+FASE 052,Captura visual de telas,docs\11-modulos,frontend,media,planejada
+FASE 053,Mapa de botoes e acoes,docs\11-modulos,frontend,alta,planejada
+FASE 054,Mapa de regras de negocio,docs\11-modulos,negocio,critica,planejada
+FASE 055,Fluxo Entrada de ROL,docs\11-modulos,negocio,critica,planejada
+FASE 056,Fluxo Entrega,docs\11-modulos,negocio,alta,planejada
+FASE 057,Fluxo Pagamento,docs\11-modulos,negocio,critica,planejada
+FASE 058,Fluxo Cancelamento,docs\11-modulos,negocio,critica,planejada
+FASE 059,Fluxo Reemissao,docs\11-modulos,negocio,media,planejada
+FASE 060,Fluxo Caixa,docs\11-modulos,financeiro,critica,planejada
+FASE 061,Fluxo Faturamento,docs\11-modulos,financeiro,alta,planejada
+FASE 062,Fluxo Cliente,docs\11-modulos,cadastro,alta,planejada
+FASE 063,Fluxo Usuario,docs\08-auth,auth,alta,planejada
+FASE 064,Fluxo Parametros,docs\11-modulos,config,alta,planejada
+FASE 065,Analise de SQL e queries,docs\10-database,database,alta,planejada
+FASE 066,Analise de indices,docs\10-database,database,alta,planejada
+FASE 067,Analise de locks BDE,docs\10-database,database,critica,planejada
+FASE 068,Plano de migracao de banco,docs\16-migracao,migracao,critica,planejada
+FASE 069,Modelo SQLite local,docs\15-nextgen,nextgen,alta,planejada
+FASE 070,Outbox local,docs\15-nextgen,sync,alta,planejada
+FASE 071,Inbound sync,docs\15-nextgen,sync,alta,planejada
+FASE 072,Resolucao de conflitos,docs\15-nextgen,sync,critica,planejada
+FASE 073,Modelo multi-tenant,docs\15-nextgen,cloud,alta,planejada
+FASE 074,Supabase auth,docs\14-supabase,supabase,alta,planejada
+FASE 075,Supabase RLS,docs\14-supabase,supabase,critica,planejada
+FASE 076,Supabase Edge Functions,docs\14-supabase,supabase,alta,planejada
+FASE 077,Supabase auditoria,docs\14-supabase,supabase,alta,planejada
+FASE 078,Feature flags,docs\13-cloud,cloud,media,planejada
+FASE 079,Device management,docs\13-cloud,cloud,alta,planejada
+FASE 080,Licenciamento moderno,docs\09-licensing,licensing,alta,planejada
+FASE 081,Device binding moderno,docs\09-licensing,licensing,alta,planejada
+FASE 082,Autenticacao local moderna,docs\08-auth,auth,alta,planejada
+FASE 083,Permissoes granulares,docs\08-auth,auth,alta,planejada
+FASE 084,Auditoria administrativa,docs\17-seguranca,seguranca,alta,planejada
+FASE 085,Criptografia e segredos,docs\17-seguranca,seguranca,critica,planejada
+FASE 086,Politica de senhas,docs\17-seguranca,seguranca,media,planejada
+FASE 087,Hardening local,docs\17-seguranca,seguranca,alta,planejada
+FASE 088,Observabilidade estruturada,docs\07-observabilidade,observabilidade,alta,planejada
+FASE 089,Tracing distribuido,docs\07-observabilidade,observabilidade,media,planejada
+FASE 090,Metricas locais,docs\07-observabilidade,observabilidade,media,planejada
+FASE 091,Crash dumps,docs\07-observabilidade,observabilidade,media,planejada
+FASE 092,Health checks,docs\07-observabilidade,observabilidade,media,planejada
+FASE 093,Dashboard administrativo,docs\13-cloud,cloud,media,planejada
+FASE 094,Updater modular,docs\15-nextgen,update,alta,planejada
+FASE 095,Rollback inteligente,docs\15-nextgen,rollback,critica,planejada
+FASE 096,Delta updates,docs\15-nextgen,update,media,planejada
+FASE 097,Assinatura digital,docs\17-seguranca,seguranca,alta,planejada
+FASE 098,API local,docs\12-apis,apis,alta,planejada
+FASE 099,API auth,docs\12-apis,apis,alta,planejada
+FASE 100,API permissoes,docs\12-apis,apis,media,planejada
+FASE 101,API financeiro,docs\12-apis,apis,alta,planejada
+FASE 102,API operacional,docs\12-apis,apis,alta,planejada
+FASE 103,API fiscal,docs\12-apis,apis,critica,planejada
+FASE 104,API relatorios,docs\12-apis,apis,media,planejada
+FASE 105,Frontend moderno,docs\15-nextgen,frontend,media,planejada
+FASE 106,Design de telas operacionais,docs\15-nextgen,frontend,media,planejada
+FASE 107,Compatibilidade com maquinas antigas,docs\04-performance,performance,alta,planejada
+FASE 108,Lazy loading,docs\04-performance,performance,media,planejada
+FASE 109,Cache inteligente,docs\04-performance,performance,media,planejada
+FASE 110,Relatorios performaticos,docs\04-performance,performance,media,planejada
+FASE 111,Testes de regressao,docs\16-migracao,testes,alta,planejada
+FASE 112,Ambiente de homologacao,docs\16-migracao,migracao,alta,planejada
+FASE 113,Plano piloto,docs\16-migracao,migracao,alta,planejada
+FASE 114,Migração de usuarios,docs\16-migracao,migracao,alta,planejada
+FASE 115,Migração de cadastros,docs\16-migracao,migracao,alta,planejada
+FASE 116,Migração financeira,docs\16-migracao,migracao,critica,planejada
+FASE 117,Migração operacional,docs\16-migracao,migracao,critica,planejada
+FASE 118,Migração fiscal,docs\16-migracao,migracao,critica,planejada
+FASE 119,Plano de coexistencia,docs\16-migracao,migracao,critica,planejada
+FASE 120,Plano de corte gradual,docs\16-migracao,migracao,alta,planejada
+FASE 121,Plano de disaster recovery,docs\18-risk,risco,critica,planejada
+FASE 122,Plano de backup inteligente,docs\18-risk,risco,alta,planejada
+FASE 123,Analise de riscos,docs\18-risk,risco,alta,planejada
+FASE 124,Matriz de criticidade,docs\18-risk,risco,alta,planejada
+FASE 125,Matriz de substituicao,docs\18-risk,risco,alta,planejada
+FASE 126,Plano de ferramentas,docs\00-controle,controle,media,planejada
+FASE 127,Governanca de documentacao,docs\00-controle,controle,media,planejada
+FASE 128,Rastreabilidade de achados,docs\00-controle,controle,media,planejada
+FASE 129,Relatorio executivo,docs\10-relatorio-final,relatorio,media,planejada
+FASE 130,Relatorio tecnico profundo,docs\10-relatorio-final,relatorio,alta,planejada
+FASE 131,Manual tecnico,docs\09-manuais,manual,media,planejada
+FASE 132,Manual administrativo,docs\09-manuais,manual,media,planejada
+FASE 133,Manual de rollback,docs\09-manuais,manual,alta,planejada
+FASE 134,Treinamento operacional,docs\09-manuais,operacao,media,planejada
+FASE 135,Validacao de equivalencia,docs\16-migracao,migracao,critica,planejada
+FASE 136,Aceite por modulo,docs\16-migracao,migracao,alta,planejada
+FASE 137,Desativacao de dependencias antigas,docs\16-migracao,migracao,alta,planejada
+FASE 138,Ativacao cloud controlada,docs\13-cloud,cloud,alta,planejada
+FASE 139,Operacao assistida,docs\07-operacao,operacao,alta,planejada
+FASE 140,Otimização pos-migracao,docs\04-performance,performance,media,planejada
+FASE 141,Auditoria final,docs\17-seguranca,seguranca,alta,planejada
+FASE 142,Entrega da nova geracao,docs\15-nextgen,nextgen,critica,planejada
+FASE 143,Hypercare pos-entrega,docs\07-operacao,operacao,alta,planejada
+FASE 144,Monitoramento de regressao,docs\04-performance,performance,alta,planejada
+FASE 145,Governanca de releases,docs\00-controle,controle,alta,planejada
+FASE 146,Gestao de configuracao,docs\00-controle,controle,alta,planejada
+FASE 147,Revisao periodica de seguranca,docs\17-seguranca,seguranca,alta,planejada
+FASE 148,Revisao periodica de dados,docs\10-database,database,alta,planejada
+FASE 149,Roadmap de evolucao continua,docs\15-nextgen,nextgen,media,planejada
+FASE 150,Encerramento da recuperacao legada,docs\10-relatorio-final,relatorio,critica,planejada

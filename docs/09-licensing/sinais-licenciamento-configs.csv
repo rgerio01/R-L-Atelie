@@ -1,0 +1,18 @@
+﻿Arquivo,Linha,Categoria,Texto,TamanhoArquivo,UltimaAlteracao
+D:\AtelieProd\Equipexe\EquNet.Ini,3,licenciamento,BloqFran=3,996,2026-05-21T10:58:58
+D:\AtelieProd\Equipexe\EquNet.Ini,24,hardware-binding,[COMPUTADOR],996,2026-05-21T10:58:58
+D:\AtelieProd\Equipexe\EquNet.Ini,31,atualizacao,FormVersion=0,996,2026-05-21T10:58:58
+D:\AtelieProd\Equipexe\Registrar.xml,1,atualizacao,"﻿<?xml version=""1.0"" encoding=""UTF-8""?>",296,2026-05-21T19:43:58
+D:\AtelieProd\Equipexe\Registrar.xml,2,hardware-binding,<Estacao>,296,2026-05-21T19:43:58
+D:\AtelieProd\Equipexe\Registrar.xml,3,hardware-binding,  <MacAddress>F04DA2E46C6D</MacAddress>,296,2026-05-21T19:43:58
+D:\AtelieProd\Equipexe\Registrar.xml,5,autenticacao-permissao,  <Usuario>DESKTOP-KRCPB44\Admin</Usuario>,296,2026-05-21T19:43:58
+D:\AtelieProd\Equipexe\Registrar.xml,6,atualizacao,  <VersaoWindows>Microsoft Windows NT 6.2.9200.0</VersaoWindows>,296,2026-05-21T19:43:58
+D:\AtelieProd\Equipexe\Registrar.xml,8,hardware-binding,</Estacao>,296,2026-05-21T19:43:58
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\Exe\LiveUpdate.runtimeconfig.json,6,atualizacao,"      ""version"": ""8.0.0""",340,2026-05-23T11:50:10
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\Exe\LiveUpdate.runtimeconfig.json,9,atualizacao,"      ""System.Reflection.Metadata.MetadataUpdater.IsSupported"": false,",340,2026-05-23T11:50:10
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\Exe\LiveUpdate.runtimeconfig.json,10,licenciamento,"      ""System.Runtime.Serialization.EnableUnsafeBinaryFormatterSerialization"": false",340,2026-05-23T11:50:10
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\update-policy.json,3,atualizacao,"  ""automaticUpdatesEnabled"": false,",471,2026-05-23T11:50:02
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\update-policy.json,4,atualizacao,"  ""cloudUpdateChecksEnabled"": false,",471,2026-05-23T11:50:02
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\update-policy.json,6,atualizacao,"  ""legacyLiveUpdateExecution"": ""blocked"",",471,2026-05-23T11:50:02
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\update-policy.json,8,atualizacao,"  ""reason"": ""A versao MOD deve operar sem buscar ou instalar atualizacoes da nuvem."",",471,2026-05-23T11:50:02
+D:\AtelieProd\MOD\apps\legacy-runtime\Equipexe\update-policy.json,11,atualizacao,"    ""LiveUpdate.exe"",",471,2026-05-23T11:50:02

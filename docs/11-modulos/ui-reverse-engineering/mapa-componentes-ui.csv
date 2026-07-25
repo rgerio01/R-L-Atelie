@@ -1,0 +1,12 @@
+﻿Executavel,Form,TipoComponente,Nome,Caption,DataSource,DataSet,FieldName,TableName,OnClick,OnKeyPress,PapelUXProvavel,Observacao
+LavSoft,,TTable,component,,,,,,,,financeiro/caixa,extracao estatica TPF0/strings; posicao pode estar incompleta
+LavSoft,,TMenuItem,EscolheondeGravaArquivoIntegrao1,,,,,,,,operacional/outro,extracao estatica TPF0/strings; posicao pode estar incompleta
+LavSoft,,TMenuItem,NFENotafiscaleletrnicadeservios1,,,,,,,,fiscal,extracao estatica TPF0/strings; posicao pode estar incompleta
+LavFacilLan,,TQuery,for,,,,,,,,operacional/outro,extracao estatica TPF0/strings; posicao pode estar incompleta
+LavFacilLan,,TTable,component,,,,,,,,financeiro/caixa,extracao estatica TPF0/strings; posicao pode estar incompleta
+LavFacilLan,,TMenuItem,NFENotafiscaleletrnicadeservios1,,,,,,,,fiscal,extracao estatica TPF0/strings; posicao pode estar incompleta
+Estoque,,TTable,component,,,,,,,,financeiro/caixa,extracao estatica TPF0/strings; posicao pode estar incompleta
+Financeiro,,TTable,component,,,,,,,,financeiro/caixa,extracao estatica TPF0/strings; posicao pode estar incompleta
+SAT,,TTable,component,,,,,,,,financeiro/caixa,extracao estatica TPF0/strings; posicao pode estar incompleta
+SAT,,TQuery,for,,,,,,,,operacional/outro,extracao estatica TPF0/strings; posicao pode estar incompleta
+Senhas,,TTable,component,,,,,,,,financeiro/caixa,extracao estatica TPF0/strings; posicao pode estar incompleta

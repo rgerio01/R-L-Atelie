@@ -1,0 +1,17 @@
+[
+  {
+    "module": "clientes",
+    "from_owner": "legacy",
+    "to_owner": "nextgen",
+    "required_gates": [
+      "backup",
+      "snapshot",
+      "etl",
+      "comparator",
+      "reconciler",
+      "rollback",
+      "recovery",
+      "audit"
+    ]
+  }
+]

@@ -1,0 +1,6 @@
+﻿Risco,Criticidade,Evidencia,Mitigacao
+Dependencia remota HTTP sem TLS aparente,critica,endpoints http://lavsoft.com.br e runtime 191.6.218.152:80,"proxy/captura MOD, nova API propria com TLS, fallback offline"
+Licenciamento distribuido em varios modulos,alta,"LavSoft, Financeiro, SAT, Senhas e Gerenciador com sinais de bloqueio/licenca","mapear regras, criar servico Auth/Licensing MOD, substituir gradualmente"
+Device binding opaco,alta,"Registrar.xml, EquNet.ini e endpoints de estacao/dispositivos",novo device binding tolerante a troca parcial de hardware
+Persistencia Paradox/BDE 32-bit,alta,ODBC 32-bit necessario e erro 9499 em NovoRegLavFilial,"extracao controlada, migracao para SQLite/Postgres/Supabase"
+Atualizacao remota acoplada,critica,VerificaAtualizacoes/DownloadDados e LiveUpdate legado,"manter update bloqueado no MOD, criar updater assinado futuro"

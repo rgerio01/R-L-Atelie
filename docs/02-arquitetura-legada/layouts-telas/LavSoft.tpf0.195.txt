@@ -1,0 +1,1 @@
+TPF0 TF_Senha F_Senha Left Top Width { Height BorderIcons Caption Defini o do Usu rio Font.Color clBlack Font.Height Font.Name MS Sans Serif Font.Style fsBold KeyPreview Menu MainMenu1 OnClose FormClose OnKeyDown FormKeyDown OnShow FormShow PixelsPerInch ` TextHeight TImage Image2 Left Top Width s Height w Align alClient Picture.Data " TBitmap BM 6 (

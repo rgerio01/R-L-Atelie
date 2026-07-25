@@ -1,0 +1,3 @@
+﻿Executavel,ProcessId,ProcessName,LocalAddress,LocalPort,RemoteAddress,RemotePort,State,Classificacao,Hipotese
+Estoque.exe,4168,Estoque,192.168.0.101,52049,191.6.218.152,80,Established,externa_confirmada,update/sync/licenca/telemetria_desconhecido
+LavFacilLan.exe,21084,LavFacilLan,192.168.0.101,52033,191.6.218.152,80,Established,externa_confirmada,update/sync/licenca/telemetria_desconhecido

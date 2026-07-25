@@ -1,0 +1,2660 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ateliê da Luci — PDV</title>
+<style>
+:root{--bg:#f0f2f5;--panel:#fff;--ink:#1c2430;--muted:#64748b;--line:#e2e8f0;--brand:#2563eb;--ok:#16803c;--warn:#b45309;--bad:#b42318;--side:#0f172a;--side2:#1e293b;--gold:#d97706}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%}
+body{font:14px/1.5 'Segoe UI',Arial,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.hide{display:none!important}
+/* Boot — mesmo fundo animado do login, pra transição ficar contínua */
+#boot{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:#fff;overflow:hidden;
+  background:
+    linear-gradient(150deg, rgba(18,36,92,.55) 0%, rgba(10,18,48,.72) 28%, rgba(5,9,20,.85) 55%, rgba(2,2,8,.94) 80%, #000 100%),
+    url('/assets/login-bg.jpg') center/cover no-repeat, #050914;
+}
+#boot img,#boot h1,#boot .spin,#boot .boot-sub{position:relative;z-index:1}
+#boot h1{font-size:28px;color:#f1d98a;animation:logoPulse 3.2s ease-in-out infinite}
+.boot-sub{color:#94a3b8;font-size:14px}
+.spin{width:40px;height:40px;border:4px solid #334155;border-top-color:#60a5fa;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Login — fundo animado (mesma identidade visual do Umbra Launcher) */
+#login{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:
+    linear-gradient(150deg, rgba(18,36,92,.55) 0%, rgba(10,18,48,.72) 28%, rgba(5,9,20,.85) 55%, rgba(2,2,8,.94) 80%, #000 100%),
+    url('/assets/login-bg.jpg') center/cover no-repeat, #050914;
+}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.orb-purple{width:480px;height:480px;left:-120px;bottom:5%;background:radial-gradient(circle, rgba(35,85,220,.5), transparent 70%);animation:orbDrift1 3.5s ease-in-out infinite}
+.orb-red{width:400px;height:400px;right:-80px;top:-60px;background:radial-gradient(circle, rgba(255,45,120,.4), transparent 70%);animation:orbDrift2 4.5s ease-in-out infinite}
+.orb-teal{width:320px;height:320px;right:8%;bottom:-60px;background:radial-gradient(circle, rgba(20,160,150,.4), transparent 70%);animation:orbDrift3 6s ease-in-out infinite}
+@keyframes orbDrift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(110px,-80px) scale(1.25)}}
+@keyframes orbDrift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-95px,70px) scale(1.2)}}
+@keyframes orbDrift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,-70px) scale(1.3)}}
+.particles{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+/* Bloqueio de licença vencida — mesma identidade visual do login, sem saída */
+#licenseLock{
+  position:fixed;inset:0;z-index:50;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  background:
+    linear-gradient(150deg, rgba(18,36,92,.55) 0%, rgba(10,18,48,.72) 28%, rgba(5,9,20,.85) 55%, rgba(2,2,8,.94) 80%, #000 100%),
+    url('/assets/login-bg.jpg') center/cover no-repeat, #050914;
+}
+.planoCard{position:relative;z-index:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:14px;text-align:center}
+.planoCard b{display:block;font-size:15px;color:#f1f5f9;margin-bottom:6px}
+.planoCard .valor{display:block;font-size:18px;font-weight:700;color:#facc15;margin-bottom:10px}
+.planoCard button{width:100%}
+.lcard{position:relative;z-index:1;width:min(400px,92vw);background:rgba(19,19,22,.82);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:32px;box-shadow:0 32px 80px rgba(0,0,0,.6);color:#ededf0;animation:loginFadeIn .5s ease both}
+.lcard h2{font-size:22px;margin-bottom:4px;color:#f1f5f9;filter:drop-shadow(0 0 12px rgba(51,102,255,.35));animation:logoPulse 3.2s ease-in-out infinite}
+.lcard p{color:#9797a3;margin-bottom:20px}
+.lcard label{color:#9797a3}
+.lcard input{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12);color:#ededf0}
+.lcard input:focus{border-color:#3366ff;box-shadow:0 0 0 3px rgba(51,102,255,.18)}
+@keyframes loginFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes logoPulse{0%,100%{filter:drop-shadow(0 0 12px rgba(51,102,255,.30))}50%{filter:drop-shadow(0 0 22px rgba(255,45,120,.40))}}
+.lerr{color:var(--bad);min-height:18px;margin-top:10px;font-size:13px}
+/* App layout */
+#app{display:grid;grid-template-columns:240px 1fr;height:100%}
+aside{background:var(--side);color:#cbd5e1;display:flex;flex-direction:column;overflow:hidden}
+.brand{padding:16px 14px;border-bottom:1px solid #1e293b;display:flex;align-items:center;gap:10px}
+.brand img{width:40px;height:40px;object-fit:contain;border-radius:6px;background:#1e293b}
+.brand b{display:block;font-size:15px;color:#f1f5f9}.brand span{font-size:11px;color:#64748b}
+nav{flex:1;padding:8px;overflow-y:auto}
+.nb{display:flex;align-items:center;gap:8px;width:100%;height:36px;border:0;background:transparent;color:#94a3b8;text-align:left;border-radius:6px;padding:0 10px;margin:1px 0;font-size:13px}
+.nb .ico{font-size:15px;width:20px;text-align:center}.nb:hover,.nb.on{background:var(--side2);color:#f1f5f9}
+.nb.on{color:#fff;font-weight:600}
+.sfoot{padding:12px;border-top:1px solid #1e293b;font-size:12px;color:#475569}
+.sfoot #clk{margin-bottom:8px}
+main{display:flex;flex-direction:column;overflow:hidden}
+/* Barra superior de conexões */
+.connbar{height:40px;background:#0f172a;display:flex;align-items:center;gap:6px;padding:0 10px;flex-shrink:0;border-bottom:1px solid #1e293b}
+.cbtn{height:28px;padding:0 10px;border-radius:6px;border:1px solid #1e293b;background:#1e293b;color:#cbd5e1;font-size:12px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.cbtn:hover{background:#334155}
+.cbtn.on{background:var(--brand);color:#fff;border-color:var(--brand);cursor:default}
+.netind{font-size:11px;color:#94a3b8;display:flex;align-items:center;white-space:nowrap}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.dot.on{background:#22c55e}.dot.off{background:#ef4444}
+.topbar{height:52px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 16px;gap:12px;flex-shrink:0}
+.topbar h1{font-size:17px;flex:1;font-weight:600}.topbar .who{color:var(--muted);font-size:13px}
+.pg{flex:1;overflow-y:auto;padding:16px}
+/* Form controls */
+label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:6px;padding:8px 10px;color:var(--ink);background:#fff;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+textarea{min-height:64px;resize:vertical}
+/* Grid helpers */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.grow{flex:1}
+.fld{margin-bottom:10px}
+/* Cards */
+.card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px}
+.card h2{font-size:15px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.stat{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.stat small{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.stat b{font-size:22px}
+/* Buttons */
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:6px;height:34px;padding:0 12px;white-space:nowrap}
+.btn:hover{background:#f8fafc}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:#1d4ed8}.btn.ok{background:#f0fdf4;border-color:#86efac;color:var(--ok)}
+.btn.warn{background:#fffbeb;border-color:#fcd34d;color:var(--warn)}
+.btn.danger{background:#fef2f2;border-color:#fca5a5;color:var(--bad)}
+.btn.sm{height:28px;padding:0 9px;font-size:12px}
+/* Toolbar */
+.tb{display:flex;gap:8px;align-items:flex-end;margin-bottom:12px;flex-wrap:wrap}
+.tb .f{min-width:160px;max-width:240px}
+/* Table */
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{background:#f8fafc;color:#64748b;font-size:11px;text-transform:uppercase;font-weight:600}
+tr:last-child td{border-bottom:0}tr:hover td{background:#fafbff}td .row{flex-wrap:nowrap}
+/* Badges */
+.badge{display:inline-block;border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600}
+.aberta{background:#dbeafe;color:#1d4ed8}.pronta{background:#dcfce7;color:#15803d}
+.entregue{background:#fef3c7;color:#92400e}.paga{background:#f0fdf4;color:#166534}
+.cancelada,.cancelado{background:#fee2e2;color:#991b1b}.convertido{background:#f0fdf4;color:#166534}
+.estornada{background:#fde2c8;color:#9a3412}
+.aberto{background:#fef3c7;color:#92400e}.recebido{background:#dcfce7;color:#15803d}
+.agendado{background:#dbeafe;color:#1d4ed8}
+.nao_aplicavel{background:#f1f5f9;color:#64748b}.implementado_parcial{background:#fef3c7;color:#92400e}
+.implementado{background:#dcfce7;color:#15803d}.pendente{background:#fee2e2;color:#991b1b}
+/* Barra de progresso */
+.progress-bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden;margin:6px 0}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,#16803c,#22c55e);border-radius:9px;transition:width .4s}
+/* Modal */
+#mover{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:flex-start;justify-content:center;padding:32px 18px;z-index:30;overflow-y:auto}
+#mover.on{display:flex}
+.dlg{width:min(820px,98vw);background:#fff;border-radius:10px;border:1px solid var(--line);box-shadow:0 24px 60px rgba(0,0,0,.25);margin:auto}
+.dlgh{height:50px;border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 14px;gap:8px}
+.dlgh h3{flex:1;font-size:15px}.dlgb{padding:14px}.dlgf{border-top:1px solid var(--line);padding:10px 14px;display:flex;justify-content:flex-end;gap:8px}
+/* Toast */
+#toast{position:fixed;right:16px;bottom:16px;background:#0f172a;color:#f1f5f9;border-radius:8px;padding:10px 16px;display:none;z-index:40;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+#toast.on{display:block}
+/* Print */
+.prt{font-family:Consolas,monospace;font-size:13px;white-space:pre;background:#fff;border:1px dashed #ccc;padding:12px;border-radius:6px;overflow-x:auto;color:#000}
+@media print{body>*{display:none}#printArea{display:block!important}}
+#printArea{display:none;padding:20px;font-family:Consolas,monospace;font-size:12px;white-space:pre}
+/* Tabs */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:14px}
+.tab{border:0;background:none;padding:8px 14px;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer}
+.tab.on{color:var(--brand);border-bottom-color:var(--brand);font-weight:600}
+/* Paginação */
+.pag{display:flex;gap:4px;align-items:center;margin-top:10px;justify-content:flex-end}
+.pag button{min-width:30px;height:30px;padding:0 6px}
+/* Misc */
+.mt{margin-top:12px}.sep{border:0;border-top:1px solid var(--line);margin:12px 0}
+.big{font-size:24px;font-weight:700}.muted{color:var(--muted)}
+</style>
+</head>
+<body>
+
+<div id="boot">
+  <div class="orb orb-purple"></div>
+  <div class="orb orb-red"></div>
+  <div class="orb orb-teal"></div>
+  <canvas id="bootParticles" class="particles"></canvas>
+  <img src="/assets/logo-boot.png" style="width:80px;border-radius:12px" onerror="this.style.display='none'" alt="">
+  <h1>Ateliê da Luci</h1>
+  <div class="spin"></div>
+  <div class="boot-sub">Inicializando PDV…</div>
+</div>
+
+<div id="login" class="hide">
+  <div class="orb orb-purple"></div>
+  <div class="orb orb-red"></div>
+  <div class="orb orb-teal"></div>
+  <canvas id="loginParticles" class="particles"></canvas>
+  <div class="lcard">
+    <h2>Ateliê da Luci</h2>
+    <p>PDV Linux — Acesso ao sistema</p>
+    <div class="fld"><label>Usuário</label><input id="lu" autocomplete="username" value="gabriela"></div>
+    <div class="fld"><label>Senha</label><input id="lp" type="password" autocomplete="current-password" value="12345"></div>
+    <button class="btn primary" style="width:100%;margin-top:4px" onclick="login()">Entrar  →</button>
+    <div id="le" class="lerr"></div>
+  </div>
+</div>
+
+<div id="licenseLock" class="hide">
+  <div class="orb orb-purple"></div>
+  <div class="orb orb-red"></div>
+  <div class="orb orb-teal"></div>
+  <canvas id="lockParticles" class="particles"></canvas>
+  <div class="lcard" style="width:min(560px,94vw)">
+    <h2 style="color:#fca5a5">⚠ Licença vencida</h2>
+    <p id="lockSub">Sua licença de uso do sistema está vencida. Escolha um plano abaixo e pague por PIX para liberar o acesso na hora.</p>
+    <div id="lockPlanos" class="g3"></div>
+    <div id="lockPix" class="hide mt" style="text-align:center">
+      <p class="muted" style="margin-bottom:8px">Escaneie o QR Code no app do seu banco:</p>
+      <img id="lockQrImg" style="width:220px;height:220px;background:#fff;border-radius:8px;padding:8px" alt="QR Code PIX">
+      <div class="fld mt" style="text-align:left">
+        <label>Ou copie o código Pix Copia e Cola</label>
+        <div class="row">
+          <input id="lockQrCode" readonly style="flex:1" onclick="this.select()">
+          <button class="btn sm" onclick="copiarPixLicenca()">Copiar</button>
+        </div>
+      </div>
+      <p id="lockStatus" class="muted mt">Aguardando pagamento… verificando automaticamente.</p>
+      <button id="lockSimularBtn" class="btn warn sm mt hide" style="width:100%" onclick="simularPagamentoLicenca()">🧪 Simular pagamento aprovado (só usuário teste)</button>
+      <button class="btn sm mt" onclick="mostrarPlanosLicenca()">← Escolher outro plano</button>
+    </div>
+    <button class="btn sm mt" style="width:100%" onclick="voltarLoginLicenca()">← Voltar para tela de login</button>
+  </div>
+</div>
+
+<div id="app" class="hide">
+  <aside>
+    <div class="brand">
+      <img src="/assets/logo-boot.png" onerror="this.style.display='none'" alt="">
+      <div><b id="brandNome">Ateliê da Luci</b><span>PDV Linux</span></div>
+    </div>
+    <nav id="nav"></nav>
+    <div class="sfoot">
+      <div id="clk"></div>
+      <button class="btn" style="width:100%;margin-top:6px" onclick="logout()">Sair</button>
+      <div id="pwr" class="hide" style="display:flex;gap:4px;margin-top:4px">
+        <button class="btn warn" style="flex:1;font-size:12px" onclick="pwrAcao('reboot')" title="Reiniciar">↺ Reiniciar</button>
+        <button class="btn danger" style="flex:1;font-size:12px" onclick="pwrAcao('desligar')" title="Desligar">⏻ Desligar</button>
+      </div>
+    </div>
+  </aside>
+  <main>
+    <div class="connbar">
+      <button class="cbtn on" disabled title="Você está aqui">🧾 PDV</button>
+      <button class="cbtn" onclick="abrirNavegador()" title="Abre um navegador Chromium à parte para e-mail e outras consultas">🌐 Chromium</button>
+      <button class="cbtn" onclick="dlgRede()" title="Configurar Wi-Fi ou conexão a cabo">📶 Wi-Fi / Rede</button>
+      <button class="cbtn" onclick="dlgImpressoras()" title="Configurar impressoras A4 e térmica">🖨 Impressoras</button>
+      <span class="grow"></span>
+      <span id="netInd" class="netind"></span>
+    </div>
+    <div class="topbar"><h1 id="ttl">Dashboard</h1><span class="who" id="whoLicenca"></span><span class="who" id="who"></span></div>
+    <div class="pg" id="pg"></div>
+  </main>
+</div>
+
+<div id="mover"><div class="dlg" id="dlg"></div></div>
+<div id="toast"></div>
+<div id="printArea"></div>
+
+<script>
+/* ── State ────────────────────────────────────────────────────────── */
+const S = {
+  tok:'', user:null, view:'dashboard',
+  clientes:[], servicos:[], caixa:null,
+  rolId:null, rolVal:0, orcId:null,
+  pg:{rol:1,cli:1,fin:1,orc:1},
+  _cats:{}
+};
+
+/* ── Utils ────────────────────────────────────────────────────────── */
+const $  = id => document.getElementById(id);
+const pg = () => $('pg');
+const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+const money = v => Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const today = () => new Date().toISOString().slice(0,10);
+const fdate = s => s?new Date(s+'T12:00:00').toLocaleDateString('pt-BR'):'—';
+const plusD  = d => { const x=new Date(); x.setDate(x.getDate()+d); return x.toISOString().slice(0,10) };
+const clamp  = (v,lo,hi) => Math.max(lo,Math.min(hi,v));
+// O número interno da venda é gravado como "ROL000123" (histórico, desde o
+// sistema legado) — na tela mostramos só o número, sem o prefixo.
+const numVenda = n => String(n??'').replace(/^ROL/i,'');
+
+function toast(msg,dur=2800){const t=$('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),dur)}
+
+/* ── Pontos luminosos animados (fundo de boot/login) ────────────────
+   Sem shadowBlur/gradiente por frame — hardware do kiosk é um i3 fraco,
+   então cada partícula é só um círculo preenchido com alpha oscilando. */
+function makeParticles(canvasId,count=36){
+  const canvas=$(canvasId); if(!canvas) return {start(){},stop(){}};
+  const ctx=canvas.getContext('2d');
+  let w=0,h=0,pts=[],stars=[],raf=null,running=false;
+  function resize(){ w=canvas.width=canvas.clientWidth; h=canvas.height=canvas.clientHeight; }
+  function init(){
+    pts=Array.from({length:count},()=>({
+      x:Math.random()*w, y:Math.random()*h, r:1+Math.random()*1.8,
+      vx:(Math.random()-.5)*.6, vy:(Math.random()-.5)*.6,
+      a:.25+Math.random()*.5, ap:Math.random()*Math.PI*2, av:.025+Math.random()*.045
+    }));
+    stars=[];
+  }
+  // Estrelas cadentes: surgem em instantes aleatórios (não num intervalo fixo),
+  // riscam a tela em diagonal e somem — puramente decorativo, sem custo alto
+  // (poucas ao mesmo tempo, sem shadowBlur).
+  function maybeSpawnStar(){
+    if(stars.length>=4) return;
+    if(Math.random()>0.018) return;
+    const fromLeft=Math.random()<0.5;
+    const x=fromLeft?-40:w+40, y=Math.random()*h*0.6;
+    const speed=8+Math.random()*7;
+    const ang=(fromLeft?1:-1)*(Math.PI/5+Math.random()*(Math.PI/8));
+    stars.push({
+      x,y, vx:Math.cos(ang)*speed*(fromLeft?1:-1), vy:Math.sin(ang)*speed,
+      len:70+Math.random()*60, life:0, maxLife:40+Math.random()*20
+    });
+  }
+  function tick(){
+    if(!running) return;
+    ctx.clearRect(0,0,w,h);
+    for(const p of pts){
+      p.x+=p.vx; p.y+=p.vy; p.ap+=p.av;
+      if(p.x<0)p.x=w; else if(p.x>w)p.x=0;
+      if(p.y<0)p.y=h; else if(p.y>h)p.y=0;
+      const alpha=p.a*(.55+.45*Math.sin(p.ap));
+      ctx.beginPath();
+      ctx.fillStyle=`rgba(147,197,253,${alpha})`;
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    }
+    maybeSpawnStar();
+    for(let i=stars.length-1;i>=0;i--){
+      const s=stars[i];
+      s.x+=s.vx; s.y+=s.vy; s.life++;
+      const fade=1-s.life/s.maxLife;
+      if(fade<=0 || s.x<-100 || s.x>w+100 || s.y>h+100){ stars.splice(i,1); continue; }
+      const mag=Math.hypot(s.vx,s.vy)||1;
+      const tx=s.x-(s.vx/mag)*s.len, ty=s.y-(s.vy/mag)*s.len;
+      const grad=ctx.createLinearGradient(s.x,s.y,tx,ty);
+      grad.addColorStop(0,`rgba(255,255,255,${0.85*fade})`);
+      grad.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.strokeStyle=grad;
+      ctx.lineWidth=2;
+      ctx.beginPath();
+      ctx.moveTo(s.x,s.y);
+      ctx.lineTo(tx,ty);
+      ctx.stroke();
+    }
+    raf=requestAnimationFrame(tick);
+  }
+  return {
+    start(){ if(running) return; running=true; resize(); init(); window.addEventListener('resize',resize); raf=requestAnimationFrame(tick); },
+    stop(){ running=false; if(raf) cancelAnimationFrame(raf); window.removeEventListener('resize',resize); }
+  };
+}
+const bootParticles = makeParticles('bootParticles',28);
+const loginParticles = makeParticles('loginParticles',40);
+const lockParticles = makeParticles('lockParticles',40);
+bootParticles.start();
+
+/* ── API ─────────────────────────────────────────────────────────── */
+async function api(path,opt={}){
+  const h={'Content-Type':'application/json',...(opt.headers||{})};
+  if(S.tok) h.Authorization='Bearer '+S.tok;
+  const r=await fetch(path,{...opt,headers:h});
+  if(!r.ok){
+    let e = r.status===401?'Sessão expirada':r.status===403?'Acesso negado — permissão insuficiente':('Erro '+r.status);
+    try{ const body=await r.json(); if(body&&body.error) e=body.error; }catch{}
+    if(r.status===401&&S.tok) logout();
+    throw new Error(e);
+  }
+  const t=await r.text(); return t?JSON.parse(t):null;
+}
+async function apiText(path){
+  const r=await fetch(path,{headers:{Authorization:'Bearer '+S.tok}});
+  if(!r.ok) throw new Error('Erro '+r.status);
+  return r.text();
+}
+
+/* ── Boot / Auth ─────────────────────────────────────────────────── */
+const MENUS=[
+  ['dashboard','🏠','Dashboard'],['nova-rol','➕','Nova Venda'],['rols','📋','Status de Vendas'],
+  ['entrega','🚚','Entrega do Dia'],['orcamentos','💬','Orçamentos'],['agenda','📅','Agenda'],
+  ['clientes','👥','Clientes'],['servicos','💲','Serviços / Preços'],['caixa','💰','Caixa'],
+  ['financeiro','💳','Financeiro'],['relatorios','📊','Relatórios'],
+  ['catalogos','📑','Catálogos'],['indenizacoes','⚠️','Indenizações'],
+  ['guardaroupa','👔','Guarda-roupa'],['terceirizacao','🔧','Terceirização'],['fidelidade','⭐','Fidelidade'],
+  ['doacoes','🎁','Doações (Não Retiradas)'],
+  ['usuarios','👤','Usuários'],['config','⚙️','Configurações']
+];
+
+function hasPerm(p){const perms=S.user?.permissions||[];return perms.includes('*')||perms.includes(p)}
+// Item de menu -> permissão exigida para aparecer. Sem entrada aqui = liberado para qualquer
+// usuário logado (telas de operação: vendas/ROL/clientes/estoque/orçamentos/agenda etc).
+const MENU_PERM={caixa:'caixa.access',financeiro:'financeiro.read',relatorios:'relatorios.read',usuarios:'usuarios.read',config:'config.write',legado:'legado.read'};
+function renderNav(){
+  const visible=MENUS.filter(([v])=>!MENU_PERM[v]||hasPerm(MENU_PERM[v]));
+  $('nav').innerHTML=visible.map(([v,i,l])=>
+    `<button class="nb${S.view===v?' on':''}" data-v="${v}" onclick="go('${v}')">
+      <span class="ico">${i}</span>${esc(l)}</button>`).join('');
+  // Mostra botões de energia apenas para quem tem config.write
+  const pwr=$('pwr');
+  if(pwr){ hasPerm('config.write')?pwr.classList.remove('hide'):pwr.classList.add('hide'); }
+}
+
+function go(v,editRolId){
+  S.view=v;
+  S.editRolId=editRolId||null;
+  $('ttl').textContent=MENUS.find(x=>x[0]===v)?.[2]||v;
+  renderNav();
+  render().catch(e=>pg().innerHTML=`<div class="card"><b style="color:var(--bad)">Erro:</b> ${esc(e.message)}</div>`);
+}
+
+async function boot(){
+  renderNav();
+  setInterval(()=>{ $('clk').textContent=new Date().toLocaleString('pt-BR') },1000);
+  try{ await api('/health') }catch{}
+  atualizarNetInd();
+  setInterval(atualizarNetInd,30000);
+  bootParticles.stop();
+  $('boot').style.display='none'; show('login'); $('lu').focus();
+  loginParticles.start();
+}
+
+async function login(){
+  $('le').textContent='';
+  try{
+    const r=await api('/auth/login',{method:'POST',body:JSON.stringify({username:$('lu').value,password:$('lp').value})});
+    S.tok=r.accessToken; S.user=r.user;
+    $('who').textContent=r.user.displayName||r.user.username;
+    if(r.user.licenseVencida){
+      loginParticles.stop();
+      hide('login'); show('licenseLock'); lockParticles.start();
+      mostrarPlanosLicenca();
+      return;
+    }
+    loginParticles.stop();
+    hide('login'); show('app');
+    renderLicencaBadge(r.user);
+    await preload();
+    go('dashboard');
+    if(r.licenseWarning) toast('⚠️ '+r.licenseWarning, 10000);
+  }catch(e){
+    // 'Sessão expirada' é o texto padrão do api() para 401 sem corpo (credenciais erradas aqui);
+    // qualquer outra mensagem (ex.: licença vencida) veio de verdade do backend — mostra ela.
+    $('le').textContent = (e.message && e.message!=='Sessão expirada') ? e.message : 'Usuário ou senha inválidos';
+  }
+}
+
+function logout(){S.tok='';S.user=null;hide('app');show('login');loginParticles.start()}
+
+/* ════════════════════════════════════════════════════════════════════
+   BLOQUEIO DE LICENÇA — autoatendimento (plano + PIX + liberação automática)
+═══════════════════════════════════════════════════════════════════ */
+let _licencaPollTimer=null;
+
+async function mostrarPlanosLicenca(){
+  clearInterval(_licencaPollTimer);
+  $('lockPix').classList.add('hide');
+  $('lockPlanos').classList.remove('hide');
+  $('lockSub').textContent='Sua licença de uso do sistema está vencida. Escolha um plano abaixo e pague por PIX para liberar o acesso na hora.';
+  try{
+    const planos=await api('/minha-licenca/planos');
+    $('lockPlanos').innerHTML=planos.map(p=>`
+      <div class="planoCard">
+        <b>${esc(p.label)}</b>
+        <span class="valor">${p.valor!=null?money(p.valor):'Sob consulta'}</span>
+        ${p.valor!=null
+          ?`<button class="btn primary sm" onclick="gerarPixMinhaLicenca('${p.plano}')">Gerar PIX</button>`
+          :`<button class="btn sm" disabled>Fale com o fornecedor</button>`}
+      </div>`).join('');
+  }catch(e){
+    $('lockPlanos').innerHTML=`<div class="planoCard" style="grid-column:1/-1"><span style="color:var(--bad)">Erro ao carregar planos: ${esc(e.message)}</span></div>`;
+  }
+}
+
+let _licencaPlanoAtual=null;
+
+async function gerarPixMinhaLicenca(plano){
+  _licencaPlanoAtual=plano;
+  $('lockPlanos').classList.add('hide');
+  $('lockPix').classList.remove('hide');
+  $('lockQrImg').removeAttribute('src');
+  $('lockQrCode').value='';
+  $('lockStatus').textContent='Gerando cobrança PIX…';
+  $('lockStatus').style.color='';
+  // Botão de simulação: só existe pro usuário "teste" — validado de novo no
+  // backend, isso aqui só evita mostrar a opção pra quem não pode usar.
+  $('lockSimularBtn').classList.toggle('hide', S.user?.username!=='teste');
+  try{
+    const r=await api('/minha-licenca/pix',{method:'POST',body:JSON.stringify({plano})});
+    $('lockQrImg').src='data:image/png;base64,'+r.qrCodeBase64;
+    $('lockQrCode').value=r.qrCode;
+    $('lockStatus').textContent='Aguardando pagamento… verificando automaticamente.';
+    _licencaPollTimer=setInterval(()=>verificarPagamentoLicenca(r.mpPaymentId),4000);
+  }catch(e){
+    $('lockStatus').textContent='Erro ao gerar PIX: '+e.message;
+    $('lockStatus').style.color='var(--bad)';
+  }
+}
+
+async function simularPagamentoLicenca(){
+  if(!_licencaPlanoAtual) return;
+  clearInterval(_licencaPollTimer);
+  $('lockStatus').textContent='Simulando aprovação…';
+  $('lockStatus').style.color='';
+  try{
+    const r=await api('/minha-licenca/simular-pagamento',{method:'POST',body:JSON.stringify({plano:_licencaPlanoAtual})});
+    const venc=r.resultado?.venceEm ? fdate(r.resultado.venceEm.slice(0,10)) : null;
+    $('lockStatus').textContent = venc
+      ? `✓ (Simulado) Licença renovada até ${venc} — entrando…`
+      : '✓ (Simulado) Licença vitalícia ativada — entrando…';
+    $('lockStatus').style.color='var(--ok)';
+    setTimeout(()=>location.reload(),3500);
+  }catch(e){
+    $('lockStatus').textContent='Erro ao simular: '+e.message;
+    $('lockStatus').style.color='var(--bad)';
+  }
+}
+
+async function verificarPagamentoLicenca(mpPaymentId){
+  try{
+    const r=await api('/minha-licenca/status/'+mpPaymentId);
+    if(r.status==='approved' && r.renewed){
+      clearInterval(_licencaPollTimer);
+      const venc=r.resultado?.venceEm ? fdate(r.resultado.venceEm.slice(0,10)) : null;
+      $('lockStatus').textContent = venc
+        ? `✓ Pagamento confirmado! Licença renovada até ${venc} — entrando…`
+        : '✓ Pagamento confirmado! Licença vitalícia ativada — entrando…';
+      $('lockStatus').style.color='var(--ok)';
+      setTimeout(()=>location.reload(),3500);
+    }else if(r.status==='rejected' || r.status==='cancelled'){
+      clearInterval(_licencaPollTimer);
+      $('lockStatus').textContent='Pagamento não aprovado. Gere um novo PIX.';
+      $('lockStatus').style.color='var(--bad)';
+    }
+  }catch{ /* mantém tentando no próximo ciclo */ }
+}
+
+function copiarPixLicenca(){
+  const el=$('lockQrCode'); el.select();
+  navigator.clipboard?.writeText(el.value).catch(()=>document.execCommand('copy'));
+  toast('Código Pix copiado');
+}
+
+// Mostra na barra superior por quanto tempo a licença do usuário logado ainda vale.
+function renderLicencaBadge(user){
+  const el=$('whoLicenca'); if(!el) return;
+  if(user.licenseIsenta){
+    el.textContent = user.licensePlano==='vitalicio' ? 'Licença: vitalícia · ' : '';
+    el.style.color='var(--muted)';
+    return;
+  }
+  if(!user.licenseVenceEm){ el.textContent=''; return; }
+  const venc=new Date(user.licenseVenceEm);
+  const dias=Math.ceil((venc-new Date())/86400000);
+  el.textContent=`Licença até ${venc.toLocaleDateString('pt-BR')} (${dias>=0?dias+' dia(s)':'vencida'}) · `;
+  el.style.color = dias<=10 ? 'var(--warn)' : 'var(--muted)';
+}
+
+function voltarLoginLicenca(){
+  clearInterval(_licencaPollTimer);
+  S.tok=''; S.user=null;
+  lockParticles.stop();
+  hide('licenseLock'); show('login'); $('lu').value=''; $('lp').value=''; $('lu').focus();
+  loginParticles.start();
+}
+function show(id){$(id).classList.remove('hide')}
+function hide(id){$(id).classList.add('hide')}
+
+async function preload(){
+  // loadServicos() fica de fora do preload: o catálogo tem milhares de itens e só é
+  // necessário quando a tela de ROL/Serviços é aberta de fato (ver ensureServicos()) —
+  // evita carregar/renderizar tudo isso a cada login em hardware com pouca RAM.
+  await Promise.all([loadClientes(),loadCaixa().catch(()=>{}),loadCatalogos().catch(()=>{}),loadConfigEmpresa().catch(()=>{})]);
+}
+async function ensureServicos(){
+  if(!S.servicos.length) await loadServicos();
+}
+async function loadConfigEmpresa(){
+  const c=await api('/configuracoes');
+  if(c.empresa_nome){
+    $('brandNome').textContent=c.empresa_nome;
+    document.title=c.empresa_nome+' — PDV';
+  }
+}
+async function loadCatalogos(){
+  const all=await api('/catalogos')||[];
+  S._cats={};
+  all.forEach(c=>{if(!S._cats[c.tipo])S._cats[c.tipo]=[];S._cats[c.tipo].push(c);});
+  return S._cats;
+}
+async function loadClientes(q=''){
+  const r=await api('/clientes?tam=600'+(q?'&q='+encodeURIComponent(q):''));
+  S.clientes=r.items||[]; return S.clientes;
+}
+async function loadServicos(q=''){
+  S.servicos=await api('/servicos'+(q?'?q='+encodeURIComponent(q):''))||[];
+  return S.servicos;
+}
+async function loadCaixa(){S.caixa=await api('/caixa/atual'); return S.caixa}
+
+/* ── Selects helpers ─────────────────────────────────────────────── */
+function cliOpts(sel=''){
+  return `<option value="">— selecione —</option>`+
+    S.clientes.map(c=>`<option value="${c.id}" ${String(c.id)===String(sel)?'selected':''}>${esc(c.nome)}${c.telefone?' · '+esc(c.telefone):''}</option>`).join('');
+}
+function srvOpts(sel=''){
+  return `<option value="">Manual</option>`+
+    S.servicos.map(s=>`<option value="${s.id}" ${String(s.id)===String(sel)?'selected':''}>${esc(s.codigo)} – ${esc(s.descricao)} (${money(s.preco)})</option>`).join('');
+}
+
+/* ── Render dispatcher ───────────────────────────────────────────── */
+async function render(){
+  const v=S.view;
+  if(v==='dashboard')    return vDashboard();
+  if(v==='nova-rol')     return vNovaRol();
+  if(v==='rols')         return vRols();
+  if(v==='entrega')      return vEntrega();
+  if(v==='orcamentos')   return vOrcamentos();
+  if(v==='agenda')       return vAgenda();
+  if(v==='clientes')     return vClientes();
+  if(v==='servicos')     return vServicos();
+  if(v==='caixa')        return vCaixa();
+  if(v==='financeiro')   return vFinanceiro();
+  if(v==='relatorios')   return vRelatorios();
+  if(v==='usuarios')     return vUsuarios();
+  if(v==='config')       return vConfig();
+  if(v==='legado')       return vLegado();
+  if(v==='catalogos')    return vCatalogos();
+  if(v==='indenizacoes') return vIndenizacoes();
+  if(v==='guardaroupa')  return vGuardaroupa();
+  if(v==='terceirizacao')return vTerceirizacao();
+  if(v==='fidelidade')   return vFidelidade();
+  if(v==='doacoes')      return vDoacoes();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   DASHBOARD
+═══════════════════════════════════════════════════════════════════ */
+// Dashboard mostra o dia de hoje (entradas, entregas previstas, caixa) — não os
+// totais gerais acumulados de toda a história do negócio (isso fica nos Relatórios).
+async function vDashboard(){
+  const hoje=today();
+  const [mov,entrega] = await Promise.all([api('/relatorios/movimento-dia?data='+hoje),api('/relatorios/rol-entrega?data='+hoje)]);
+  await loadCaixa().catch(()=>{});
+  const porStatus=mov.porStatus||[];
+  const qtd=st=>(porStatus.find(s=>s.status===st)||{qtd:0}).qtd;
+  const valor=st=>(porStatus.find(s=>s.status===st)||{valorTotal:0}).valorTotal;
+  pg().innerHTML=`
+  <div class="g4 mt">
+    <div class="stat"><small>Entradas hoje</small><b>${qtd('aberta')+qtd('pronta')+qtd('entregue')+qtd('paga')}</b></div>
+    <div class="stat"><small>Recebido hoje</small><b>${money(valor('paga'))}</b></div>
+    <div class="stat"><small>Caixa</small><b style="color:${S.caixa?'var(--ok)':'var(--bad)'}">${S.caixa?'Aberto':'Fechado'}</b></div>
+    <div class="stat"><small>Saldo do caixa</small><b>${money(S.caixa?.saldoAtual||0)}</b></div>
+  </div>
+  <div class="card mt">
+    <h2>Entregas previstas para hoje — ${fdate(hoje)}</h2>
+    ${tblRols(entrega.ordens||[],true)}
+    ${!entrega.ordens?.length?'<p class="muted">Nenhuma entrega prevista para hoje.</p>':''}
+  </div>
+  <div class="card mt">
+    <h2>Movimento de hoje</h2>
+    ${porStatus.length?`<div class="g4">${porStatus.map(s=>`<div class="stat"><small>${esc(s.status)}</small><b>${s.qtd}</b> <span class="muted" style="font-size:12px">${money(s.valorTotal)}</span></div>`).join('')}</div>`:'<p class="muted">Nenhum movimento registrado hoje ainda.</p>'}
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   NOVA ROL
+═══════════════════════════════════════════════════════════════════ */
+async function vNovaRol(){
+  await ensureServicos();
+  if(S.editRolId){
+    const editId=S.editRolId; S.editRolId=null;
+    pg().innerHTML=`<div id="rolWork"></div>`;
+    return renderRolWork(editId);
+  }
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Nova Venda</h2>
+    <div class="g3">
+      <div class="fld"><label>Busca de cliente</label>
+        <input id="cliSearch" placeholder="Nome, fone ou documento…" oninput="searchCli(this.value)" autocomplete="off">
+        <div id="cliDrop" style="position:relative"></div>
+      </div>
+      <div class="fld"><label>Cliente selecionado</label>
+        <select id="rolCli">${cliOpts()}</select>
+      </div>
+      <div class="row" style="align-items:flex-end;gap:6px">
+        <button class="btn ok" onclick="novoClienteRapido()">+ Novo cliente</button>
+        <button class="btn" onclick="venderAvulso()" title="Usa um cliente genérico 'Consumidor', sem precisar cadastrar">⚡ Venda avulsa</button>
+      </div>
+    </div>
+    <div class="g3 mt">
+      <div class="fld"><label>Data entrada</label><input id="rolDE" type="date" value="${today()}"></div>
+      <div class="fld"><label>Promessa entrega</label><input id="rolDP" type="date" value="${plusD(3)}"></div>
+      <div class="fld"><label>Observações</label><input id="rolObs"></div>
+    </div>
+    <div class="row mt">
+      <button class="btn primary" onclick="criarRol()">Abrir Venda →</button>
+    </div>
+  </div>
+  <div id="rolWork"></div>`;
+}
+
+let _cliTimer=null;
+function searchCli(q){
+  clearTimeout(_cliTimer);
+  if(q.length<2){$('cliDrop').innerHTML='';return}
+  _cliTimer=setTimeout(async()=>{
+    const r=await api('/clientes?tam=10&q='+encodeURIComponent(q));
+    const items=r.items||[];
+    if(!items.length){$('cliDrop').innerHTML='';return}
+    $('cliDrop').innerHTML=`<div style="position:absolute;top:2px;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:6px;z-index:10;max-height:200px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.12)">
+      ${items.map(c=>`<div style="padding:8px 10px;cursor:pointer;border-bottom:1px solid var(--line)" onclick="pickCli(${c.id},'${esc(c.nome)}')" onmouseover="this.style.background='#f0f9ff'" onmouseout="this.style.background=''">${esc(c.nome)} <span style="color:var(--muted)">${esc(c.telefone||c.celular||'')}</span></div>`).join('')}
+    </div>`;
+  },250);
+}
+function pickCli(id,nome){
+  const s=$('rolCli'); s.value=id;
+  if(!Array.from(s.options).find(o=>o.value==id)){
+    const op=new Option(nome,id,true,true); s.add(op);
+  }
+  s.value=id; $('cliSearch').value=nome; $('cliDrop').innerHTML='';
+}
+function novoClienteRapido(){clienteModal({},(id,nome)=>pickCli(id,nome))}
+
+// Venda de balcão sem cadastro completo: reaproveita sempre o mesmo cliente
+// "CONSUMIDOR" (cria uma única vez) em vez de gerar um cadastro novo a cada venda.
+async function venderAvulso(){
+  try{
+    const busca=await api('/clientes?tam=1&q=CONSUMIDOR');
+    let c=(busca.items||[]).find(x=>x.nome.trim().toUpperCase()==='CONSUMIDOR');
+    if(!c){
+      c=await api('/clientes',{method:'POST',body:JSON.stringify({
+        nome:'CONSUMIDOR',telefone:null,celular:null,documento:null,email:null,
+        logradouro:null,numero:null,bairro:null,cidade:null,estado:null,cep:null,
+        observacoes:'Cliente genérico para vendas avulsas de balcão',
+        limiteCredito:0,descontoPercent:0,dataNascimento:null,contato:null,cartaoFidelidade:null
+      })});
+    }
+    await loadClientes();
+    pickCli(c.id,'CONSUMIDOR');
+    toast('Venda avulsa — cliente CONSUMIDOR selecionado');
+  }catch(e){ toast('Erro ao preparar venda avulsa: '+e.message,4000); }
+}
+
+async function criarRol(){
+  const cliId=$('rolCli').value;
+  if(!cliId) return toast('Selecione ou cadastre um cliente');
+  const r=await api('/rol',{method:'POST',body:JSON.stringify({
+    clienteId:Number(cliId), dataEntrada:$('rolDE').value,
+    dataPromessa:$('rolDP').value, observacoes:$('rolObs').value
+  })});
+  const id=r.rol?.id||r.id;
+  S.rolId=id;
+  await renderRolWork(id);
+}
+
+async function renderRolWork(id){
+  const r=await api('/rol/'+id);
+  const o=r.rol; S.rolId=id; S.rolVal=o.valorFinal||0;
+  $('rolWork').innerHTML=`
+  <div class="card mt">
+    <h2>Venda ${esc(numVenda(o.numero))} — ${esc(o.clienteNome)} <span class="badge ${o.status}">${o.status}</span></h2>
+    <div style="font-size:13px;color:#666;margin-bottom:6px">
+      Entrada: ${esc(o.dataEntrada||'')} | Promessa: ${esc(o.dataPromessa||'—')}${o.totalPecas?` | Peças: <b>${o.totalPecas}</b>`:''}${o.localizacaoRol?` | Local: <b>${esc(o.localizacaoRol)}</b>`:''}${o.dataCancelamento?` | Cancelada: ${esc(o.dataCancelamento)}`:''}
+    </div>
+    <div style="border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:10px">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px">
+        <span style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;white-space:nowrap">Serviço</span>
+        <input id="srvQ" placeholder="Buscar serviço…" style="flex:1" oninput="_filterSrvs()" autocomplete="off">
+        <button class="btn sm" id="srvClrBtn" onclick="clearSrvSel()" style="display:none">✕ Limpar</button>
+      </div>
+      <div id="srvSelected" style="display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:5px 10px;margin-bottom:8px;font-size:13px;color:var(--ok)">✓ <span id="srvSelLabel"></span></div>
+      <div style="display:grid;grid-template-columns:165px 1fr;border:1px solid var(--line);border-radius:6px;overflow:hidden;height:180px">
+        <div id="srvCatList" style="border-right:1px solid var(--line);overflow-y:auto;background:#f8fafc"></div>
+        <div id="srvItemList" style="overflow-y:auto"></div>
+      </div>
+    </div>
+    <input type="hidden" id="iSrv">
+    <div class="g3">
+      <div><label>Descrição *</label><input id="iDesc"></div>
+      <div><label>Qtd</label><input id="iQtd" type="number" step="0.01" value="1" min="0.01"></div>
+      <div><label>Valor unit. (R$)</label><input id="iVu" type="number" step="0.01" value="0"></div>
+    </div>
+    <div class="g4 mt">
+      <div><label>Tipo tecido</label><input id="iTec" list="dlTec"><datalist id="dlTec">${(S._cats?.tipo_tecido||[]).map(c=>`<option value="${esc(c.descricao)}">`).join('')}</datalist></div>
+      <div><label>Cor</label><input id="iCor" list="dlCor"><datalist id="dlCor">${(S._cats?.cor||[]).map(c=>`<option value="${esc(c.descricao)}">`).join('')}</datalist></div>
+      <div><label>Marca</label><input id="iMar"></div>
+      <div><label>Defeito</label><input id="iDef" list="dlDef"><datalist id="dlDef">${(S._cats?.defeito||[]).map(c=>`<option value="${esc(c.descricao)}">`).join('')}</datalist></div>
+    </div>
+    <div class="g3 mt">
+      <div><label>Identificação / Etiqueta</label><input id="iIdent" placeholder="Ex: TAG-001"></div>
+      <div><label>Obs. linha 1</label><input id="iObs"></div>
+      <div><label>Obs. linha 2</label><input id="iObs2"></div>
+    </div>
+    <button class="btn primary mt" onclick="addItemRol(${id})">＋ Adicionar peça</button>
+    <div id="iBox" class="mt">${tblItens(r.itens,{base:'rol',id})}</div>
+    <div id="rolWorkTotal" style="text-align:right;margin-top:8px;font-size:16px;font-weight:700">Total: ${money(o.valorFinal)}</div>
+    <hr class="sep">
+    <p class="muted" style="font-size:13px">Venda aberta. Pagamento, entrega e demais mudanças de status são feitos em <b>Status de Vendas</b>.</p>
+    <div class="row">
+      <button class="btn" onclick="imprimirRol(${id})">🖨 Imprimir</button>
+      <button class="btn danger" onclick="dlgCancelar(${id})">Cancelar</button>
+      <span class="grow"></span>
+      <button class="btn primary" onclick="go('rols')">Ir para Status de Vendas →</button>
+    </div>
+  </div>`;
+  initSrvPicker();
+}
+
+// ── Picker de Serviço (Categorias | Serviços) ─────────────────────
+let _srvCat=null;
+function initSrvPicker(){
+  _srvCat=null;
+  _renderSrvCats();
+  _renderSrvItems();
+}
+function _renderSrvCats(){
+  const cats=[...new Set((S.servicos||[]).map(s=>s.categoria||'Geral'))].sort();
+  $('srvCatList').innerHTML=cats.map(c=>`<div onclick="_setSrvCat('${esc(c)}')" style="padding:7px 10px;font-size:12px;cursor:pointer;border-bottom:1px solid var(--line);${_srvCat===c?'background:var(--brand);color:#fff;font-weight:600':'color:var(--ink)'}">${esc(c)}</div>`).join('');
+}
+function _setSrvCat(cat){
+  _srvCat=(_srvCat===cat)?null:cat;
+  $('srvQ').value='';
+  _renderSrvCats(); _renderSrvItems();
+}
+function _filterSrvs(){
+  _srvCat=null;
+  _renderSrvCats(); _renderSrvItems();
+}
+function _renderSrvItems(){
+  const q=($('srvQ')?.value||'').toLowerCase().trim();
+  const sel=$('iSrv')?.value||'';
+  let srvs=S.servicos||[];
+  if(_srvCat) srvs=srvs.filter(s=>(s.categoria||'Geral')===_srvCat);
+  if(q) srvs=srvs.filter(s=>s.descricao.toLowerCase().includes(q)||(s.codigo||'').toLowerCase().includes(q));
+  $('srvItemList').innerHTML=srvs.length
+    ?srvs.map(s=>`<div onclick="pickSrvPanel(${s.id})" style="padding:7px 10px;font-size:12px;cursor:pointer;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:8px;background:${String(s.id)===sel?'#eff6ff':''}" onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background='${String(s.id)===sel?'#eff6ff':''}'"><span>${esc(s.descricao)}</span><span style="color:var(--brand);font-weight:600;white-space:nowrap">${money(s.preco)}</span></div>`).join('')
+    :'<div style="padding:12px;color:var(--muted);font-size:12px;text-align:center">Nenhum serviço encontrado</div>';
+}
+function pickSrvPanel(id){
+  const s=S.servicos.find(x=>String(x.id)===String(id));
+  if(!s) return;
+  $('iSrv').value=s.id; $('iDesc').value=s.descricao; $('iVu').value=s.preco;
+  $('srvSelLabel').textContent=s.descricao+' — '+money(s.preco);
+  $('srvSelected').style.display='block';
+  $('srvClrBtn').style.display='';
+  _renderSrvItems();
+  $('iDesc').focus();
+}
+function clearSrvSel(){
+  $('iSrv').value=''; $('iDesc').value=''; $('iVu').value='0';
+  $('srvSelected').style.display='none'; $('srvClrBtn').style.display='none';
+  $('srvQ').value=''; _renderSrvItems();
+}
+
+async function addItemRol(osId){
+  const desc=$('iDesc').value.trim();
+  if(!desc) return toast('Informe a descrição da peça');
+  await api(`/rol/${osId}/itens`,{method:'POST',body:JSON.stringify({
+    servicoId:$('iSrv').value?Number($('iSrv').value):null,
+    descricao:desc, tipoTecido:$('iTec').value||null, cor:$('iCor').value||null,
+    marca:$('iMar').value||null, defeito:$('iDef').value||null,
+    quantidade:Number($('iQtd').value||1), valorUnitario:Number($('iVu').value||0),
+    observacao:$('iObs').value||null, obs2:$('iObs2').value||null,
+    identificacao:$('iIdent').value||null
+  })});
+  clearSrvSel();
+  ['iDesc','iTec','iCor','iMar','iDef','iObs','iObs2','iIdent'].forEach(k=>{$(k).value=''});
+  $('iQtd').value='1'; $('iVu').value='0';
+  await refreshRolItens(osId);
+  toast('Peça adicionada');
+}
+
+async function refreshRolItens(osId){
+  const r=await api('/rol/'+osId);
+  S.rolVal=r.rol.valorFinal||0;
+  $('iBox').innerHTML=tblItens(r.itens,{base:'rol',id:osId});
+  const totalEl=$('rolWorkTotal');
+  if(totalEl) totalEl.textContent='Total: '+money(r.rol.valorFinal);
+}
+
+async function removerItemVenda(base,id,itemId){
+  if(!confirm('Remover esta peça da venda?')) return;
+  await api(`/${base}/${id}/itens/${itemId}`,{method:'DELETE'});
+  await refreshRolItens(id);
+  toast('Peça removida');
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   STATUS DE VENDAS
+═══════════════════════════════════════════════════════════════════ */
+let _rolFilter={status:'',q:'',de:'',ate:''}, _rolQTimer=null;
+async function vRols(status, fromSearch=false){
+  if(status!==undefined) _rolFilter.status=status;
+  const f=_rolFilter;
+  const r=await api(`/rol?pg=${S.pg.rol}&tam=30`+
+    (f.status?'&status='+f.status:'')+(f.q?'&q='+encodeURIComponent(f.q):'')+(f.de?'&de='+f.de:'')+(f.ate?'&ate='+f.ate:''));
+  const rows=r.items||[]; const tot=r.total||0; const pages=Math.ceil(tot/30)||1;
+  pg().innerHTML=`
+  <div class="tabs">
+    ${[['','Todas'],['aberta','Abertas'],['pronta','Prontas'],['entregue','Entregues'],['paga','Pagas'],['cancelada','Canceladas'],['estornada','Estornadas']].map(([s,l])=>
+      `<button class="tab${f.status===s?' on':''}" onclick="vRols('${s}')">${l}</button>`).join('')}
+  </div>
+  <div class="tb">
+    <div class="f"><label>Busca</label><input id="rolQ" value="${esc(f.q)}" placeholder="Nº da venda ou cliente" oninput="_rolFilter.q=this.value;S.pg.rol=1;clearTimeout(_rolQTimer);_rolQTimer=setTimeout(()=>vRols(undefined,true),350)"></div>
+    <div class="f"><label>De</label><input id="rolDE" type="date" value="${f.de}" onchange="_rolFilter.de=this.value;vRols()"></div>
+    <div class="f"><label>Até</label><input id="rolATE" type="date" value="${f.ate}" onchange="_rolFilter.ate=this.value;vRols()"></div>
+    <div class="grow"></div>
+    <button class="btn primary" onclick="go('nova-rol')">+ Nova Venda</button>
+  </div>
+  ${tblRols(rows,true)}
+  <div class="pag">
+    <span class="muted" style="font-size:12px">${tot} registros</span>
+    <button class="btn sm" ${S.pg.rol<=1?'disabled':''} onclick="S.pg.rol--;vRols()">‹</button>
+    <span style="font-size:12px">Pág ${S.pg.rol}/${pages}</span>
+    <button class="btn sm" ${S.pg.rol>=pages?'disabled':''} onclick="S.pg.rol++;vRols()">›</button>
+  </div>`;
+  if(fromSearch){const el=$('rolQ');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   ENTREGA DO DIA
+═══════════════════════════════════════════════════════════════════ */
+async function vEntrega(){
+  const d=today();
+  const r=await api('/relatorios/rol-entrega?data='+d);
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Entregas previstas para hoje (${fdate(d)})</h2>
+    ${tblRols(r.ordens||[],true)}
+    ${!r.ordens?.length?'<p class="muted">Nenhuma entrega programada para hoje.</p>':''}
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   ORÇAMENTOS
+═══════════════════════════════════════════════════════════════════ */
+async function vOrcamentos(){
+  const r=await api(`/orcamentos?pg=${S.pg.orc}&tam=30`);
+  const rows=r.items||[]; const tot=r.total||0; const pages=Math.ceil(tot/30)||1;
+  pg().innerHTML=`
+  <div class="tb">
+    <div class="grow"></div>
+    <button class="btn primary" onclick="dlgNovoOrc()">+ Novo orçamento</button>
+  </div>
+  <table>
+    <thead><tr><th>Número</th><th>Cliente</th><th>Status</th><th>Validade</th><th>Total</th><th>Ações</th></tr></thead>
+    <tbody>${rows.map(x=>`<tr>
+      <td>${esc(x.numero)}</td><td>${esc(x.clienteNome)}</td>
+      <td><span class="badge ${x.status}">${x.status}</span></td>
+      <td>${fdate(x.dataValidade)}</td><td>${money(x.valorFinal)}</td>
+      <td class="row">
+        <button class="btn sm" onclick="abrirOrc(${x.id})">Abrir</button>
+        ${x.status==='aberto'?`<button class="btn sm ok" onclick="converterOrc(${x.id})">→ Venda</button>`:''}
+      </td></tr>`).join('')||'<tr><td colspan="6" class="muted">Nenhum orçamento.</td></tr>'}</tbody>
+  </table>
+  <div class="pag">
+    <span class="muted" style="font-size:12px">${tot} registros</span>
+    <button class="btn sm" ${S.pg.orc<=1?'disabled':''} onclick="S.pg.orc--;vOrcamentos()">‹</button>
+    <span style="font-size:12px">Pág ${S.pg.orc}/${pages}</span>
+    <button class="btn sm" ${S.pg.orc>=pages?'disabled':''} onclick="S.pg.orc++;vOrcamentos()">›</button>
+  </div>`;
+}
+
+function dlgNovoOrc(){
+  dlg('Novo Orçamento',`
+  <div class="g3">
+    <div class="fld"><label>Cliente</label><select id="oCliId">${cliOpts()}</select></div>
+    <div class="fld"><label>Data entrada</label><input id="oDE" type="date" value="${today()}"></div>
+    <div class="fld"><label>Validade</label><input id="oDV" type="date" value="${plusD(10)}"></div>
+  </div>
+  <div class="fld mt"><label>Observações</label><textarea id="oObs"></textarea></div>`,
+  [{txt:'Criar orçamento',cls:'primary',fn:criarOrc}]);
+}
+
+async function criarOrc(){
+  if(!$('oCliId').value) return toast('Selecione um cliente');
+  const r=await api('/orcamentos',{method:'POST',body:JSON.stringify({
+    clienteId:Number($('oCliId').value), dataEntrada:$('oDE').value,
+    dataValidade:$('oDV').value, observacoes:$('oObs').value
+  })});
+  closeDlg(); await abrirOrc(r.orcamento?.id||r.id);
+}
+
+async function abrirOrc(id){
+  await ensureServicos();
+  const r=await api('/orcamentos/'+id);
+  const o=r.orcamento; S.orcId=id;
+  dlg(`Orçamento ${esc(o.numero)} — ${esc(o.clienteNome)}`,`
+  <div class="g3">
+    <div><small>Status</small><br><span class="badge ${o.status}">${o.status}</span></div>
+    <div><small>Validade</small><br>${fdate(o.dataValidade)}</div>
+    <div><small>Total</small><br><b>${money(o.valorFinal)}</b></div>
+  </div>
+  <hr class="sep">
+  <div class="g4 mt">
+    <div><label>Serviço</label><select id="oiSrv" onchange="pickSrvOrc()">${srvOpts()}</select></div>
+    <div><label>Descrição</label><input id="oiDesc"></div>
+    <div><label>Qtd</label><input id="oiQtd" type="number" value="1" step="0.01"></div>
+    <div><label>Valor unit.</label><input id="oiVu" type="number" value="0" step="0.01"></div>
+  </div>
+  <button class="btn primary mt" onclick="addItemOrc(${id})">＋ Adicionar peça</button>
+  <div id="oiBox" class="mt">${tblItens(r.itens)}</div>
+  ${o.status==='aberto'?`<hr class="sep"><div class="row"><button class="btn ok" onclick="converterOrc(${id});closeDlg()">Converter em Venda →</button><button class="btn danger" onclick="cancelarOrc(${id})">Cancelar orçamento</button></div>`:''}`,
+  []);
+}
+
+function pickSrvOrc(){const s=S.servicos.find(x=>String(x.id)===$('oiSrv').value);if(s){$('oiDesc').value=s.descricao;$('oiVu').value=s.preco}}
+
+async function addItemOrc(id){
+  const desc=$('oiDesc').value.trim();
+  if(!desc) return toast('Informe a descrição');
+  await api(`/orcamentos/${id}/itens`,{method:'POST',body:JSON.stringify({
+    servicoId:$('oiSrv').value?Number($('oiSrv').value):null, descricao:desc,
+    quantidade:Number($('oiQtd').value||1), valorUnitario:Number($('oiVu').value||0)
+  })});
+  const r=await api('/orcamentos/'+id);
+  $('oiBox').innerHTML=tblItens(r.itens);
+  toast('Peça adicionada');
+}
+
+async function converterOrc(id){
+  const r=await api(`/orcamentos/${id}/converter-rol`,{method:'POST',body:'{}'});
+  toast('Convertido em Venda'); closeDlg();
+  S.rolId=r.rol?.id||r.id; S.rolVal=r.rol?.valorFinal||0;
+  go('rols');
+}
+
+async function cancelarOrc(id){
+  await api(`/orcamentos/${id}/cancelar`,{method:'POST',body:'{"motivo":""}'});
+  toast('Orçamento cancelado'); closeDlg(); vOrcamentos();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   AGENDA
+═══════════════════════════════════════════════════════════════════ */
+async function vAgenda(){
+  const rows=await api('/agenda?de='+today()+'&ate='+plusD(30));
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Novo agendamento</h2>
+    <div class="g4">
+      <div class="fld"><label>Cliente</label><select id="agCli">${cliOpts()}</select></div>
+      <div class="fld"><label>Data</label><input id="agData" type="date" value="${today()}"></div>
+      <div class="fld"><label>Hora</label><input id="agHora" type="time" value="09:00"></div>
+      <div class="fld"><label>Tipo</label><select id="agTipo">
+        <option>entrega</option><option>retirada</option><option>ajuste</option><option>prova</option><option>outro</option>
+      </select></div>
+    </div>
+    <div class="fld"><label>Observação</label><input id="agObs"></div>
+    <button class="btn primary" onclick="salvarAgenda()">Agendar</button>
+  </div>
+  <div class="card mt">
+    <h2>Próximos 30 dias</h2>
+    <table>
+      <thead><tr><th>Data</th><th>Hora</th><th>Cliente</th><th>Tipo</th><th>Venda</th><th>Status</th><th></th></tr></thead>
+      <tbody>${(rows||[]).map(a=>`<tr>
+        <td>${fdate(a.dataAgendamento)}</td><td>${esc(a.horaAgendamento)}</td>
+        <td>${esc(a.clienteNome)}</td><td>${esc(a.tipo)}</td>
+        <td>${esc(a.rolNumero||a.orcNumero||'—')}</td>
+        <td><span class="badge ${a.status}">${a.status}</span></td>
+        <td><button class="btn sm danger" onclick="cancelarAgenda(${a.id})">✕</button></td>
+      </tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum agendamento.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+async function salvarAgenda(){
+  await api('/agenda',{method:'POST',body:JSON.stringify({
+    clienteId:Number($('agCli').value), dataAgendamento:$('agData').value,
+    horaAgendamento:$('agHora').value, duracaoMinutos:30,
+    tipo:$('agTipo').value, observacao:$('agObs').value, rolId:null, orcId:null
+  })});
+  toast('Agendado'); vAgenda();
+}
+
+async function cancelarAgenda(id){
+  await api(`/agenda/${id}`,{method:'DELETE'}); toast('Cancelado'); vAgenda();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   CLIENTES
+═══════════════════════════════════════════════════════════════════ */
+let _cliQ='';
+async function vClientes(){
+  const r=await api(`/clientes?pg=${S.pg.cli}&tam=30`+(_cliQ?'&q='+encodeURIComponent(_cliQ):''));
+  const rows=r.items||[]; const tot=r.total||0; const pages=Math.ceil(tot/30)||1;
+  pg().innerHTML=`
+  <div class="tb">
+    <div class="f"><label>Busca</label><input id="cliQ" value="${esc(_cliQ)}" placeholder="Nome, fone, CPF…" oninput="_cliQ=this.value;S.pg.cli=1;vClientes()"></div>
+    <div class="grow"></div>
+    <button class="btn primary" onclick="clienteModal()">+ Novo cliente</button>
+  </div>
+  <table>
+    <thead><tr><th>Nome</th><th>Telefone / Celular</th><th>Documento</th><th>Nasc.</th><th>Contato</th><th>Cidade</th><th>Ações</th></tr></thead>
+    <tbody>${rows.map(c=>`<tr>
+      <td>${esc(c.nome)}${c.cartaoFidelidade?`<br><span class="muted" style="font-size:11px">🎫${esc(c.cartaoFidelidade)}</span>`:''}</td>
+      <td>${esc(c.telefone||'')}${c.celular?`<br>${esc(c.celular)}`:''}</td>
+      <td>${esc(c.documento||'')}</td>
+      <td class="muted" style="font-size:12px">${c.dataNascimento?c.dataNascimento.slice(0,10):''}</td>
+      <td class="muted" style="font-size:12px">${esc(c.contato||'')}</td>
+      <td>${esc(c.cidade||'')}</td>
+      <td class="row">
+        <button class="btn sm" onclick='clienteModal(${JSON.stringify(c)})'>Editar</button>
+        <button class="btn sm" onclick="histCli(${c.id})">Histórico</button>
+        <button class="btn sm" onclick="creditoCli(${c.id})">Crédito</button>
+        <button class="btn sm" onclick="verFidelidadeCli(${c.id})">Pontos</button>
+      </td></tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum cliente.</td></tr>'}</tbody>
+  </table>
+  <div class="pag">
+    <span class="muted" style="font-size:12px">${tot} clientes</span>
+    <button class="btn sm" ${S.pg.cli<=1?'disabled':''} onclick="S.pg.cli--;vClientes()">‹</button>
+    <span style="font-size:12px">Pág ${S.pg.cli}/${pages}</span>
+    <button class="btn sm" ${S.pg.cli>=pages?'disabled':''} onclick="S.pg.cli++;vClientes()">›</button>
+  </div>`;
+}
+
+function clienteModal(c={},cb=null){
+  dlg(c.id?'Editar cliente':'Novo cliente',`
+  <div class="g3">
+    <div class="fld"><label>Nome *</label><input id="cNome" value="${esc(c.nome||'')}"></div>
+    <div class="fld"><label>Telefone</label><input id="cTel" value="${esc(c.telefone||'')}"></div>
+    <div class="fld"><label>Celular</label><input id="cCel" value="${esc(c.celular||'')}"></div>
+    <div class="fld"><label>CPF / CNPJ</label><input id="cDoc" value="${esc(c.documento||'')}"></div>
+    <div class="fld"><label>Email</label><input id="cEmail" value="${esc(c.email||'')}"></div>
+    <div class="fld"><label>Data de nascimento</label><input id="cDatNas" type="date" value="${esc(c.dataNascimento||'')}"></div>
+    <div class="fld"><label>Contato (nome)</label><input id="cContato" value="${esc(c.contato||'')}"></div>
+    <div class="fld"><label>Cartão fidelidade</label><input id="cCartFid" value="${esc(c.cartaoFidelidade||'')}"></div>
+    <div class="fld"><label>CEP</label><input id="cCep" value="${esc(c.cep||'')}"></div>
+    <div class="fld"><label>Logradouro</label><input id="cLog" value="${esc(c.logradouro||'')}"></div>
+    <div class="fld"><label>Número</label><input id="cNr" value="${esc(c.numero||'')}"></div>
+    <div class="fld"><label>Bairro</label><input id="cBai" value="${esc(c.bairro||'')}"></div>
+    <div class="fld"><label>Cidade</label><input id="cCid" value="${esc(c.cidade||'')}"></div>
+    <div class="fld"><label>UF</label><input id="cUF" value="${esc(c.estado||'')}"></div>
+    <div class="fld"><label>Limite crédito (R$)</label><input id="cLim" type="number" step="0.01" value="${c.limiteCredito||0}"></div>
+    <div class="fld"><label>Desconto padrão (%)</label><input id="cDesc" type="number" step="0.01" value="${c.descontoPercent||0}"></div>
+  </div>
+  <div class="fld mt"><label>Observações</label><textarea id="cObs">${esc(c.observacoes||'')}</textarea></div>`,
+  [{txt:'Salvar',cls:'primary',fn:()=>salvarCliente(c.id,cb)}]);
+}
+
+async function salvarCliente(id,cb){
+  const b={nome:$('cNome').value.trim(),telefone:$('cTel').value,celular:$('cCel').value,
+    documento:$('cDoc').value,email:$('cEmail').value,logradouro:$('cLog').value,
+    numero:$('cNr').value,bairro:$('cBai').value,cidade:$('cCid').value,estado:$('cUF').value,
+    cep:$('cCep').value,observacoes:$('cObs').value,
+    limiteCredito:Number($('cLim').value||0),descontoPercent:Number($('cDesc').value||0),
+    dataNascimento:$('cDatNas').value||null,contato:$('cContato').value||null,
+    cartaoFidelidade:$('cCartFid').value||null};
+  if(!b.nome) return toast('Nome obrigatório');
+  if(!id && !(await confirmarNaoDuplicado(b))) return;
+  const r=await api(id?'/clientes/'+id:'/clientes',{method:id?'PUT':'POST',body:JSON.stringify(b)});
+  closeDlg(); toast('Cliente salvo'); await loadClientes();
+  if(cb) cb(r.id||id, b.nome); else vClientes();
+}
+
+// Só roda ao CRIAR (não ao editar). Documento/telefone é o sinal mais confiável de
+// duplicidade; sem eles, cai para nome idêntico (evita falso-positivo em nomes comuns
+// que só têm parte do texto em comum).
+async function confirmarNaoDuplicado(b){
+  const termo=b.documento||b.telefone||b.celular||'';
+  let candidatos=[];
+  try{
+    if(termo){
+      const r=await api('/clientes?tam=5&q='+encodeURIComponent(termo));
+      candidatos=r.items||[];
+    } else {
+      const r=await api('/clientes?tam=20&q='+encodeURIComponent(b.nome));
+      candidatos=(r.items||[]).filter(c=>c.nome.trim().toLowerCase()===b.nome.trim().toLowerCase());
+    }
+  }catch{ return true; }
+  if(!candidatos.length) return true;
+  const lista=candidatos.slice(0,5).map(c=>`• ${c.nome}${c.telefone?' — '+c.telefone:(c.celular?' — '+c.celular:'')}${c.documento?' — doc '+c.documento:''}`).join('\n');
+  return confirm(`Já existe cliente parecido:\n\n${lista}\n\nCadastrar mesmo assim?`);
+}
+
+async function histCli(id){
+  const h=await api(`/clientes/${id}/historico`);
+  dlg('Histórico do cliente',`<table><thead><tr><th>Evento</th><th>Detalhe</th><th>Usuário</th><th>Data</th></tr></thead><tbody>
+    ${h.map(x=>`<tr><td>${esc(x.evento)}</td><td>${esc(x.detalhe||'')}</td><td>${esc(x.usuario)}</td><td>${esc(x.createdAt?.slice(0,16))}</td></tr>`).join('')||'<tr><td colspan="4" class="muted">Sem histórico.</td></tr>'}
+  </tbody></table>`,[]);
+}
+
+async function creditoCli(id){
+  const r=await api(`/clientes/${id}/credito`);
+  dlg('Crédito do cliente',`
+  <div class="stat mt"><small>Saldo atual</small><b>${money(r.saldo)}</b></div>
+  <hr class="sep">
+  <div class="g3 mt">
+    <div class="fld"><label>Operação</label><select id="crTipo"><option value="credito">Crédito (+)</option><option value="debito">Débito (−)</option></select></div>
+    <div class="fld"><label>Valor (R$)</label><input id="crVal" type="number" step="0.01" value="0"></div>
+    <div class="fld"><label>Descrição</label><input id="crDesc"></div>
+  </div>`,
+  [{txt:'Lançar',cls:'primary',fn:async()=>{
+    await api(`/clientes/${id}/credito`,{method:'POST',body:JSON.stringify({
+      tipo:$('crTipo').value, valor:Number($('crVal').value||0), descricao:$('crDesc').value, referencia:null
+    })});
+    toast('Lançado'); closeDlg();
+  }}]);
+}
+
+async function verFidelidadeCli(cliId){
+  const r=await api(`/clientes/${cliId}/fidelidade`);
+  dlg('Pontos de fidelidade',`
+  <div class="stat"><small>Pontos acumulados</small><b>${r.pontos||0} pts</b></div>
+  <div class="g3 mt">
+    <div class="fld"><label>Pontos</label><input id="fpPts" type="number" value="10" min="1"></div>
+    <div class="fld"><label>Tipo</label><select id="fpTipo">
+      <option value="ganho">Ganho</option><option value="resgate">Resgate</option><option value="ajuste">Ajuste</option>
+    </select></div>
+    <div class="fld"><label>Referência</label><input id="fpRef"></div>
+  </div>
+  <table class="mt"><thead><tr><th>Data</th><th>Pts</th><th>Tipo</th><th>Ref</th></tr></thead>
+  <tbody>${(r.movimentos||[]).map(m=>`<tr>
+    <td>${fdate(m.createdAt)}</td>
+    <td style="color:${m.tipo==='resgate'?'var(--bad)':'var(--ok)'};font-weight:700">${m.tipo==='resgate'?'-':'+'} ${m.pontos}</td>
+    <td>${esc(m.tipo)}</td><td>${esc(m.referencia||'')}</td>
+  </tr>`).join('')||'<tr><td colspan="4" class="muted">Sem histórico.</td></tr>'}</tbody></table>`,
+  [{txt:'Lançar pontos',cls:'primary',fn:async()=>{
+    await api(`/clientes/${cliId}/fidelidade/pontos`,{method:'POST',body:JSON.stringify({
+      pontos:Number($('fpPts').value||10), tipo:$('fpTipo').value, referencia:$('fpRef').value||null, observacao:null
+    })});
+    toast('Pontos lançados'); closeDlg();
+  }}]);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   SERVIÇOS / TABELA DE PREÇOS
+═══════════════════════════════════════════════════════════════════ */
+// Categorias ficam recolhidas por padrão (só o cabeçalho + contagem) — com ~38
+// categorias e milhares de serviços, mostrar tudo aberto de uma vez fica poluído.
+// Buscar abre automaticamente só as categorias com resultado.
+async function vServicos(){
+  await loadServicos();
+  S._srvSel=S._srvSel||new Set();
+  const cats=[...new Set(S.servicos.map(s=>s.categoria))].sort();
+  const busca=(S._srvBusca||'').toLowerCase().trim();
+  pg().innerHTML=`
+  <div class="tb">
+    <div class="f"><label>Busca</label><input id="srvBuscaInput" value="${esc(S._srvBusca||'')}" placeholder="Código ou descrição…" oninput="S._srvBusca=this.value;vServicosManterFoco()"></div>
+    <div class="grow"></div>
+    <span class="muted" style="font-size:12px" id="srvSelCount"></span>
+    <button class="btn" onclick="dlgAjustarPrecos()">💲 Ajustar preços</button>
+    <button class="btn primary" onclick="servicoModal()">+ Novo serviço</button>
+  </div>
+  <div class="mt">${cats.map(cat=>renderCatCardServico(cat,busca)).join('')}</div>`;
+  atualizaSrvSelCount();
+  const inp=$('srvBuscaInput'); if(inp&&busca){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);}
+}
+function vServicosManterFoco(){ vServicos(); }
+
+function renderCatCardServico(cat,busca){
+  let itens=S.servicos.filter(s=>s.categoria===cat);
+  if(busca) itens=itens.filter(s=>s.descricao.toLowerCase().includes(busca)||s.codigo.toLowerCase().includes(busca));
+  if(busca&&!itens.length) return '';
+  const aberta=busca?true:(S._srvCatAberta===cat);
+  return `<div class="card mt" style="padding:0">
+    <div class="row" style="padding:12px 14px;cursor:pointer;justify-content:space-between" onclick="toggleCategoriaServico('${esc(cat)}')">
+      <b>${esc(cat)} <span class="muted" style="font-weight:400">(${itens.length})</span></b>
+      <span class="row" style="gap:8px">
+        <button class="btn sm" onclick="event.stopPropagation();dlgAjustarPrecos('${esc(cat)}')">💲 Ajustar categoria</button>
+        <span class="muted">${aberta?'▲':'▼'}</span>
+      </span>
+    </div>
+    ${aberta?`<div style="padding:0 14px 14px">
+      <table>
+        <thead><tr><th style="width:28px"><input type="checkbox" title="Selecionar todos desta categoria" onchange="toggleTodosCategoriaServico('${esc(cat)}',this.checked)"></th><th>Código</th><th>Descrição</th><th>Preço</th><th>Ações</th></tr></thead>
+        <tbody id="srv_${esc(cat)}">${itens.map(s=>srvRow(s)).join('')||'<tr><td colspan="5" class="muted">Nenhum serviço.</td></tr>'}</tbody>
+      </table>
+    </div>`:''}
+  </div>`;
+}
+
+function srvRow(s){
+  return `<tr id="sr${s.id}">
+    <td><input type="checkbox" ${S._srvSel.has(s.id)?'checked':''} onchange="toggleSelecaoServico(${s.id},this.checked)"></td>
+    <td>${esc(s.codigo)}</td><td>${esc(s.descricao)}</td><td>${money(s.preco)}</td>
+    <td class="row"><button class="btn sm" onclick='servicoModal(${JSON.stringify(s)})'>Editar</button></td>
+  </tr>`;
+}
+
+function toggleCategoriaServico(cat){ S._srvCatAberta=(S._srvCatAberta===cat)?null:cat; vServicos(); }
+function toggleSelecaoServico(id,checked){ if(checked) S._srvSel.add(id); else S._srvSel.delete(id); atualizaSrvSelCount(); }
+function toggleTodosCategoriaServico(cat,checked){
+  S.servicos.filter(s=>s.categoria===cat).forEach(s=>{ if(checked) S._srvSel.add(s.id); else S._srvSel.delete(s.id); });
+  vServicos();
+}
+function atualizaSrvSelCount(){
+  const el=$('srvSelCount');
+  if(el) el.textContent=S._srvSel.size?`${S._srvSel.size} selecionado(s)`:'';
+}
+
+async function dlgAjustarPrecos(categoriaFixa){
+  const selecionados=[...S._srvSel];
+  const temSelecao=selecionados.length>0 && !categoriaFixa;
+  const cats=[...new Set(S.servicos.map(s=>s.categoria))].sort();
+  const escopoPadrao=temSelecao?'selecionados':'todas';
+  dlg('Ajustar preços em massa',`
+  ${categoriaFixa?`<p class="muted">Vai afetar todos os serviços da categoria <b>${esc(categoriaFixa)}</b>.</p>`:`
+  <div class="fld">
+    <label>Aplicar em</label>
+    <select id="ajEscopo" onchange="$('ajCatFld').classList.toggle('hide',this.value!=='categoria')">
+      ${temSelecao?`<option value="selecionados" selected>Só os ${selecionados.length} serviços selecionados</option>`:''}
+      <option value="categoria">Uma categoria específica</option>
+      <option value="todas" ${!temSelecao?'selected':''}>Todas as categorias (tabela de preços inteira)</option>
+    </select>
+  </div>
+  <div class="fld mt hide" id="ajCatFld">
+    <label>Categoria</label>
+    <select id="ajCategoria">${cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('')}</select>
+  </div>`}
+  <div class="g3 mt">
+    <div class="fld"><label>Tipo</label><select id="ajTipo"><option value="aumentar">▲ Aumentar</option><option value="diminuir">▼ Diminuir</option></select></div>
+    <div class="fld"><label>Modo</label><select id="ajModo"><option value="percentual">% Percentual</option><option value="fixo">R$ Valor fixo</option></select></div>
+    <div class="fld"><label>Valor</label><input id="ajValor" type="number" step="0.01" min="0" value="10"></div>
+  </div>`,
+  [{txt:'Aplicar ajuste',cls:'primary',fn:async()=>{
+    const valor=Number($('ajValor').value||0);
+    if(valor<=0) return toast('Informe um valor maior que zero');
+    const escopo=categoriaFixa?'categoriaFixa':$('ajEscopo').value;
+    const body={tipo:$('ajTipo').value,modo:$('ajModo').value,valor,categoria:null,ids:null,todasCategorias:false};
+    if(escopo==='categoriaFixa') body.categoria=categoriaFixa;
+    else if(escopo==='categoria') body.categoria=$('ajCategoria').value;
+    else if(escopo==='selecionados') body.ids=selecionados;
+    else body.todasCategorias=true;
+    const r=await api('/servicos/ajustar-precos',{method:'POST',body:JSON.stringify(body)});
+    closeDlg(); toast(`${r.afetados} serviço(s) reajustado(s)`); S._srvSel.clear(); await loadServicos(); vServicos();
+  }}]);
+}
+
+function servicoModal(s={}){
+  dlg(s.id?'Editar serviço':'Novo serviço',`
+  <div class="g4">
+    <div class="fld"><label>Código *</label><input id="sCod" value="${esc(s.codigo||'')}"></div>
+    <div class="fld"><label>Descrição *</label><input id="sDesc" value="${esc(s.descricao||'')}"></div>
+    <div class="fld"><label>Categoria</label><input id="sCat" value="${esc(s.categoria||'')}"></div>
+    <div class="fld"><label>Preço (R$)</label><input id="sPreco" type="number" step="0.01" value="${s.preco||0}"></div>
+  </div>`,
+  [{txt:'Salvar',cls:'primary',fn:()=>salvarServico(s.id)}]);
+}
+
+async function salvarServico(id){
+  if(!$('sCod').value||!$('sDesc').value) return toast('Código e descrição obrigatórios');
+  await api(id?'/servicos/'+id:'/servicos',{method:id?'PUT':'POST',body:JSON.stringify({
+    codigo:$('sCod').value.trim().toUpperCase(), descricao:$('sDesc').value.trim().toUpperCase(),
+    categoria:$('sCat').value.trim().toUpperCase(), preco:Number($('sPreco').value||0)
+  })});
+  closeDlg(); toast('Serviço salvo'); await loadServicos(); vServicos();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   CAIXA
+═══════════════════════════════════════════════════════════════════ */
+async function vCaixa(){
+  await loadCaixa().catch(()=>{});
+  const c=S.caixa;
+  const hist=await api('/caixa/historico?dias=7');
+  pg().innerHTML=`
+  <div class="g4">
+    <div class="stat"><small>Status</small><b style="color:${c?'var(--ok)':'var(--bad)'}">${c?'Aberto':'Fechado'}</b></div>
+    <div class="stat"><small>Saldo atual</small><b>${money(c?.saldoAtual||0)}</b></div>
+    <div class="stat"><small>Total vendas</small><b>${money(c?.totalVendas||0)}</b></div>
+    <div class="stat"><small>Qtd vendas</small><b>${c?.qtdVendas||0}</b></div>
+  </div>
+  <div class="card mt">
+    <h2>Operações de caixa</h2>
+    <div class="row">
+      <button class="btn ok" onclick="dlgAbrirCaixa()" ${c?'disabled':''}>▶ Abrir caixa</button>
+      <button class="btn" onclick="dlgMovCaixa('suprimento')" ${!c?'disabled':''}>+ Suprimento</button>
+      <button class="btn warn" onclick="dlgMovCaixa('sangria')" ${!c?'disabled':''}>− Sangria</button>
+      <button class="btn danger" onclick="dlgFecharCaixa()" ${!c?'disabled':''}>■ Fechar caixa</button>
+      ${c?`<button class="btn" onclick="movsCaixa(${c.id})">Ver movimentos</button>`:''}
+    </div>
+  </div>
+  <div class="card mt">
+    <h2>Histórico (7 dias)</h2>
+    <table>
+      <thead><tr><th>Data</th><th>Usuário</th><th>Abertura</th><th>Vendas</th><th>Saldo</th><th>Status</th></tr></thead>
+      <tbody>${(hist||[]).map(s=>`<tr>
+        <td>${fdate(s.data)}</td><td>${esc(s.usuario)}</td>
+        <td>${money(s.valorAbertura)}</td>
+        <td>—</td><td>—</td>
+        <td><span class="badge ${s.status}">${s.status}</span></td>
+      </tr>`).join('')||'<tr><td colspan="6" class="muted">Sem histórico.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+function dlgAbrirCaixa(){
+  dlg('Abrir Caixa',`<div class="fld"><label>Valor de abertura (troco do dia anterior, R$)</label><input id="vAb" type="number" step="0.01" value="0"></div>`,
+  [{txt:'Abrir caixa',cls:'primary',fn:async()=>{
+    await api('/caixa/abrir',{method:'POST',body:JSON.stringify({valorAbertura:Number($('vAb').value||0)})});
+    closeDlg(); toast('Caixa aberto'); vCaixa();
+  }}]);
+}
+
+function dlgMovCaixa(tipo){
+  const label=tipo==='suprimento'?'Suprimento (entrada de dinheiro)':'Sangria (retirada de dinheiro)';
+  dlg(label,`
+  <div class="fld"><label>Valor (R$)</label><input id="vMov" type="number" step="0.01" value="0"></div>
+  <div class="fld mt"><label>Descrição / motivo</label><input id="dMov"></div>`,
+  [{txt:tipo==='suprimento'?'Confirmar suprimento':'Confirmar sangria',cls:tipo==='suprimento'?'ok':'warn',fn:async()=>{
+    await api('/caixa/'+tipo,{method:'POST',body:JSON.stringify({valor:Number($('vMov').value||0),descricao:$('dMov').value})});
+    closeDlg(); toast('Registrado'); vCaixa();
+  }}]);
+}
+
+function dlgFecharCaixa(){
+  dlg('Fechar Caixa',`
+  <div class="fld"><label>Valor contado em caixa (R$)</label><input id="vFech" type="number" step="0.01" value="0"></div>
+  <div class="fld mt"><label>Observação</label><textarea id="obsFech"></textarea></div>`,
+  [{txt:'Fechar caixa',cls:'danger',fn:async()=>{
+    await api('/caixa/fechar',{method:'POST',body:JSON.stringify({valorContado:Number($('vFech').value||0),observacao:$('obsFech').value})});
+    closeDlg(); toast('Caixa fechado'); vCaixa();
+  }}]);
+}
+
+async function movsCaixa(id){
+  const r=await api(`/caixa/${id}/movimentos`);
+  dlg('Movimentos do caixa',`<table>
+    <thead><tr><th>Tipo</th><th>Valor</th><th>Descrição</th><th>Usuário</th><th>Hora</th></tr></thead>
+    <tbody>${r.map(m=>`<tr><td>${esc(m.tipo)}</td><td>${money(m.valor)}</td><td>${esc(m.descricao||'')}</td><td>${esc(m.usuario)}</td><td>${esc(m.createdAt?.slice(11,16))}</td></tr>`).join('')}</tbody>
+  </table>`,[]);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   FINANCEIRO
+═══════════════════════════════════════════════════════════════════ */
+let _finFilter={status:'aberto',q:''};
+async function vFinanceiro(){
+  const f=_finFilter;
+  const res=await api('/financeiro/resumo');
+  const r=await api(`/financeiro?pg=${S.pg.fin}&tam=30`+(f.status?'&status='+f.status:''));
+  const rows=r.items||[]; const tot=r.total||0; const pages=Math.ceil(tot/30)||1;
+  pg().innerHTML=`
+  <div class="g4">
+    <div class="stat"><small>Total em aberto</small><b>${money(res.totalAberto)}</b></div>
+    <div class="stat"><small>Total recebido</small><b>${money(res.totalRecebido)}</b></div>
+    <div class="stat"><small>Vencidos</small><b style="color:${res.vencidos>0?'var(--bad)':'var(--ok)'}">${res.vencidos}</b></div>
+    <div class="stat"><small>Em aberto (qtd)</small><b>${res.totalEmAberto}</b></div>
+  </div>
+  <div class="tabs mt">
+    ${[['aberto','Em aberto'],['recebido','Recebidos'],['','Todos']].map(([s,l])=>
+      `<button class="tab${f.status===s?' on':''}" onclick="_finFilter.status='${s}';S.pg.fin=1;vFinanceiro()">${l}</button>`).join('')}
+  </div>
+  <table>
+    <thead><tr><th>Cliente</th><th>Venda</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead>
+    <tbody>${rows.map(f2=>`<tr>
+      <td>${esc(f2.clienteNome)}</td><td>${esc(f2.osNumero||'—')}</td>
+      <td>${money(f2.valor)}</td><td>${fdate(f2.vencimento)}</td>
+      <td><span class="badge ${f2.status}">${f2.status}</span></td>
+      <td>${f2.status==='aberto'?`<button class="btn sm primary" onclick="dlgReceber(${f2.id},${f2.valor})">Receber</button>`:''}</td>
+    </tr>`).join('')||'<tr><td colspan="6" class="muted">Sem registros.</td></tr>'}</tbody>
+  </table>
+  <div class="pag">
+    <span class="muted" style="font-size:12px">${tot} registros</span>
+    <button class="btn sm" ${S.pg.fin<=1?'disabled':''} onclick="S.pg.fin--;vFinanceiro()">‹</button>
+    <span style="font-size:12px">Pág ${S.pg.fin}/${pages}</span>
+    <button class="btn sm" ${S.pg.fin>=pages?'disabled':''} onclick="S.pg.fin++;vFinanceiro()">›</button>
+  </div>`;
+}
+
+function dlgReceber(id,valor){
+  dlg('Receber duplicata',`
+  <div class="g3">
+    <div class="fld"><label>Método de pagamento</label>
+      <select id="finMet"><option>dinheiro</option><option>pix</option><option>debito</option><option>credito</option></select>
+    </div>
+    <div class="fld"><label>Valor recebido (R$)</label><input id="finVal" type="number" step="0.01" value="${valor}"></div>
+    <div class="fld"><label>Observação</label><input id="finObs"></div>
+  </div>`,
+  [{txt:'Confirmar recebimento',cls:'primary',fn:async()=>{
+    await api(`/financeiro/${id}/receber`,{method:'POST',body:JSON.stringify({
+      valorRecebido:Number($('finVal').value||valor), metodo:$('finMet').value, observacao:$('finObs').value
+    })});
+    closeDlg(); toast('Recebido'); vFinanceiro();
+  }}]);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   RELATÓRIOS
+═══════════════════════════════════════════════════════════════════ */
+async function vRelatorios(){
+  pg().innerHTML=`
+  <div class="g3">
+    ${relBtn('📅','Movimento do Dia','relDia')}
+    ${relBtn('📈','Movimento por Período','relPeriodo')}
+    ${relBtn('📋','Vendas em Aberto','relAbertos')}
+    ${relBtn('🚚','Vendas para Entrega','relEntrega')}
+    ${relBtn('💰','Caixa do Dia','relCaixa')}
+    ${relBtn('⚠️','Clientes com Débito','relDebito')}
+    ${relBtn('💲','Serviços por Período','relServicos')}
+    ${relBtn('👥','Frequência de Clientes','relFrequencia')}
+  </div>
+  <div id="relBox" class="card mt"><p class="muted">Selecione um relatório acima.</p></div>`;
+}
+
+function relBtn(ico,txt,fn){
+  return `<button class="card" style="text-align:left;cursor:pointer;border:1px solid var(--line)" onclick="${fn}()">
+    <div style="font-size:28px;margin-bottom:8px">${ico}</div>
+    <div style="font-weight:600">${txt}</div>
+  </button>`;
+}
+
+async function relDia(){
+  const r=await api('/relatorios/movimento-dia?data='+today());
+  $('relBox').innerHTML=`<h2>Movimento do dia — ${fdate(today())}</h2>
+  <div class="g4 mt">
+    ${r.porStatus.map(s=>`<div class="stat"><small>${esc(s.status)}</small><b>${s.qtd}</b> <span class="muted" style="font-size:13px">${money(s.valorTotal)}</span></div>`).join('')}
+  </div>
+  <div class="mt">${tblRols(r.ordens||[])}</div>`;
+}
+
+async function relPeriodo(){
+  dlg('Movimento por Período',`
+  <div class="g2">
+    <div class="fld"><label>De</label><input id="rpDe" type="date" value="${plusD(-30)}"></div>
+    <div class="fld"><label>Até</label><input id="rpAte" type="date" value="${today()}"></div>
+  </div>`,
+  [{txt:'Gerar relatório',cls:'primary',fn:async()=>{
+    const de=$('rpDe').value, ate=$('rpAte').value;
+    const r=await api(`/relatorios/movimento-periodo?de=${de}&ate=${ate}`);
+    closeDlg();
+    $('relBox').innerHTML=`<h2>Movimento por Período (${fdate(de)} a ${fdate(ate)})</h2>
+    <div class="g3 mt">
+      <div class="stat"><small>Total de vendas</small><b>${r.totalRols}</b></div>
+      <div class="stat"><small>Total recebido</small><b>${money(r.totalGeral)}</b></div>
+    </div>
+    <table class="mt"><thead><tr><th>Data</th><th>Vendas</th><th>Total pago</th><th>Canceladas</th><th>Em aberto</th></tr></thead>
+    <tbody>${(r.dias||[]).map(d=>`<tr><td>${fdate(d.dia)}</td><td>${d.totalRols}</td><td>${money(d.totalPago)}</td><td>${d.canceladas}</td><td>${d.emAberto}</td></tr>`).join('')}</tbody>
+    </table>`;
+  }}]);
+}
+
+async function relAbertos(){
+  const r=await api('/relatorios/rol-abertos');
+  $('relBox').innerHTML=`<h2>Vendas em aberto (${r.length})</h2><div class="mt">${tblRols(r)}</div>`;
+}
+
+async function relEntrega(){
+  dlg('Vendas para Entrega',`<div class="fld"><label>Data</label><input id="reData" type="date" value="${today()}"></div>`,
+  [{txt:'Consultar',cls:'primary',fn:async()=>{
+    const data=$('reData').value;
+    const r=await api('/relatorios/rol-entrega?data='+data);
+    closeDlg();
+    $('relBox').innerHTML=`<h2>Entregas previstas — ${fdate(data)}</h2><div class="mt">${tblRols(r.ordens||[])}</div>`;
+  }}]);
+}
+
+async function relCaixa(){
+  const r=await api('/relatorios/caixa-dia?data='+today());
+  $('relBox').innerHTML=`<h2>Caixa do dia — ${fdate(today())}</h2>
+  <div class="g3 mt">
+    <div class="stat"><small>Entradas</small><b>${money(r.totalEntradas)}</b></div>
+    <div class="stat"><small>Saídas</small><b>${money(r.totalSaidas)}</b></div>
+    <div class="stat"><small>Saldo</small><b>${money(r.saldo)}</b></div>
+  </div>
+  <table class="mt"><thead><tr><th>Tipo</th><th>Qtd</th><th>Total</th></tr></thead>
+  <tbody>${(r.movimentos||[]).map(m=>`<tr><td>${esc(m.tipo)}</td><td>${m.qtd}</td><td>${money(m.total)}</td></tr>`).join('')}</tbody>
+  </table>`;
+}
+
+async function relDebito(){
+  const r=await api('/relatorios/clientes-debito');
+  $('relBox').innerHTML=`<h2>Clientes com débito em aberto</h2>
+  <table class="mt"><thead><tr><th>Cliente</th><th>Telefone</th><th>Qtd duplicatas</th><th>Total devendo</th><th>Mais antigo</th></tr></thead>
+  <tbody>${r.map(c=>`<tr><td>${esc(c.nome)}</td><td>${esc(c.telefone||c.celular||'')}</td><td>${c.qtdDuplicatas}</td><td><b>${money(c.totalDevendo)}</b></td><td>${fdate(c.maisAntigo)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">Nenhum débito.</td></tr>'}</tbody>
+  </table>`;
+}
+
+async function relServicos(){
+  dlg('Serviços por Período',`
+  <div class="g2">
+    <div class="fld"><label>De</label><input id="rsDe" type="date" value="${plusD(-30)}"></div>
+    <div class="fld"><label>Até</label><input id="rsAte" type="date" value="${today()}"></div>
+  </div>`,
+  [{txt:'Gerar',cls:'primary',fn:async()=>{
+    const r=await api(`/relatorios/servicos-periodo?de=${$('rsDe').value}&ate=${$('rsAte').value}`);
+    closeDlg();
+    $('relBox').innerHTML=`<h2>Serviços mais realizados</h2>
+    <table class="mt"><thead><tr><th>Serviço</th><th>Qtd</th><th>Total</th></tr></thead>
+    <tbody>${(r.servicos||[]).map(s=>`<tr><td>${esc(s.servico)}</td><td>${s.qtd}</td><td>${money(s.total)}</td></tr>`).join('')}</tbody>
+    </table>`;
+  }}]);
+}
+
+async function relFrequencia(){
+  dlg('Frequência de Clientes',`
+  <div class="g2">
+    <div class="fld"><label>De</label><input id="rfDe" type="date" value="${plusD(-90)}"></div>
+    <div class="fld"><label>Até</label><input id="rfAte" type="date" value="${today()}"></div>
+  </div>`,
+  [{txt:'Gerar',cls:'primary',fn:async()=>{
+    const r=await api(`/relatorios/frequencia-clientes?de=${$('rfDe').value}&ate=${$('rfAte').value}`);
+    closeDlg();
+    $('relBox').innerHTML=`<h2>Clientes mais frequentes</h2>
+    <table class="mt"><thead><tr><th>Cliente</th><th>Vendas</th><th>Total pago</th><th>Última visita</th></tr></thead>
+    <tbody>${(r.clientes||[]).map(c=>`<tr><td>${esc(c.nome)}</td><td>${c.totalRols}</td><td>${money(c.totalPago)}</td><td>${fdate(c.ultimaVisita)}</td></tr>`).join('')}</tbody>
+    </table>`;
+  }}]);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   USUÁRIOS
+═══════════════════════════════════════════════════════════════════ */
+async function vUsuarios(){
+  const u=await api('/admin/usuarios');
+  const perfis=await api('/admin/perfis');
+  pg().innerHTML=`
+  <div class="tb">
+    <div class="grow"></div>
+    <button class="btn primary" onclick='novoUsuario(${JSON.stringify(perfis)})'>+ Novo usuário</button>
+  </div>
+  <table>
+    <thead><tr><th>Usuário</th><th>Nome</th><th>Perfis</th><th>Ativo</th><th>Licença</th><th>Último login</th><th>Ações</th></tr></thead>
+    <tbody>${u.map(x=>`<tr>
+      <td><b>${esc(x.username)}</b></td>
+      <td>${esc(x.displayName)}</td>
+      <td>${(x.roles||[]).map(r=>`<span class="badge">${esc(r)}</span>`).join(' ')}</td>
+      <td style="color:${x.isActive?'var(--ok)':'var(--bad)'}">${x.isActive?'Sim':'Não'}</td>
+      <td>${licencaBadge(x)}</td>
+      <td>${x.lastLoginAt?new Date(x.lastLoginAt).toLocaleString('pt-BR'):'—'}</td>
+      <td class="row">
+        <button class="btn sm" onclick='editarUsuario(${JSON.stringify(x)},${JSON.stringify(perfis)})'>Editar</button>
+        <button class="btn sm warn" onclick='resetSenha(${JSON.stringify(x)})'>Reset senha</button>
+        ${!x.licenseIsenta?`<button class="btn sm ok" onclick='dlgLicenca(${JSON.stringify(x)})'>Licença</button>`:''}
+      </td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function licencaBadge(x){
+  if(x.licenseIsenta) return `<span class="badge implementado">${x.licensePlano==='vitalicio'?'Vitalício':'Isento (admin)'}</span>`;
+  if(x.licenseVencida) return `<span class="badge pendente">Vencida${x.licenseVenceEm?' — '+fdate(x.licenseVenceEm.slice(0,10)):''}</span>`;
+  const label={mensal:'Mensal',trimestral:'Trimestral',anual:'Anual'}[x.licensePlano]||x.licensePlano||'';
+  return `<span class="badge implementado_parcial">${esc(label)} — vence ${fdate(x.licenseVenceEm.slice(0,10))}</span>`;
+}
+
+async function dlgLicenca(u){
+  const planos=await api('/admin/licencas/planos');
+  dlg(`Licença — ${esc(u.username)}`,`
+  <p class="muted">Situação atual: ${licencaBadge(u)}</p>
+  <div class="fld mt"><label>Plano</label>
+    <select id="licPlano">${planos.map(p=>`<option value="${p.plano}">${esc(p.label)}${p.valor!=null?' — '+money(p.valor):''}</option>`).join('')}</select>
+  </div>
+  <p class="muted" style="font-size:12px" id="licObs">Renovar antes do vencimento preserva os dias que ainda faltavam (soma ao novo ciclo).</p>
+  <div class="row mt">
+    <button class="btn" onclick="gerarPixLicenca('${u.id}')">📱 Gerar cobrança PIX (Rogerio)</button>
+  </div>
+  <div id="licPixArea" class="hide mt"></div>`,
+  [{txt:'Confirmar renovação (sem cobrança)',cls:'primary',fn:async()=>{
+    const plano=$('licPlano').value;
+    const r=await api(`/admin/usuarios/${u.id}/licenca/renovar`,{method:'POST',body:JSON.stringify({plano})});
+    closeDlg();
+    toast(r.venceEm?`Licença renovada até ${fdate(r.venceEm.slice(0,10))}`:'Licença vitalícia ativada');
+    vUsuarios();
+  }}]);
+}
+
+async function gerarPixLicenca(userId){
+  const plano=$('licPlano').value;
+  if(plano==='vitalicio'){ toast('Vitalício é negociado direto com o fornecedor — sem cobrança automática.'); return; }
+  const area=$('licPixArea'); area.classList.remove('hide');
+  area.innerHTML='<div class="spin" style="margin:16px auto"></div>';
+  try{
+    const planos=await api('/admin/licencas/planos');
+    const p=planos.find(x=>x.plano===plano);
+    const r=await api('/pagamentos/pix/criar',{method:'POST',body:JSON.stringify({
+      valor:p.valor, contexto:'licenca', descricao:`Licença ${p.label} — usuário ${userId}`
+    })});
+    area.innerHTML=`
+      <img src="data:image/png;base64,${r.qrCodeBase64}" style="width:180px;height:180px;border:1px solid var(--line);border-radius:8px;display:block;margin:0 auto">
+      <div style="display:flex;gap:4px;justify-content:center;max-width:320px;margin:8px auto 0">
+        <input id="licPixCode" value="${esc(r.qrCode)}" readonly style="font-size:10px;flex:1">
+        <button class="btn sm" onclick="navigator.clipboard.writeText($('licPixCode').value);toast('Código copiado!')">📋</button>
+      </div>
+      <p id="licPixStatus" style="margin-top:10px;font-size:13px;color:var(--muted);text-align:center">⏳ Aguardando pagamento…</p>`;
+    clearInterval(window._licPixTimer);
+    window._licPixTimer=setInterval(async()=>{
+      try{
+        const st=await api('/pagamentos/pix/'+r.mpPaymentId+'/status?contexto=licenca');
+        if(st.status==='approved'){
+          clearInterval(window._licPixTimer);
+          const rr=await api(`/admin/usuarios/${userId}/licenca/renovar`,{method:'POST',body:JSON.stringify({plano})});
+          closeDlg(); toast('✅ Pagamento confirmado! Licença renovada até '+fdate(rr.venceEm.slice(0,10))); vUsuarios();
+        } else if(st.status==='cancelled'||st.status==='rejected'){
+          clearInterval(window._licPixTimer);
+          if($('licPixStatus')) $('licPixStatus').textContent='❌ Pagamento cancelado. Gere um novo QR Code.';
+        }
+      }catch(e){}
+    },4000);
+  }catch(e){
+    area.innerHTML=`<p style="color:var(--bad);padding:8px">${esc(e.message)}</p>`;
+  }
+}
+
+function novoUsuario(perfis){
+  dlg('Novo usuário',`
+  <div class="g3">
+    <div class="fld"><label>Login (usuário) *</label><input id="uLogin"></div>
+    <div class="fld"><label>Nome exibição *</label><input id="uNome"></div>
+    <div class="fld"><label>Senha temporária *</label><input id="uSenha" type="password"></div>
+  </div>
+  <div class="fld mt"><label>Perfis</label>
+    <div class="row" style="flex-wrap:wrap;gap:8px">${perfis.map(p=>`<label style="display:flex;align-items:center;gap:4px;color:var(--ink)"><input type="checkbox" name="uPerfil" value="${esc(p.name)}"> ${esc(p.displayName)}</label>`).join('')}</div>
+  </div>`,
+  [{txt:'Criar usuário',cls:'primary',fn:async()=>{
+    const roles=[...document.querySelectorAll('[name=uPerfil]:checked')].map(e=>e.value);
+    await api('/admin/usuarios',{method:'POST',body:JSON.stringify({
+      username:$('uLogin').value.trim(), displayName:$('uNome').value.trim(),
+      temporaryPassword:$('uSenha').value, roles
+    })});
+    closeDlg(); toast('Usuário criado'); vUsuarios();
+  }}]);
+}
+
+function editarUsuario(u,perfis){
+  dlg(`Editar usuário — ${esc(u.username)}`,`
+  <div class="g2">
+    <div class="fld"><label>Nome exibição</label><input id="uENome" value="${esc(u.displayName)}"></div>
+    <div class="fld"><label>Nova senha (em branco = manter)</label><input id="uESenha" type="password"></div>
+  </div>
+  <div class="fld mt"><label>Perfis</label>
+    <div class="row" style="flex-wrap:wrap;gap:8px">${perfis.map(p=>`<label style="display:flex;align-items:center;gap:4px;color:var(--ink)"><input type="checkbox" name="uEPerfil" value="${esc(p.name)}" ${(u.roles||[]).includes(p.name)?'checked':''}> ${esc(p.displayName)}</label>`).join('')}</div>
+  </div>`,
+  [{txt:'Salvar',cls:'primary',fn:async()=>{
+    const roles=[...document.querySelectorAll('[name=uEPerfil]:checked')].map(e=>e.value);
+    await api(`/admin/usuarios/${u.id}`,{method:'PUT',body:JSON.stringify({displayName:$('uENome').value,temporaryPassword:$('uESenha').value||null})});
+    await api(`/admin/usuarios/${u.id}/perfis`,{method:'POST',body:JSON.stringify({roles})});
+    closeDlg(); toast('Usuário atualizado'); vUsuarios();
+  }}]);
+}
+
+function resetSenha(u){
+  dlg(`Reset de senha — ${esc(u.username)}`,`
+  <div class="fld"><label>Nova senha</label><input id="rSenha" type="password"></div>
+  <div class="fld mt"><label>Confirmar nova senha</label><input id="rSenha2" type="password"></div>`,
+  [{txt:'Redefinir senha',cls:'warn',fn:async()=>{
+    if($('rSenha').value!==$('rSenha2').value) return toast('Senhas não conferem');
+    await api(`/admin/usuarios/${u.id}`,{method:'PUT',body:JSON.stringify({displayName:u.displayName,temporaryPassword:$('rSenha').value})});
+    closeDlg(); toast('Senha redefinida. Usuário deve trocar no próximo login.');
+  }}]);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   CONFIGURAÇÕES
+═══════════════════════════════════════════════════════════════════ */
+async function vConfig(){
+  const c=await api('/configuracoes');
+  const labels={empresa_nome:'Nome da empresa',empresa_telefone:'Telefone',empresa_endereco:'Endereço',empresa_cidade:'Cidade/Estado',empresa_cep:'CEP',empresa_cnpj:'CNPJ',empresa_iss_percent:'Alíquota ISS (%)',prazo_entrega_dias:'Prazo padrão entrega (dias)',moeda:'Símbolo moeda',versao:'Versão'};
+  // Só os campos de "Dados da empresa" — outras chaves (impressoras, rede, tokens MP etc.)
+  // têm telas próprias e não devem ser despejadas aqui como texto puro.
+  const empresaKeys=['empresa_nome','empresa_telefone','empresa_endereco','empresa_cidade','empresa_cep','empresa_cnpj','empresa_iss_percent','prazo_entrega_dias','moeda','versao'];
+  const mpCard=(chave,titulo,desc)=>`
+  <div class="card mt">
+    <h2>📱 ${esc(titulo)}</h2>
+    <div class="g2">
+      <div class="fld"><label>Access Token — Produção</label>
+        <input data-cfg="${chave}" type="password" value="${esc(c[chave]||'')}" placeholder="APP_USR-…">
+      </div>
+      <div class="fld" style="display:flex;align-items:flex-end;gap:8px">
+        <button class="btn" onclick="const e=document.querySelector('[data-cfg=${chave}]');e.type=e.type==='password'?'text':'password'">👁 Mostrar</button>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:6px">${desc}</p>
+  </div>`;
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Dados da empresa</h2>
+    <div class="g3">
+      ${empresaKeys.map(k=>`<div class="fld"><label>${esc(labels[k]||k)}</label><input data-cfg="${esc(k)}" value="${esc(c[k]||'')}"></div>`).join('')}
+    </div>
+    <button class="btn primary mt" onclick="saveConfig()">Salvar configurações</button>
+  </div>
+  ${mpCard('mp_luci_access_token','Mercado Pago — Luci (vendas do PDV)','Usado para cobrar PIX dos clientes na hora do pagamento. Obtenha em: mercadopago.com.br → Seu negócio → Credenciais → Produção → Access Token (conta da Luci).')}
+  ${mpCard('mp_rogerio_access_token','Mercado Pago — Rogerio (fornecedor / licenciamento)','Conta do fornecedor, usada para cobrar a licença de uso do sistema dos usuários (tela Usuários → Licença). Não é usada nas vendas do PDV.')}
+  <div class="card mt">
+    <h2>Minha conta</h2>
+    <div class="g3">
+      <div class="fld"><label>Senha atual</label><input id="saAt" type="password"></div>
+      <div class="fld"><label>Nova senha</label><input id="saNov" type="password"></div>
+      <div class="fld"><label>Confirmar nova senha</label><input id="saConf" type="password"></div>
+    </div>
+    <button class="btn warn mt" onclick="trocarSenha()">Alterar senha</button>
+  </div>`;
+}
+
+async function saveConfig(){
+  for(const el of document.querySelectorAll('[data-cfg]'))
+    await api('/configuracoes/'+encodeURIComponent(el.dataset.cfg),{method:'PUT',body:JSON.stringify({valor:el.value})});
+  toast('Configurações salvas');
+}
+
+async function trocarSenha(){
+  if($('saNov').value!==$('saConf').value) return toast('Senhas não conferem');
+  await api('/auth/trocar-senha',{method:'POST',body:JSON.stringify({senhaAtual:$('saAt').value,senhaNova:$('saNov').value})});
+  toast('Senha alterada');
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   LEGADO / NADA FICA PARA TRÁS
+═══════════════════════════════════════════════════════════════════ */
+let _legFiltro='';
+async function vLegado(){
+  let data;
+  try{ data=await api('/legacy/coverage?tam=5000'); }catch{ data={total:0,resumo:{},items:[]}; }
+  const res=data.resumo||{};
+  const total=data.total||0;
+  const impl=(res.implementado||0)+(res.implementado_parcial||0);
+  const pctImpl=total?Math.round(impl*100/total):0;
+  const pctSemNA=total-((res.nao_aplicavel||0));
+  const pctReal=pctSemNA?Math.round((res.implementado||0)*100/pctSemNA):0;
+
+  const filtros=[
+    ['','Todos',total],
+    ['implementado','Implementado',res.implementado||0],
+    ['implementado_parcial','Parcial',res.implementado_parcial||0],
+    ['pendente','Pendente',res.pendente||0],
+    ['nao_aplicavel','N/A',res.nao_aplicavel||0],
+  ];
+
+  const items=(data.items||[]).filter(x=>!_legFiltro||x.status===_legFiltro);
+
+  pg().innerHTML=`
+  <div class="g4">
+    <div class="stat"><small>Implementados</small><b style="color:var(--ok)">${res.implementado||0}</b></div>
+    <div class="stat"><small>Parciais</small><b style="color:var(--warn)">${res.implementado_parcial||0}</b></div>
+    <div class="stat"><small>Pendentes</small><b style="color:var(--bad)">${res.pendente||0}</b></div>
+    <div class="stat"><small>N/A (não se aplica)</small><b style="color:var(--muted)">${res.nao_aplicavel||0}</b></div>
+  </div>
+  <div class="card mt">
+    <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="flex:1">
+        <small>Cobertura total (incl. parciais): <b>${pctImpl}%</b> &nbsp;|&nbsp; Implementado completo (excl. N/A): <b>${pctReal}%</b></small>
+        <div class="progress-bar"><div class="progress-bar-fill" style="width:${pctImpl}%"></div></div>
+      </div>
+    </div>
+    <div class="tabs">
+      ${filtros.map(([v,l,n])=>`<button class="tab${_legFiltro===v?' on':''}" onclick="_legFiltro='${v}';vLegado()">${l} <span class="muted">(${n})</span></button>`).join('')}
+    </div>
+    <div class="mt" style="font-size:12px;color:var(--muted)">Exibindo ${items.length} de ${total} itens</div>
+    <table class="mt">
+      <thead><tr><th>Área</th><th>Item legado</th><th>Status</th><th>Por</th><th></th></tr></thead>
+      <tbody>${items.slice(0,300).map(x=>`<tr>
+        <td><span class="badge">${esc(x.area)}</span></td>
+        <td style="font-size:12px;max-width:380px;word-break:break-word">${esc(x.item)}</td>
+        <td><span class="badge ${x.status}">${esc(x.status?.replace(/_/g,' '))}</span></td>
+        <td style="font-size:11px;color:var(--muted)">${esc(x.updatedBy||'auto')}</td>
+        <td>
+          <select class="btn sm" style="height:26px;padding:0 4px;font-size:11px" onchange="setCoverageStatus(${x.id},this.value,this)">
+            <option value="">—</option>
+            <option value="implementado">✅ impl.</option>
+            <option value="implementado_parcial">⚠️ parcial</option>
+            <option value="nao_aplicavel">🚫 n/a</option>
+            <option value="pendente">⏳ pend.</option>
+          </select>
+        </td>
+      </tr>`).join('')||'<tr><td colspan="5" class="muted">Nenhum item rastreado.</td></tr>'}
+      ${items.length>300?`<tr><td colspan="5" class="muted" style="text-align:center">… e mais ${items.length-300} itens ocultos. Use os filtros de status.</td></tr>`:''}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   AÇÕES DE VENDA (chamadas de múltiplos lugares — Status de Vendas)
+═══════════════════════════════════════════════════════════════════ */
+async function abrirRolModal(id){
+  const r=await api('/rol/'+id);
+  const o=r.rol; S.rolId=id; S.rolVal=o.valorFinal||0;
+  dlg(`Venda ${esc(numVenda(o.numero))} — ${esc(o.clienteNome)}`,`
+  <div class="g4">
+    <div><small>Status</small><br><span class="badge ${o.status}">${o.status}</span></div>
+    <div><small>Entrada</small><br>${fdate(o.dataEntrada)}</div>
+    <div><small>Promessa</small><br>${fdate(o.dataPromessa)}</div>
+    <div><small>Total</small><br><b>${money(o.valorFinal)}</b></div>
+  </div>
+  <div class="mt">${tblItens(r.itens)}</div>
+  ${o.observacoes?`<p class="muted mt"><b>Obs:</b> ${esc(o.observacoes)}</p>`:''}
+  <hr class="sep">
+  <div class="row">
+    ${o.status==='aberta'?`<button class="btn ok" onclick="acaoRol(${id},'pronta')">✓ Pronta</button>`:''}
+    ${(o.status==='aberta'||o.status==='pronta')?`<button class="btn warn" onclick="dlgEntregar(${id})">Entregar</button>`:''}
+    ${(o.status!=='paga'&&o.status!=='cancelada'&&o.status!=='estornada')?`<button class="btn primary" onclick="dlgPagar(${id},${o.valorFinal})">💲 Pagar</button>`:''}
+    ${(o.status!=='paga'&&o.status!=='cancelada'&&o.status!=='estornada')?`<button class="btn" onclick="closeDlg();go('nova-rol',${id})">✎ Editar itens</button>`:''}
+    <button class="btn" onclick="imprimirRol(${id})">🖨 Imprimir</button>
+    ${(o.status!=='paga'&&o.status!=='cancelada'&&o.status!=='estornada')?`<button class="btn danger" onclick="dlgCancelar(${id})">Cancelar</button>`:''}
+    ${(o.status==='paga'&&hasPerm('caixa.access'))?`<button class="btn danger" onclick="dlgEstornar(${id})">↩ Estornar</button>`:''}
+  </div>`,
+  []);
+}
+
+async function acaoRol(id,acao){
+  await api(`/rol/${id}/${acao}`,{method:'POST',body:'{}'});
+  toast('Atualizado'); closeDlg(); render();
+}
+
+function dlgEntregar(id){
+  dlg('Confirmar entrega',`
+  <div class="g2">
+    <div class="fld"><label>Data de entrega</label><input id="deData" type="date" value="${today()}"></div>
+    <div class="fld"><label>Observação</label><input id="deObs"></div>
+  </div>`,
+  [{txt:'Confirmar entrega',cls:'ok',fn:async()=>{
+    await api(`/rol/${id}/entregar`,{method:'POST',body:JSON.stringify({dataEntrega:$('deData').value,observacao:$('deObs').value})});
+    closeDlg(); toast('Entregue'); render();
+  }}]);
+}
+
+const MET_LABELS={dinheiro:'💵 Dinheiro',debito:'💳 Cartão Débito',credito:'💳 Cartão Crédito',credito_cliente:'🏪 Crédito do cliente'};
+
+function dlgPagar(id,valor){
+  window._splitLinhas=[{metodo:'dinheiro',valor:valor}];
+  dlg('Registrar pagamento',`
+  <div class="row" style="margin-bottom:8px">
+    <label style="display:flex;align-items:center;gap:6px;color:var(--ink)">
+      <input type="checkbox" id="pSplit" onchange="onSplitToggle(${id},${valor})"> Dividir pagamento entre formas diferentes
+    </label>
+  </div>
+  <div class="g3">
+    <div class="fld" id="pMetFld"><label>Método de pagamento</label>
+      <select id="pMet" onchange="onPMetChange(${id},${valor})">
+        <option value="dinheiro">💵 Dinheiro</option>
+        <option value="pix">📱 PIX — Mercado Pago</option>
+        <option value="debito">💳 Cartão Débito</option>
+        <option value="credito">💳 Cartão Crédito</option>
+        <option value="credito_cliente">🏪 Crédito do cliente</option>
+      </select>
+    </div>
+    <div class="fld"><label>Desconto (R$)</label><input id="pDesc" type="number" step="0.01" value="0" oninput="calcPag(${valor})"></div>
+    <div class="fld"><label>Valor cobrado (R$)</label><input id="pCobrado" type="number" step="0.01" value="${valor}" readonly style="background:#f8fafc;font-weight:700"></div>
+  </div>
+  <div id="pSingleArea">
+    <div id="pCashArea">
+      <div class="g2 mt">
+        <div class="fld"><label>Valor pago pelo cliente (R$)</label><input id="pPago" type="number" step="0.01" value="${valor}" oninput="calcTroco()"></div>
+        <div class="fld"><label>Troco</label><input id="pTroco" type="number" step="0.01" value="0" readonly style="background:#f0fdf4;font-weight:700"></div>
+      </div>
+    </div>
+    <div id="pPixArea" class="hide" style="text-align:center;padding:8px 0">
+      <button class="btn primary" style="margin-bottom:12px" onclick="gerarPixMP(${id})">📱 Gerar QR Code PIX</button>
+      <div id="pPixQr"></div>
+    </div>
+  </div>
+  <div id="pSplitArea" class="hide mt">
+    <div id="pSplitLinhas"></div>
+    <button class="btn sm mt" onclick="addSplitLinha()">+ Adicionar forma</button>
+    <p class="mt" style="font-size:13px">Lançado: <b id="pSplitTotal">R$ 0,00</b> &nbsp;·&nbsp; Falta: <b id="pSplitFalta">R$ 0,00</b></p>
+    <p class="muted" style="font-size:11px">PIX com QR Code não entra na divisão — se precisar de Pix, use o pagamento único.</p>
+  </div>
+  <div id="pMotObs" class="fld mt hide"><label>Motivo do desconto (obrigatório)</label><input id="pMot"></div>`,
+  [{txt:'Confirmar pagamento',cls:'primary',fn:async()=>{
+    const desc=Number($('pDesc').value||0);
+    if($('pSplit').checked){
+      const linhas=window._splitLinhas.filter(l=>Number(l.valor)>0).map(l=>({metodo:l.metodo,valor:Number(l.valor)}));
+      if(!linhas.length) return toast('Informe ao menos uma forma de pagamento com valor');
+      await api(`/rol/${id}/pagar`,{method:'POST',body:JSON.stringify({linhas,desconto:desc>0?desc:null})});
+      closeDlg(); toast('Pagamento (dividido) registrado'); render();
+      return;
+    }
+    const met=$('pMet').value;
+    if(met==='pix') return toast('Use o QR Code para pagar — o sistema confirma automaticamente');
+    await api(`/rol/${id}/pagar`,{method:'POST',body:JSON.stringify({
+      metodoPagamento:met, valorPago:Number($('pPago').value||0),
+      desconto:desc>0?desc:null
+    })});
+    closeDlg(); toast('Pagamento registrado'); render();
+  }}]);
+  calcPag(valor);
+}
+
+function onSplitToggle(id,valor){
+  const on=$('pSplit').checked;
+  $('pMetFld').classList.toggle('hide',on);
+  $('pSingleArea').classList.toggle('hide',on);
+  $('pSplitArea').classList.toggle('hide',!on);
+  clearInterval(window._pixTimer);
+  if(on){
+    const cobrado=Number($('pCobrado').value||valor);
+    window._splitLinhas=[{metodo:'dinheiro',valor:cobrado}];
+    renderSplitLinhas(cobrado);
+  }
+}
+
+function renderSplitLinhas(cobrado){
+  cobrado=cobrado??Number($('pCobrado').value||0);
+  const opts=Object.entries(MET_LABELS).map(([v,l])=>`<option value="${v}">${l}</option>`).join('');
+  $('pSplitLinhas').innerHTML=window._splitLinhas.map((l,i)=>`
+    <div class="row mt" style="gap:6px">
+      <select style="flex:1" onchange="window._splitLinhas[${i}].metodo=this.value">
+        ${opts.replace(`value="${l.metodo}"`,`value="${l.metodo}" selected`)}
+      </select>
+      <input type="number" step="0.01" style="width:120px" value="${l.valor}" oninput="window._splitLinhas[${i}].valor=this.value;atualizaSplitTotal()">
+      ${window._splitLinhas.length>1?`<button class="btn sm danger" onclick="removeSplitLinha(${i})">✕</button>`:''}
+    </div>`).join('');
+  atualizaSplitTotal();
+}
+function addSplitLinha(){ window._splitLinhas.push({metodo:'dinheiro',valor:0}); renderSplitLinhas(); }
+function removeSplitLinha(i){ window._splitLinhas.splice(i,1); renderSplitLinhas(); }
+function atualizaSplitTotal(){
+  const cobrado=Number($('pCobrado').value||0);
+  const total=window._splitLinhas.reduce((s,l)=>s+Number(l.valor||0),0);
+  $('pSplitTotal').textContent=money(total);
+  $('pSplitFalta').textContent=money(Math.max(0,cobrado-total));
+}
+
+function onPMetChange(rolId,valor){
+  const met=$('pMet').value;
+  if(met==='pix'){
+    $('pCashArea').classList.add('hide');
+    $('pPixArea').classList.remove('hide');
+  } else {
+    $('pCashArea').classList.remove('hide');
+    $('pPixArea').classList.add('hide');
+    clearInterval(window._pixTimer);
+  }
+}
+
+async function gerarPixMP(rolId){
+  const valor=Number($('pCobrado').value);
+  const qrEl=$('pPixQr');
+  qrEl.innerHTML='<div class="spin" style="margin:16px auto"></div>';
+  try{
+    const r=await api('/pagamentos/pix/criar',{method:'POST',body:JSON.stringify({rolId,valor})});
+    window._pixPaymentId=r.mpPaymentId;
+    qrEl.innerHTML=`
+      <img src="data:image/png;base64,${r.qrCodeBase64}" style="width:200px;height:200px;border:1px solid var(--line);border-radius:8px;display:block;margin:0 auto">
+      <p style="font-size:11px;color:var(--muted);margin:8px 0 4px">Pix copia e cola:</p>
+      <div style="display:flex;gap:4px;justify-content:center;max-width:320px;margin:0 auto">
+        <input id="pixCode" value="${esc(r.qrCode)}" readonly style="font-size:10px;flex:1;overflow:hidden;text-overflow:ellipsis">
+        <button class="btn sm" onclick="navigator.clipboard.writeText($('pixCode').value);toast('Código copiado!')">📋</button>
+      </div>
+      <p id="pPixStatus" style="margin-top:12px;font-size:13px;color:var(--muted)">⏳ Aguardando pagamento…</p>`;
+    clearInterval(window._pixTimer);
+    window._pixTimer=setInterval(async()=>{
+      try{
+        const st=await api('/pagamentos/pix/'+window._pixPaymentId+'/status');
+        if(st.status==='approved'){
+          clearInterval(window._pixTimer);
+          const desc=Number($('pDesc')?.value||0);
+          await api('/rol/'+rolId+'/pagar',{method:'POST',body:JSON.stringify({
+            metodoPagamento:'pix',valorPago:valor,desconto:desc>0?desc:null
+          })});
+          closeDlg(); toast('✅ PIX confirmado! Pagamento registrado.'); render();
+        } else if(st.status==='cancelled'||st.status==='rejected'){
+          clearInterval(window._pixTimer);
+          if($('pPixStatus')) $('pPixStatus').textContent='❌ PIX cancelado. Gere um novo QR Code.';
+        }
+      }catch(e){}
+    },4000);
+  }catch(e){
+    qrEl.innerHTML=`<p style="color:var(--bad);padding:8px">${esc(e.message)}</p>`;
+  }
+}
+
+function calcPag(orig){
+  const desc=Number($('pDesc').value||0);
+  const cob=Math.max(0,orig-desc);
+  $('pCobrado').value=cob.toFixed(2);
+  $('pPago').value=cob.toFixed(2);
+  $('pTroco').value='0.00';
+  if(desc>0) $('pMotObs').classList.remove('hide'); else $('pMotObs').classList.add('hide');
+  if($('pSplit')&&$('pSplit').checked) atualizaSplitTotal();
+}
+function calcTroco(){
+  const cob=Number($('pCobrado').value||0);
+  const pago=Number($('pPago').value||0);
+  $('pTroco').value=Math.max(0,pago-cob).toFixed(2);
+}
+
+function dlgCancelar(id){
+  dlg('Cancelar Venda',`<div class="fld"><label>Motivo do cancelamento</label><textarea id="cMot" placeholder="Informe o motivo…"></textarea></div>`,
+  [{txt:'Confirmar cancelamento',cls:'danger',fn:async()=>{
+    await api(`/rol/${id}/cancelar`,{method:'POST',body:JSON.stringify({motivo:$('cMot').value})});
+    closeDlg(); toast('Venda cancelada'); render();
+  }}]);
+}
+
+function dlgEstornar(id){
+  dlg('Estornar venda',`
+  <p class="muted">Isso reverte o pagamento já registrado (lança uma saída no caixa, se estiver aberto) e marca a venda como estornada. Não pode ser desfeito pelo sistema.</p>
+  <div class="fld mt"><label>Motivo do estorno *</label><textarea id="esMot" placeholder="Informe o motivo…"></textarea></div>`,
+  [{txt:'Confirmar estorno',cls:'danger',fn:async()=>{
+    if(!$('esMot').value.trim()) return toast('Motivo é obrigatório');
+    await api(`/rol/${id}/estornar`,{method:'POST',body:JSON.stringify({motivo:$('esMot').value})});
+    closeDlg(); toast('Venda estornada'); render();
+  }}]);
+}
+
+async function imprimirRol(id){
+  let txt='';
+  try{ txt=await apiText(`/rol/${id}/impressao`); }catch{
+    const r=await api('/rol/'+id);
+    txt=formatoRecibo(r);
+  }
+  $('printArea').textContent=txt;
+  dlg('Impressão / Recibo',`<div class="prt">${esc(txt)}</div>`,
+  [{txt:'🖨 Imprimir',cls:'primary',fn:()=>window.print()},{txt:'📋 Copiar',cls:'',fn:()=>{navigator.clipboard.writeText(txt);toast('Copiado')}}]);
+}
+
+function formatoRecibo(r){
+  const o=r.rol; const itens=r.itens||[];
+  const lin='─'.repeat(40);
+  return [
+    '         ATELIE DA LUCI',
+    lin,
+    `Venda: ${numVenda(o.numero)}  Data: ${fdate(o.dataEntrada)}`,
+    `Cliente: ${o.clienteNome}`,
+    `Promessa: ${fdate(o.dataPromessa)}`,
+    lin,
+    ...itens.map(i=>`${i.descricao.padEnd(24).slice(0,24)} ${String(i.quantidade).padStart(3)}x ${money(i.valorUnitario).padStart(8)} = ${money(i.valorTotal).padStart(9)}`),
+    lin,
+    `TOTAL: ${money(o.valorFinal)}`.padStart(40),
+    lin,
+    o.observacoes||'',
+    '',
+    'Obrigada pela preferência!',
+    'Confira suas peças na retirada.',
+    `Impressão: ${new Date().toLocaleString('pt-BR')}`
+  ].join('\n');
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   TABLES helpers
+═══════════════════════════════════════════════════════════════════ */
+function tblRols(rows,actions=false){
+  if(!rows?.length) return `<p class="muted">Nenhuma venda.</p>`;
+  return `<table>
+    <thead><tr><th>Número</th><th>Cliente</th><th>Status</th><th>Entrada</th><th>Promessa</th><th>Total</th>${actions?'<th>Ações</th>':''}</tr></thead>
+    <tbody>${rows.map(x=>`<tr>
+      <td><b>${esc(numVenda(x.numero))}</b></td>
+      <td>${esc(x.clienteNome)}</td>
+      <td><span class="badge ${x.status}">${x.status}</span></td>
+      <td>${fdate(x.dataEntrada)}</td>
+      <td>${fdate(x.dataPromessa)}</td>
+      <td>${money(x.valorFinal)}</td>
+      ${actions?`<td class="row"><button class="btn sm" onclick="abrirRolModal(${x.id})">Abrir</button><button class="btn sm" onclick="imprimirRol(${x.id})" title="Reimprimir recibo">🖨</button></td>`:''}
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function tblItens(itens,ctx){
+  if(!itens?.length) return `<p class="muted">Nenhuma peça adicionada.</p>`;
+  return `<table>
+    <thead><tr><th>Descrição</th><th>Detalhes</th><th>Qtd</th><th>Unit.</th><th>Total</th>${ctx?'<th></th>':''}</tr></thead>
+    <tbody>${itens.map(i=>`<tr>
+      <td><b>${esc(i.descricao)}</b>${i.localizacao?`<br><span class="muted" style="font-size:11px">📍${esc(i.localizacao)}</span>`:''}<br>${i.observacao?`<span class="muted" style="font-size:11px">${esc(i.observacao)}</span>`:''}${i.obs2?`<span class="muted" style="font-size:11px"> / ${esc(i.obs2)}</span>`:''}</td>
+      <td class="muted">${[i.tipoTecido,i.cor,i.marca,i.defeito].filter(Boolean).map(esc).join(' / ')||'—'}</td>
+      <td>${i.quantidade}</td>
+      <td>${money(i.valorUnitario)}</td>
+      <td>${money(i.valorTotal)}${i.valorTerceiro?`<br><span style="font-size:11px;color:var(--warn)">Terc:${money(i.valorTerceiro)}</span>`:''}</td>
+      ${ctx?`<td><button class="btn sm danger" onclick="removerItemVenda('${ctx.base}',${ctx.id},${i.id})" title="Remover peça">✕</button></td>`:''}
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   MODAL helpers
+═══════════════════════════════════════════════════════════════════ */
+let _dlgBtns=[];
+function dlg(title,body,btns=[]){
+  _dlgBtns=btns;
+  $('dlg').innerHTML=`
+    <div class="dlgh">
+      <h3>${esc(title)}</h3>
+      <button class="btn sm" onclick="closeDlg()">✕ Fechar</button>
+    </div>
+    <div class="dlgb">${body}</div>
+    ${btns.length?`<div class="dlgf">${btns.map((b,i)=>`<button class="btn ${b.cls||''}" data-bi="${i}">${esc(b.txt)}</button>`).join('')}</div>`:''}`;
+  $('mover').classList.add('on');
+  btns.forEach((b,i)=>{
+    const el=document.querySelector(`[data-bi="${i}"]`);
+    if(el) el.onclick=()=>{ b.fn().catch(e=>toast(e.message)); };
+  });
+}
+function closeDlg(){clearInterval(window._pixTimer);clearInterval(window._licPixTimer);$('mover').classList.remove('on');$('dlg').innerHTML=''}
+
+/* ════════════════════════════════════════════════════════════════════
+   CATÁLOGOS
+═══════════════════════════════════════════════════════════════════ */
+let _catTipo='defeito';
+async function vCatalogos(){
+  await loadCatalogos();
+  const tipos=['defeito','cor','tipo_tecido','localizacao','processo','fornecedor','tingimento_servico','tingimento_tipo'];
+  const tipoLabel={'defeito':'Defeitos','cor':'Cores','tipo_tecido':'Tipos de Tecido','localizacao':'Localizações','processo':'Processos','fornecedor':'Fornecedores','tingimento_servico':'Serviços Tingimento','tingimento_tipo':'Tipos de Tinta'};
+  const items=S._cats[_catTipo]||[];
+  pg().innerHTML=`
+  <div class="tabs">
+    ${tipos.map(t=>`<button class="tab${_catTipo===t?' on':''}" onclick="_catTipo='${t}';vCatalogos()">${tipoLabel[t]||t}</button>`).join('')}
+  </div>
+  <div class="card mt">
+    <h2>${tipoLabel[_catTipo]||_catTipo}</h2>
+    <div class="g3 mt">
+      <div class="fld"><label>Código</label><input id="catCod" placeholder="Ex: D10"></div>
+      <div class="fld"><label>Descrição</label><input id="catDesc" placeholder="Descrição…"></div>
+      <button class="btn primary" style="align-self:flex-end" onclick="addCatalogo()">+ Adicionar</button>
+    </div>
+    <table class="mt">
+      <thead><tr><th>Código</th><th>Descrição</th><th></th></tr></thead>
+      <tbody>${items.map(c=>`<tr>
+        <td>${esc(c.codigo)}</td><td>${esc(c.descricao)}</td>
+        <td><button class="btn sm danger" onclick="delCatalogo(${c.id})">✕</button></td>
+      </tr>`).join('')||'<tr><td colspan="3" class="muted">Nenhum item.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+async function addCatalogo(){
+  const cod=$('catCod').value.trim(), desc=$('catDesc').value.trim();
+  if(!cod||!desc) return toast('Código e descrição obrigatórios');
+  await api('/catalogos',{method:'POST',body:JSON.stringify({tipo:_catTipo,codigo:cod,descricao:desc})});
+  toast('Adicionado'); $('catCod').value=''; $('catDesc').value='';
+  await loadCatalogos(); vCatalogos();
+}
+
+async function delCatalogo(id){
+  await api('/catalogos/'+id,{method:'DELETE'}); toast('Removido');
+  await loadCatalogos(); vCatalogos();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   INDENIZAÇÕES
+═══════════════════════════════════════════════════════════════════ */
+async function vIndenizacoes(){
+  const rows=await api('/indenizacoes');
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Nova indenização</h2>
+    <div class="g3">
+      <div class="fld"><label>Cliente</label><select id="indCli">${cliOpts()}</select></div>
+      <div class="fld"><label>Venda (número) — opcional</label><input id="indRol" placeholder="Ex: ROL000123"></div>
+      <div class="fld"><label>Valor (R$)</label><input id="indVal" type="number" step="0.01" value="0"></div>
+    </div>
+    <div class="fld"><label>Descrição da peça / ocorrência *</label><input id="indDesc" placeholder="Ex: Calça rasgada durante processo de lavagem"></div>
+    <div class="fld"><label>Motivo</label><input id="indMot"></div>
+    <div class="fld"><label>Observação</label><textarea id="indObs" style="min-height:48px"></textarea></div>
+    <button class="btn primary" onclick="salvarIndenizacao()">Registrar indenização</button>
+  </div>
+  <div class="card mt">
+    <h2>Indenizações registradas</h2>
+    <table>
+      <thead><tr><th>Data</th><th>Cliente</th><th>Descrição</th><th>Valor</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody>${(rows||[]).map(x=>`<tr>
+        <td>${fdate(x.createdAt)}</td>
+        <td>${esc(x.clienteNome)}</td>
+        <td>${esc(x.descricao)}${x.rolNumero?`<br><span class="muted" style="font-size:11px">${esc(x.rolNumero)}</span>`:''}</td>
+        <td>${money(x.valor)}</td>
+        <td><span class="badge ${x.status}">${x.status}</span></td>
+        <td class="row">
+          ${x.status==='aberta'?`<button class="btn sm ok" onclick="atualizarInden(${x.id},'negociando')">Negociar</button>
+          <button class="btn sm warn" onclick="atualizarInden(${x.id},'paga')">Paga</button>
+          <button class="btn sm danger" onclick="atualizarInden(${x.id},'cancelada')">Cancelar</button>`:''}
+        </td>
+      </tr>`).join('')||'<tr><td colspan="6" class="muted">Nenhuma.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+async function salvarIndenizacao(){
+  const desc=$('indDesc').value.trim();
+  if(!$('indCli').value||!desc) return toast('Cliente e descrição obrigatórios');
+  await api('/indenizacoes',{method:'POST',body:JSON.stringify({
+    clienteId:Number($('indCli').value), osId:null, descricao:desc,
+    valor:Number($('indVal').value||0),
+    motivo:$('indMot').value||null, observacao:$('indObs').value||null
+  })});
+  toast('Indenização registrada'); vIndenizacoes();
+}
+
+async function atualizarInden(id,status){
+  await api(`/indenizacoes/${id}`,{method:'PUT',body:JSON.stringify({status,motivo:null,observacao:null})});
+  toast('Status atualizado'); vIndenizacoes();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   GUARDA-ROUPA
+═══════════════════════════════════════════════════════════════════ */
+let _grStatus='guardado';
+async function vGuardaroupa(){
+  const rows=await api('/guardaroupa?status='+_grStatus);
+  const locOpts=(S._cats?.localizacao||[]).map(c=>`<option value="${esc(c.descricao)}">`).join('');
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Guardar peças do cliente</h2>
+    <div class="g4">
+      <div class="fld"><label>Cliente</label><select id="grCli">${cliOpts()}</select></div>
+      <div class="fld"><label>Descrição da peça *</label><input id="grDesc" placeholder="Ex: Terno azul marinho"></div>
+      <div class="fld"><label>Categoria</label><input id="grCat" placeholder="Roupa social, Casual…"></div>
+      <div class="fld"><label>Quantidade</label><input id="grQtd" type="number" value="1" min="1"></div>
+    </div>
+    <div class="g4 mt">
+      <div class="fld"><label>Cor</label><input id="grCor" list="dlCorGR"><datalist id="dlCorGR">${locOpts}</datalist></div>
+      <div class="fld"><label>Marca</label><input id="grMar"></div>
+      <div class="fld"><label>Localização</label><input id="grLoc" list="dlLocGR"><datalist id="dlLocGR">${locOpts}</datalist></div>
+      <div class="fld"><label>Observação</label><input id="grObs"></div>
+    </div>
+    <button class="btn primary" onclick="salvarGuardaroupa()">Guardar peças</button>
+  </div>
+  <div class="card mt">
+    <div class="tabs">
+      <button class="tab${_grStatus==='guardado'?' on':''}" onclick="_grStatus='guardado';vGuardaroupa()">Guardado</button>
+      <button class="tab${_grStatus==='retirado'?' on':''}" onclick="_grStatus='retirado';vGuardaroupa()">Retirado</button>
+    </div>
+    <table>
+      <thead><tr><th>Data</th><th>Cliente</th><th>Peça</th><th>Qtd</th><th>Local</th><th>Status</th><th></th></tr></thead>
+      <tbody>${(rows||[]).map(x=>`<tr>
+        <td>${fdate(x.dataEntrada)}</td>
+        <td>${esc(x.clienteNome)}</td>
+        <td><b>${esc(x.descricao)}</b>${x.cor?` · ${esc(x.cor)}`:''}${x.marca?` · ${esc(x.marca)}`:''}</td>
+        <td>${x.quantidade}</td>
+        <td>${esc(x.localizacao||'—')}</td>
+        <td><span class="badge ${x.status}">${x.status}</span></td>
+        <td>${x.status==='guardado'?`<button class="btn sm ok" onclick="retirarGuardaroupa(${x.id})">Retirar</button>`:''}</td>
+      </tr>`).join('')||'<tr><td colspan="7" class="muted">Nenhum item.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+async function salvarGuardaroupa(){
+  if(!$('grCli').value||!$('grDesc').value.trim()) return toast('Cliente e descrição obrigatórios');
+  await api('/guardaroupa',{method:'POST',body:JSON.stringify({
+    clienteId:Number($('grCli').value), descricao:$('grDesc').value.trim(),
+    categoria:$('grCat').value||null, cor:$('grCor').value||null, marca:$('grMar').value||null,
+    quantidade:Number($('grQtd').value||1), localizacao:$('grLoc').value||null,
+    observacao:$('grObs').value||null
+  })});
+  toast('Peças guardadas'); vGuardaroupa();
+}
+
+async function retirarGuardaroupa(id){
+  await api(`/guardaroupa/${id}/retirar`,{method:'POST',body:'{}'}); toast('Marcado como retirado'); vGuardaroupa();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   TERCEIRIZAÇÃO
+═══════════════════════════════════════════════════════════════════ */
+let _tercStatus='';
+async function vTerceirizacao(){
+  const qs=_tercStatus?'?status='+_tercStatus:'';
+  const rows=await api('/terceirizacao'+qs);
+  const fornOpts=(S._cats?.fornecedor||[]).map(c=>`<option value="${esc(c.descricao)}">`).join('');
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Enviar para terceiro</h2>
+    <div class="g3">
+      <div class="fld"><label>Fornecedor / Terceiro *</label><input id="tercForn" list="dlForn"><datalist id="dlForn">${fornOpts}</datalist></div>
+      <div class="fld"><label>Venda (número) — opcional</label><input id="tercRol" placeholder="Deixe vazio se não vinculado a uma venda"></div>
+      <div class="fld"><label>Valor cobrado (R$)</label><input id="tercVal" type="number" step="0.01" value="0"></div>
+    </div>
+    <div class="fld"><label>Descrição do serviço *</label><input id="tercDesc"></div>
+    <div class="g2 mt">
+      <div class="fld"><label>Retorno previsto</label><input id="tercRet" type="date" value="${plusD(7)}"></div>
+      <div class="fld"><label>Observação</label><input id="tercObs"></div>
+    </div>
+    <button class="btn primary" onclick="salvarTerc()">Enviar para terceiro</button>
+  </div>
+  <div class="card mt">
+    <div class="tabs">
+      <button class="tab${_tercStatus===''?' on':''}" onclick="_tercStatus='';vTerceirizacao()">Todos</button>
+      <button class="tab${_tercStatus==='enviado'?' on':''}" onclick="_tercStatus='enviado';vTerceirizacao()">Enviados</button>
+      <button class="tab${_tercStatus==='recebido'?' on':''}" onclick="_tercStatus='recebido';vTerceirizacao()">Recebidos</button>
+    </div>
+    <table>
+      <thead><tr><th>Data envio</th><th>Fornecedor</th><th>Serviço</th><th>Venda</th><th>Valor</th><th>Retorno prev.</th><th>Status</th><th></th></tr></thead>
+      <tbody>${(rows||[]).map(x=>`<tr>
+        <td>${fdate(x.dataEnvio)}</td>
+        <td>${esc(x.fornecedor)}</td>
+        <td>${esc(x.descricao)}</td>
+        <td>${esc(x.rolNumero||'—')}</td>
+        <td>${money(x.valor)}</td>
+        <td>${fdate(x.dataRetornoPrevista)}</td>
+        <td><span class="badge ${x.status}">${x.status}</span></td>
+        <td>${x.status==='enviado'?`<button class="btn sm ok" onclick="receberTerc(${x.id})">Recebido</button>`:''}</td>
+      </tr>`).join('')||'<tr><td colspan="8" class="muted">Nenhum.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+async function salvarTerc(){
+  const forn=$('tercForn').value.trim(), desc=$('tercDesc').value.trim();
+  if(!forn||!desc) return toast('Fornecedor e descrição obrigatórios');
+  await api('/terceirizacao',{method:'POST',body:JSON.stringify({
+    osId:null, fornecedor:forn, descricao:desc,
+    valor:Number($('tercVal').value||0),
+    dataRetornoPrevista:$('tercRet').value||null, observacao:$('tercObs').value||null
+  })});
+  toast('Enviado para terceiro'); vTerceirizacao();
+}
+
+async function receberTerc(id){
+  await api(`/terceirizacao/${id}/receber`,{method:'POST',body:'{}'}); toast('Marcado como recebido'); vTerceirizacao();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   FIDELIDADE / PONTOS
+═══════════════════════════════════════════════════════════════════ */
+async function vFidelidade(){
+  let _fidCli='';
+  pg().innerHTML=`
+  <div class="card">
+    <h2>Consultar pontos do cliente</h2>
+    <div class="g2">
+      <div class="fld"><label>Cliente</label><select id="fidCli" onchange="consultarFidelidade(this.value)">${cliOpts()}</select></div>
+      <div class="grow"></div>
+    </div>
+    <div id="fidInfo"></div>
+  </div>`;
+}
+
+async function consultarFidelidade(cliId){
+  if(!cliId){$('fidInfo').innerHTML='';return}
+  const r=await api(`/clientes/${cliId}/fidelidade`);
+  $('fidInfo').innerHTML=`
+  <div class="stat mt"><small>Pontos acumulados</small><b>${r.pontos||0} pts</b></div>
+  <div class="g3 mt">
+    <div class="fld"><label>Pontos</label><input id="fidPts" type="number" step="1" value="10" min="1"></div>
+    <div class="fld"><label>Tipo</label><select id="fidTipo">
+      <option value="ganho">Ganho (acréscimo)</option>
+      <option value="resgate">Resgate (desconto)</option>
+      <option value="ajuste">Ajuste manual</option>
+      <option value="vencimento">Vencimento</option>
+    </select></div>
+    <div class="fld"><label>Referência / Venda</label><input id="fidRef" placeholder="Ex: ROL000123"></div>
+  </div>
+  <div class="fld"><label>Observação</label><input id="fidObs"></div>
+  <button class="btn primary" onclick="lancarPontos(${cliId})">Lançar pontos</button>
+  <div class="card mt">
+    <h2>Histórico de pontos</h2>
+    <table>
+      <thead><tr><th>Data</th><th>Pontos</th><th>Tipo</th><th>Referência</th><th>Usuário</th></tr></thead>
+      <tbody>${(r.movimentos||[]).map(m=>`<tr>
+        <td>${fdate(m.createdAt)}</td>
+        <td style="color:${m.tipo==='resgate'||m.tipo==='vencimento'?'var(--bad)':'var(--ok)'};font-weight:700">${m.tipo==='resgate'||m.tipo==='vencimento'?'-':'+'} ${m.pontos}</td>
+        <td>${esc(m.tipo)}</td>
+        <td>${esc(m.referencia||m.observacao||'—')}</td>
+        <td>${esc(m.usuario)}</td>
+      </tr>`).join('')||'<tr><td colspan="5" class="muted">Sem histórico.</td></tr>'}</tbody>
+    </table>
+  </div>`;
+}
+
+async function lancarPontos(cliId){
+  await api(`/clientes/${cliId}/fidelidade/pontos`,{method:'POST',body:JSON.stringify({
+    pontos:Number($('fidPts').value||10), tipo:$('fidTipo').value,
+    referencia:$('fidRef').value||null, observacao:$('fidObs').value||null
+  })});
+  toast('Pontos lançados'); consultarFidelidade(cliId);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   DOAÇÕES (peças não retiradas)
+═══════════════════════════════════════════════════════════════════ */
+let _doacaoStatus='pendente';
+async function vDoacoes(){
+  const rows=await api(`/doacoes${_doacaoStatus?`?status=${_doacaoStatus}`:''}`);
+  pg().innerHTML=`
+  <div class="tabs">
+    ${['pendente','doado','cancelado',''].map(s=>`<button class="tab${_doacaoStatus===s?' on':''}" onclick="_doacaoStatus='${s}';vDoacoes()">${s||'Todos'}</button>`).join('')}
+  </div>
+  <div class="card mt">
+    <h2>Registrar doação de peça não retirada</h2>
+    <div class="g3">
+      <div class="fld"><label>Cliente</label><select id="doCli">${cliOpts()}</select></div>
+      <div class="fld"><label>Venda vinculada (opcional)</label><input id="doRol" type="number" placeholder="ID interno da venda"></div>
+      <div class="fld"><label>Valor estimado (R$)</label><input id="doVal" type="number" step="0.01" value="0"></div>
+    </div>
+    <div class="fld mt"><label>Descrição da(s) peça(s)</label><input id="doDesc" placeholder="Ex: Calça jeans azul, camisa branca M"></div>
+    <div class="fld mt"><label>Observação</label><input id="doObs"></div>
+    <button class="btn primary mt" onclick="registrarDoacao()">Registrar doação</button>
+  </div>
+  <div class="card mt">
+    <h2>Doações ${_doacaoStatus||'(todas)'}</h2>
+    ${rows.length===0?'<p class="muted">Nenhum registro.</p>':`<table>
+      <thead><tr><th>ID</th><th>Cliente</th><th>Venda</th><th>Descrição</th><th>Valor</th><th>Data</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody>${rows.map(d=>`<tr>
+        <td>${d.id}</td>
+        <td>${esc(d.clienteNome||d.clienteId)}</td>
+        <td>${d.osNumero?esc(d.osNumero):'—'}</td>
+        <td>${esc(d.descricao)}</td>
+        <td>${money(d.valor)}</td>
+        <td>${fdate(d.dataDoacao)}</td>
+        <td><span class="badge ${d.status==='doado'?'paga':d.status==='cancelado'?'cancelada':'aberta'}">${d.status}</span></td>
+        <td class="row">
+          ${d.status==='pendente'?`<button class="btn sm ok" onclick="confirmarDoacao(${d.id})">Confirmar</button>
+          <button class="btn sm danger" onclick="cancelarDoacao(${d.id})">Cancelar</button>`:'—'}
+        </td>
+      </tr>`).join('')}</tbody>
+    </table>`}
+  </div>`;
+}
+
+async function registrarDoacao(){
+  const cliId=$('doCli').value;
+  if(!cliId) return toast('Selecione um cliente');
+  const desc=$('doDesc').value.trim();
+  if(!desc) return toast('Informe a descrição da peça');
+  const osIdRaw=$('doRol').value.trim();
+  const osId=osIdRaw?Number(osIdRaw):null;
+  await api('/doacoes',{method:'POST',body:JSON.stringify({
+    clienteId:Number(cliId), osId, descricao:desc,
+    valor:parseFloat($('doVal').value)||0, observacao:$('doObs').value||null
+  })});
+  toast('Doação registrada'); vDoacoes();
+}
+
+async function setCoverageStatus(id,status,sel){
+  if(!status){return}
+  try{
+    await api(`/legacy/coverage/${id}/status`,{method:'POST',body:JSON.stringify({status,observacao:null})});
+    toast('Status atualizado'); vLegado();
+  }catch(e){toast('Erro: '+e.message); sel.value='';}
+}
+
+async function confirmarDoacao(id){
+  await api(`/doacoes/${id}/confirmar`,{method:'POST'});
+  toast('Doação confirmada'); vDoacoes();
+}
+
+async function cancelarDoacao(id){
+  const motivo=prompt('Motivo do cancelamento:');
+  if(motivo===null) return;
+  await api(`/doacoes/${id}/cancelar`,{method:'POST',body:JSON.stringify({motivo})});
+  toast('Doação cancelada'); vDoacoes();
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   ENERGIA (reboot / desligar)
+═══════════════════════════════════════════════════════════════════ */
+async function pwrAcao(acao){
+  const label=acao==='reboot'?'Reiniciar':'Desligar';
+  const msg=acao==='reboot'
+    ?'O sistema será reiniciado. A sessão será encerrada.'
+    :'O sistema será desligado. Confirme somente ao final do expediente.';
+  dlg(`Confirmar: ${label}`,`<p style="padding:8px 0">${esc(msg)}</p>`,
+  [{txt:`Sim, ${label}`,cls:acao==='reboot'?'warn':'danger',fn:async()=>{
+    const r=await api(`/admin/${acao}`,{method:'POST'});
+    closeDlg();
+    toast(r.msg||`${label} solicitado…`,5000);
+  }}]);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   BARRA DE CONEXÕES — Chromium / Wi-Fi-Cabo / Impressoras
+═══════════════════════════════════════════════════════════════════ */
+async function abrirNavegador(){
+  try{
+    const r=await api('/sistema/navegador/abrir',{method:'POST',body:JSON.stringify({})});
+    toast(r.msg||'Abrindo navegador…');
+  }catch(e){ toast('Não foi possível abrir o navegador: '+e.message,4000); }
+}
+
+async function atualizarNetInd(){
+  const el=$('netInd'); if(!el) return;
+  try{
+    const r=await api('/sistema/rede');
+    const conectado=d=>d&&d.conexao&&d.conexao!=='--';
+    const eth=(r.dispositivos||[]).find(d=>d.tipo==='ethernet');
+    const wf=(r.dispositivos||[]).find(d=>d.tipo==='wifi');
+    const ip=(conectado(eth)&&eth.ip)||(conectado(wf)&&wf.ip)||'';
+    el.innerHTML=`<span class="dot ${conectado(eth)?'on':'off'}"></span>&nbsp;Cabo&nbsp;&nbsp;<span class="dot ${conectado(wf)?'on':'off'}"></span>&nbsp;Wi-Fi${ip?`&nbsp;&nbsp;<span class="muted">${esc(ip)}</span>`:''}`;
+  }catch{ el.textContent='rede indisponível'; }
+}
+
+async function dlgRede(){
+  const [status,wifi]=await Promise.all([
+    api('/sistema/rede').catch(e=>({disponivel:false,erro:e.message,dispositivos:[]})),
+    api('/sistema/rede/wifi').catch(e=>({disponivel:false,erro:e.message,redes:[]}))
+  ]);
+  const conectado=d=>d&&d.conexao&&d.conexao!=='--';
+  const eth=(status.dispositivos||[]).find(d=>d.tipo==='ethernet');
+  const wf=(status.dispositivos||[]).find(d=>d.tipo==='wifi');
+  const redes=wifi.redes||[];
+  dlg('Rede — Wi-Fi e Cabo',`
+  ${!status.disponivel?`<p style="color:var(--bad);margin-bottom:10px">Gerenciador de rede indisponível: ${esc(status.erro||'')}</p>`:''}
+  <div class="g2">
+    <div class="stat"><small>Cabo (Ethernet)</small><b style="color:${conectado(eth)?'var(--ok)':'var(--bad)'}">${eth?(conectado(eth)?'Conectado — '+esc(eth.conexao):'Sem conexão'):'Não detectado'}</b>${conectado(eth)&&eth.ip?`<div class="muted" style="font-size:12px;margin-top:2px">IP: ${esc(eth.ip)}</div>`:''}</div>
+    <div class="stat"><small>Wi-Fi</small><b style="color:${conectado(wf)?'var(--ok)':'var(--bad)'}">${wf?(conectado(wf)?'Conectado — '+esc(wf.conexao):'Sem conexão'):'Não detectado'}</b>${conectado(wf)&&wf.ip?`<div class="muted" style="font-size:12px;margin-top:2px">IP: ${esc(wf.ip)}</div>`:''}</div>
+  </div>
+  <button class="btn mt" onclick="renovarCabo()">🔌 Renovar conexão a cabo</button>
+  <hr class="sep">
+  <div class="row" style="justify-content:space-between;align-items:center">
+    <h3 style="font-size:14px">Redes Wi-Fi disponíveis</h3>
+    <button class="btn sm" onclick="dlgRede()">↻ Atualizar</button>
+  </div>
+  <table class="mt"><thead><tr><th>Rede</th><th>Sinal</th><th>Segurança</th><th></th></tr></thead>
+  <tbody>${redes.length?redes.map(r=>`<tr>
+    <td>${esc(r.ssid)}${r.conectada?' <span class="badge paga">conectada</span>':''}</td>
+    <td>${esc(r.sinal)}%</td><td>${esc(r.seguranca||'aberta')}</td>
+    <td><button class="btn sm" onclick='promptWifi(${JSON.stringify(r.ssid)},${JSON.stringify(r.seguranca||"")})'>${r.conectada?'Reconectar':'Conectar'}</button></td>
+  </tr>`).join(''):`<tr><td colspan="4" class="muted">${status.disponivel?'Nenhuma rede encontrada.':'—'}</td></tr>`}</tbody></table>`,
+  []);
+}
+
+function promptWifi(ssid,seguranca){
+  const temSenha=!!(seguranca&&seguranca!=='--');
+  dlg('Conectar Wi-Fi',`
+  <p class="muted">Rede: <b>${esc(ssid)}</b></p>
+  ${temSenha?`<div class="fld mt"><label>Senha</label><input id="wfSenha" type="password"></div>`:'<p class="mt">Rede aberta, sem senha.</p>'}`,
+  [{txt:'Conectar',cls:'primary',fn:async()=>{
+    const senha=temSenha?($('wfSenha')?.value||''):'';
+    if(temSenha&&!senha){ toast('Informe a senha'); return; }
+    const r=await api('/sistema/rede/wifi/conectar',{method:'POST',body:JSON.stringify({ssid,senha})});
+    toast(r.msg||'Conectado'); closeDlg(); atualizarNetInd();
+  }}]);
+}
+
+async function renovarCabo(){
+  try{
+    const r=await api('/sistema/rede/cabo/renovar',{method:'POST',body:'{}'});
+    toast(r.msg||'Conexão renovada'); atualizarNetInd(); dlgRede();
+  }catch(e){ toast('Erro ao renovar conexão a cabo: '+e.message,4000); }
+}
+
+async function dlgImpressoras(){
+  const r=await api('/sistema/impressoras').catch(e=>({disponivel:false,erro:e.message,instaladas:[],impressoraA4:'',impressoraTermica:'',larguraTermica:'42'}));
+  const lst=r.instaladas||[];
+  const optImp=sel=>`<option value="">— nenhuma —</option>`+lst.map(p=>`<option value="${esc(p.nome)}" ${p.nome===sel?'selected':''}>${esc(p.nome)}${p.ativa?'':' (inativa)'}</option>`).join('');
+  const largura=String(r.larguraTermica||'42');
+  const optLargura=[['32','58mm (32 colunas)'],['42','80mm padrão (42 colunas)'],['48','80mm largo (48 colunas)']]
+    .map(([v,lbl])=>`<option value="${v}" ${v===largura?'selected':''}>${lbl}</option>`).join('');
+  dlg('Configuração de Impressoras',`
+  ${!r.disponivel?`<p style="color:var(--bad);margin-bottom:10px">Serviço de impressão (CUPS) indisponível: ${esc(r.erro||'')}</p>`:''}
+  <div class="g2">
+    <div class="fld"><label>Impressora A4 (recibos / relatórios)</label>
+      <select id="impA4">${optImp(r.impressoraA4)}</select>
+      <button class="btn sm mt" onclick="testarImpressora('a4')">🖨 Testar</button>
+    </div>
+    <div class="fld"><label>Impressora térmica (cupom)</label>
+      <select id="impTerm">${optImp(r.impressoraTermica)}</select>
+      <button class="btn sm mt" onclick="testarImpressora('termica')">🖨 Testar</button>
+    </div>
+  </div>
+  <div class="fld mt">
+    <label>Tamanho do papel (impressora térmica)</label>
+    <select id="impLargura">${optLargura}</select>
+  </div>
+  <p class="muted mt" style="font-size:12px">Impressoras instaladas via CUPS. Se a lista estiver vazia, cadastre-as no painel do sistema (localhost:631) e clique em Atualizar.</p>
+  <button class="btn sm mt" onclick="dlgImpressoras()">↻ Atualizar lista</button>`,
+  [{txt:'Salvar',cls:'primary',fn:salvarImpressoras}]);
+}
+
+async function salvarImpressoras(){
+  await api('/sistema/impressoras/config',{method:'PUT',body:JSON.stringify({
+    impressoraA4:$('impA4').value, impressoraTermica:$('impTerm').value, larguraTermica:$('impLargura').value
+  })});
+  toast('Impressoras configuradas'); closeDlg();
+}
+
+async function testarImpressora(tipo){
+  const nome=tipo==='a4'?$('impA4')?.value:$('impTerm')?.value;
+  if(!nome){ toast('Selecione uma impressora primeiro'); return; }
+  try{
+    const r=await api(`/sistema/impressoras/${encodeURIComponent(nome)}/testar?tipo=${tipo}`,{method:'POST'});
+    toast(r.msg||'Teste enviado para a impressora');
+  }catch(e){ toast('Erro no teste de impressão: '+e.message,4000); }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   KEYBOARD
+═══════════════════════════════════════════════════════════════════ */
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&['r','w','t','n'].includes(e.key.toLowerCase())){e.preventDefault();return}
+  if(e.key==='Escape'){e.preventDefault();closeDlg();return}
+  if(e.key==='F2'){e.preventDefault();go('nova-rol');return}
+  if(e.key==='F4'){e.preventDefault();const v=$('iVu');if(v){v.focus();v.select();toast('F4 — editar valor')}return}
+  if(e.key==='F7'){e.preventDefault();if(S.rolId)dlgPagar(S.rolId,S.rolVal);else toast('Abra uma venda primeiro');return}
+  if(e.key==='F8'){e.preventDefault();if(S.rolId)imprimirRol(S.rolId);else toast('Abra uma venda primeiro');return}
+  if(e.key==='F10'){e.preventDefault();closeDlg();return}
+  if(e.key==='F11'){e.preventDefault();go('legado');return}
+});
+document.addEventListener('contextmenu',e=>e.preventDefault());
+
+/* ── Start ─────────────────────────────────────────────────────── */
+boot();
+</script>
+</body>
+</html>

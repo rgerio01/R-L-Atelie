@@ -1,0 +1,17 @@
+[
+  {
+    "id": "sqlite_unavailable",
+    "severity": "high",
+    "allowed_env": "homologation"
+  },
+  {
+    "id": "network_down",
+    "severity": "medium",
+    "allowed_env": "homologation"
+  },
+  {
+    "id": "printer_unavailable",
+    "severity": "high",
+    "allowed_env": "homologation"
+  }
+]

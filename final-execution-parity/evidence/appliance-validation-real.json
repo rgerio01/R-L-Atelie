@@ -1,0 +1,10 @@
+{
+  "gate": "appliance",
+  "status": "NO-GO",
+  "validated": false,
+  "critical_divergences": null,
+  "evidence_files": [],
+  "operator": null,
+  "validated_at": null,
+  "notes": "Preencher somente apos execucao real. Nao marcar validated=true sem evidencia anexada."
+}

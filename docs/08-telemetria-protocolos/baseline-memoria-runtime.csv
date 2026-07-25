@@ -1,0 +1,7 @@
+﻿Executavel,Amostras,WorkingSetInicialMB,WorkingSetFinalMB,WorkingSetPicoMB,PrivateMemoryPicoMB,ThreadsPico,HandlesPico,DuracaoSegundos,SaiuSozinho,CodigoSaida,ObservacoesRede,ObservacoesFilhos
+Estoque.exe,11,5.22,37.75,37.75,10.02,12,486,12.2,False,,9,0
+Financeiro.exe,11,4.96,21.06,21.06,4.77,6,245,12.03,False,,0,0
+Gerenciador.exe,11,5.33,20.41,20.41,22.95,6,232,12.02,False,,0,0
+LavFacilLan.exe,11,4.97,51.16,51.16,16.14,10,475,12.15,False,,9,0
+LavSoft.exe,1,5.06,5.06,5.06,1.48,2,90,1.35,True,-1073741515,0,0
+LavSoft.exe,19,5.98,19.44,19.44,6.73,6,257,20.99,False,,0,18

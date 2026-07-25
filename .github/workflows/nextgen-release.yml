@@ -1,0 +1,91 @@
+# Workflow de release da Atelie da Luci PDV
+name: nextgen-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Semantic version, for example v1.0.0"
+        required: true
+      channel:
+        description: "stable, beta, homolog or appliance"
+        required: true
+        default: homolog
+      platform:
+        description: "windows, linux or appliance"
+        required: true
+        default: windows
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    environment: homolog
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Validate gates
+        run: |
+          python apps/tools/security_secret_scan.py
+          python apps/tools/final_execution_parity_engine.py
+          python apps/tools/auto_management_engine.py
+          python apps/tools/release_gate.py --channel "${{ github.event.inputs.channel }}"
+      - name: Build release asset (dotnet publish real, nao so codigo-fonte)
+        run: |
+          mkdir -p dist release publish-out
+          case "${{ github.event.inputs.platform }}" in
+            appliance|linux) RID=linux-x64 ;;
+            windows)         RID=win-x64 ;;
+            *) echo "Plataforma desconhecida: ${{ github.event.inputs.platform }}"; exit 1 ;;
+          esac
+          dotnet publish apps/backend/EquipeExe.Mod.Api \
+            --configuration Release --runtime "$RID" --self-contained true \
+            --output publish-out -p:PublishSingleFile=false
+          tar -czf "dist/atelie-nextgen-${{ github.event.inputs.platform }}-${{ github.event.inputs.version }}.tar.gz" -C publish-out .
+      - name: Sign assets when key is configured
+        env:
+          MINISIGN_PRIVATE_KEY: ${{ secrets.MINISIGN_PRIVATE_KEY }}
+        run: |
+          if [ -n "${MINISIGN_PRIVATE_KEY:-}" ]; then
+            echo "$MINISIGN_PRIVATE_KEY" > minisign.key
+            chmod 600 minisign.key
+            if command -v minisign >/dev/null 2>&1; then
+              minisign -S -s minisign.key -m dist/*
+            else
+              echo "minisign unavailable; signing key configured but tool missing"
+              exit 1
+            fi
+          else
+            echo "Signing key not configured — release sai sem assinatura (o updater aceita isso, so nao verifica autenticidade do binario alem do sha256)."
+          fi
+      - name: Generate manifest and checksums
+        run: |
+          ASSET="dist/atelie-nextgen-${{ github.event.inputs.platform }}-${{ github.event.inputs.version }}.tar.gz"
+          URL="https://github.com/${{ github.repository }}/releases/download/${{ github.event.inputs.version }}/$(basename "$ASSET")"
+          python apps/tools/generate_release_manifest.py \
+            --version "${{ github.event.inputs.version }}" \
+            --channel "${{ github.event.inputs.channel }}" \
+            --platform "${{ github.event.inputs.platform }}" \
+            --asset "$ASSET" \
+            --release-url "$URL" \
+            --out-dir release
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          prerelease: ${{ github.event.inputs.channel != 'stable' }}
+          body_path: release/release-notes.md
+          files: |
+            dist/*
+            release/update-manifest.json
+            release/latest.json
+            release/checksums.txt
+            release/changelog.md
+            release/release-notes.md

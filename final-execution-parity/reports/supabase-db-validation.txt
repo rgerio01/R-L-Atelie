@@ -1,0 +1,54 @@
+ check_name | current_user | current_database 
+------------+--------------+------------------
+ connection | postgres     | postgres
+(1 linha)
+
+ codigo  | meses | valor_bruto | desconto | valor_final 
+---------+-------+-------------+----------+-------------
+ 30_DIAS |     1 |      350.00 |     0.00 |      350.00
+(1 linha)
+
+ codigo  | meses | valor_bruto | desconto | valor_final 
+---------+-------+-------------+----------+-------------
+ 3_MESES |     3 |     1050.00 |    52.50 |      997.50
+(1 linha)
+
+ codigo  | meses | valor_bruto | desconto | valor_final 
+---------+-------+-------------+----------+-------------
+ 6_MESES |     6 |     2100.00 |   168.00 |     1932.00
+(1 linha)
+
+  codigo  | meses | valor_bruto | desconto | valor_final 
+----------+-------+-------------+----------+-------------
+ 12_MESES |    12 |     4200.00 |   420.00 |     3780.00
+(1 linha)
+
+BEGIN
+CREATE TABLE
+INSERT 0 1
+         check_name          | count 
+-----------------------------+-------
+ transaction_before_rollback |     1
+(1 linha)
+
+ROLLBACK
+  check_name  | count 
+--------------+-------
+ tables_count |    33
+(1 linha)
+
+    check_name     | count 
+-------------------+-------
+ rls_enabled_count |    33
+(1 linha)
+
+  check_name   | count 
+---------------+-------
+ indexes_count |    55
+(1 linha)
+
+   check_name   | count 
+----------------+-------
+ triggers_count |    69
+(1 linha)
+

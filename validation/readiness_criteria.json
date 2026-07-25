@@ -1,0 +1,19 @@
+{
+  "blockers": [
+    "critical_divergence",
+    "rollback_not_tested",
+    "audit_disabled",
+    "backup_missing",
+    "recovery_not_tested"
+  ],
+  "scores": {
+    "operational": 0,
+    "consistency": 0,
+    "print": 0,
+    "runtime": 0,
+    "sqlite": 0,
+    "ownership": 0,
+    "rollback": 0,
+    "recovery": 0
+  }
+}

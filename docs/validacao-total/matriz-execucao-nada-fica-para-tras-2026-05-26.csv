@@ -1,0 +1,31 @@
+Prioridade,Area,Item,OrigemEvidencia,StatusAtual,AcaoObrigatoria
+P0,Impressao,Layout ROL com 2 vias,EquLav00001.Ini QdeViasRol=2; ModeloRol=24-Mecaf-IM423-TS-003,NO-GO,Implementar motor de impressao ROL fiel e validar em impressora
+P0,Impressao,Pagamento com 1 via,EquLav00001.Ini QdeViasPag=1; ImpPagamento=\\DESKTOP-KRCPB44\rolss,NO-GO,Implementar layout pagamento e quantidade de vias
+P0,Impressao,Etiqueta Argox PPLB,Argox.ini; TipoEti=ARGOXRABBIT214; ModeloFitas=26-Argox PPLB,NO-GO,Implementar gerador PPLB e envio para impressora/porta/rede
+P0,ROL,Atalho F7 pagamento,EquLav00001.Ini HabF7Pagto=1,PARCIAL,Adicionar atalho F7 e fluxo igual ao legado
+P0,ROL,Alteracao de preco F4,EquLav00001.Ini F4AlteraPreco=2,NO-GO,Implementar regra de alteracao de preco com permissao/senha
+P0,ROL,Menu lancamento F2,EquLav00001.Ini ChkBox_F2MenLan=1,NO-GO,Adicionar atalho F2 e tela/menu de lancamento
+P0,ROL,Motivo obrigatorio desconto,EquLav00001.Ini ObrigMotDesc=1,NO-GO,Bloquear desconto sem motivo e auditar usuario
+P0,ROL,Horario limite e entrega por dia,EquLav00001.Ini HorEnt/HorLim/HorEnt1..7,NO-GO,Calcular promessa por dia/horario/sabado/domingo
+P0,Permissoes,Permissao por rotina/menu,Nivel.DB; mapa-permissoes-ui-consolidado.csv 144 permissoes,NO-GO,Criar matriz de permissoes por operacao e aplicar na UI/API
+P0,UI,Gate visual,final-execution-parity/evidence/ui-parity-evidence.json,NO-GO,Capturar telas do legado e comparar com nova UI
+P0,Impressao,Gate impressao,final-execution-parity/evidence/print-parity-evidence.json,NO-GO,Anexar evidencias reais de impressao antes de GO
+P1,Estoque,Cadastro produto estoque,ProdEst; CadEst; TabProdEst; Estoque.exe 318 menus,NO-GO,Implementar CRUD produto estoque e vinculo com servico/produto operacional
+P1,Estoque,Movimento estoque,MovEst; MovEstLan; MovEstCan; MovEstEnc,NO-GO,Implementar entrada baixa cancelamento encerramento
+P1,Financeiro,Duplicatas e titulos,Duplicat; Titulos; Boletos; DupBoleto,NO-GO,Implementar contas receber/pagar/boletos/titulos
+P1,Financeiro,Faturamento e notas,Notas; NotaFisPag; NotComp,NO-GO,Implementar faturamento por ROL/cliente/periodo
+P1,Relatorios,Movimento analitico/sintetico,menus-submenus-identificados.md; matriz-relatorios.csv,PARCIAL,Implementar relatorios equivalentes com filtros
+P1,Relatorios,Previsao entrega e relatorio entrega,EquLav00001.Ini secoes Previsao de Entrega/Relatorio para Entrega,PARCIAL,Replicar filtros/ordenacao/agrupamento
+P1,Relatorios,Comissao ROL/Pagamento,menus-submenus-identificados.md,NO-GO,Implementar regras e relatorios de comissao
+P1,Relatorios,Pontos entregues,MovPontos.DB; secao Pontos Entregues,NO-GO,Implementar controle de pontos e relatorio
+P1,Operacional,Localizacao por peca,CadLocPec.DB; MovLocRol.DB,NO-GO,Implementar localizacao/controle por peca
+P1,Operacional,Retirada e saida,MovRetirada.DB; MovSaida.DB; MovRetiradaItem.DB; MovSaidaItem.DB,NO-GO,Implementar fluxo retirada/saida por peca
+P1,Operacional,Terceirizacao,MovTerc.DB; MovTercPec.DB; MOVTERCEIRIZA INI,NO-GO,Implementar terceirizacao e comissao
+P1,Operacional,Processamento por maquina,ProcesMaqMovCab.DB; ProcesMaqMovItem.DB,NO-GO,Implementar controle de processamento/maquina
+P2,Fiscal,SAT,SAT.exe 342 menus; dependencias BemaSAT/BemaFI,NO-GO,Implementar modulo fiscal SAT separado
+P2,Fiscal,NFE/RPS,NFE.exe 119 menus; secao [NFE] EquLav00001.Ini,NO-GO,Implementar parametros NFE/RPS e emissao/consulta/cancelamento
+P2,Sync,Nuvem e comunicacao externa,GeraNuvem=1; conexao 191.6.218.152:80 observada,NO-GO,Classificar substituir ou bloquear sync legado
+P2,Admin,Gerenciador,Gerenciador.exe; menus download upload tarefas logs opcoes,NO-GO,Implementar painel admin equivalente
+P2,Hardware,Balanca,Secao [BALANCA] EquLav00001.Ini,NO-GO,Implementar leitura configuravel de balanca se hardware existir
+P2,Hardware,Biometria,AtivaBiometria=0; dependencias NBioBSP,NO-GO,Decidir/implementar biometria ou registrar descarte formal
+P2,Comunicacao,SMS email mala direta,Secoes SMS; CB_EnviaEmailAuto; Mala Direta Remetente,NO-GO,Implementar comunicacoes ou descarte formal

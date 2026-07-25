@@ -1,0 +1,14 @@
+{
+  "version": "v0.1.0",
+  "channel": "homolog",
+  "platform": "windows",
+  "release_url": "https://github.com/rgerio01/Luci_atelie/releases/download/v0.1.0/atelie-nextgen-windows-v0.1.0.zip",
+  "asset_name": "atelie-nextgen-windows-v0.1.0.zip",
+  "sha256": "PENDING_PIPELINE_GENERATION",
+  "signature": "atelie-nextgen-windows-v0.1.0.zip.sig",
+  "signature_url": "https://github.com/rgerio01/Luci_atelie/releases/download/v0.1.0/atelie-nextgen-windows-v0.1.0.zip.sig",
+  "minimum_supported_version": "v0.1.0",
+  "migration_required": false,
+  "rollback_supported": true,
+  "release_date": "2026-05-24"
+}

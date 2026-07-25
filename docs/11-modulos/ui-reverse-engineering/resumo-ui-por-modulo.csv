@@ -1,0 +1,8 @@
+﻿Executavel,TextosTelaAcao,MenusAcoes,LayoutsTPF0,VinculosBancoSQL,DominiosPrincipais,AcoesPrincipais,ProximaValidacao
+Estoque,1749,318,18,153,operacional/outro; cadastro; lavanderia/rol; estoque/produto; fiscal,abrir/executar; criar/cadastrar; relatorio/imprimir; consultar; excluir/cancelar,captura dinamica tela-a-tela no runtime MOD
+Financeiro,972,288,0,34,cadastro; lavanderia/rol; operacional/outro; auth/permissao; financeiro/caixa,abrir/executar; criar/cadastrar; relatorio/imprimir; processar/fechar; excluir/cancelar,captura dinamica tela-a-tela no runtime MOD
+Gerenciador,197,31,0,0,lavanderia/rol; sync/update/api; cadastro; operacional/outro; financeiro/caixa,sincronizar/atualizar; abrir/executar; processar/fechar; criar/cadastrar; excluir/cancelar,captura dinamica tela-a-tela no runtime MOD
+LavFacilLan,5576,237,174,275,lavanderia/rol; operacional/outro; cadastro; financeiro/caixa; estoque/produto,abrir/executar; criar/cadastrar; relatorio/imprimir; processar/fechar; excluir/cancelar,captura dinamica tela-a-tela no runtime MOD
+LavSoft,6781,601,329,144,lavanderia/rol; operacional/outro; cadastro; estoque/produto; financeiro/caixa,abrir/executar; criar/cadastrar; relatorio/imprimir; processar/fechar; excluir/cancelar,captura dinamica tela-a-tela no runtime MOD
+NFE,776,119,0,16,lavanderia/rol; operacional/outro; fiscal; cadastro; financeiro/caixa,abrir/executar; criar/cadastrar; excluir/cancelar; relatorio/imprimir; consultar,captura dinamica tela-a-tela no runtime MOD
+SAT,2673,342,0,122,fiscal; cadastro; lavanderia/rol; operacional/outro; auth/permissao,abrir/executar; criar/cadastrar; relatorio/imprimir; excluir/cancelar; sincronizar/atualizar,captura dinamica tela-a-tela no runtime MOD

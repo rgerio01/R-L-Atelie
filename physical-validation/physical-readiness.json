@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-05-24T02:32:12.877945+00:00",
+  "overall": "NO-GO",
+  "gates": {
+    "hardware": "NO-GO",
+    "printer": "NO-GO",
+    "bluetooth": "NO-GO",
+    "appliance": "NO-GO",
+    "restore": "NO-GO",
+    "recovery": "NO-GO",
+    "rollback": "NO-GO",
+    "runtime_replay": "NO-GO",
+    "shadow_execution": "NO-GO",
+    "chaos": "NO-GO"
+  },
+  "reason": "Physical evidence is required before approval.",
+  "required_evidence": [
+    "Dell hardware inventory",
+    "printer physical test",
+    "Bluetooth physical test",
+    "VM appliance boot",
+    "Dell appliance boot",
+    "restore execution",
+    "rollback execution",
+    "recovery execution"
+  ]
+}

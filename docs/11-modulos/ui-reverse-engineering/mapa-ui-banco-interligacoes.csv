@@ -1,0 +1,758 @@
+﻿Executavel,Form,TableName,DatabaseName,FieldName,DataSource,DataSet,TrechoSQLouTexto,OperacaoInferida,Confianca
+LavSoft,,,,,,,and (EXTRACT(MONTH FROM DatNas) =,consulta,baixa-media
+LavSoft,,,,,,,And (EXTRACT(MONTH FROM C.DatNas) =,consulta,baixa-media
+LavSoft,,,,,,,and (EXTRACT(YEAR FROM DatNas) > 1900),consulta,baixa-media
+LavSoft,,,,,,,"From """,consulta,baixa-media
+LavSoft,,,,,,,"From """,consulta,baixa-media
+LavSoft,,,,,,,"From "":",consulta,baixa-media
+LavSoft,,,,,,,"Select * from """,consulta,baixa-media
+LavSoft,,,,,,,"Select * from "":",consulta,baixa-media
+LavSoft,,,,,,,"SELECT COUNT(CODVEN) AS QUANTIDADE FROM """,consulta,baixa-media
+LavSoft,,,,,,,"Select D.CodDef, D.DesDef",consulta,baixa-media
+LavSoft,,,,,,,"Select D.CodDef, D.DesDef, DG.CodDef, DG.GruPro",consulta,baixa-media
+LavSoft,,,,,,,"Select FP.CodFatPre, FP.DesFatPre",consulta,baixa-media
+LavSoft,,,,,,,"Select FP.CodFatPre, FP.DesFatPre, FG.CodFatPre, FG.GruPro, FG.Fator, FG.Promocao",consulta,baixa-media
+LavSoft,,,,,,,"Select MA.CodMar, MA.DesMar, MA.Cancelado",consulta,baixa-media
+LavSoft,,,,,,,"Select MA.CodMar, MA.DesMar, MA.Cancelado, MG.CodMar, MG.GruPro",consulta,baixa-media
+LavSoft,,,,,,,"-Select * From ""C:\Equipexe\Lav\Filial\MovCab""",consulta,baixa-media
+LavSoft,,,,,,,",from ""c:\EquipExe\Lav\Filial\movcab"" M,",consulta,baixa-media
+LavSoft,,,,,,,",from ""c:\EquipExe\Lav\Filial\NotFis"" N,",consulta,baixa-media
+LavSoft,,,,,,,",Select * From 'C:\EquipExe\Ger\Dados\LogSis'",consulta,baixa-media
+LavSoft,,,,,,,".select * from ""z:\equipexe\ger\filial\cheque1""",consulta,baixa-media
+LavSoft,,,,,,,"'from ""c:\EquipExe\Lav\Filial\Notas""N,",consulta,baixa-media
+LavSoft,,,,,,,")from ""c:\EquipExe\Pag\Filial\Titulos"" T",consulta,baixa-media
+LavSoft,,,,,,,"*from ""c:\EquipExe\Lav\Filial\MovItem"" I,",consulta,baixa-media
+LavSoft,,,,,,,"*from ""c:\EquipExe\Lav\Filial\Notas"" N,",consulta,baixa-media
+LavSoft,,,,,,,"*from ""c:\EquipExe\Rec\Filial\Duplicat"" D",consulta,baixa-media
+LavSoft,,,,,,,"*Select*From""C:\EquipExe\Lav\Filial\MovCab""",consulta,baixa-media
+LavSoft,,,,,,,"/Select * From ""C:\EquipExe\Lav\Dados\TabPro"" T,",consulta,baixa-media
+LavSoft,,,,,,,"/Select * from ""C:\EquipExe\Lav\Filial\MovCab"" M",consulta,baixa-media
+LavSoft,,,,,,,"0Select * from ""c:\EquipExe\Ger\Dados\Clientes"" C",consulta,baixa-media
+LavSoft,,,,,,,"1Select * From 'c:\Equipexe\Lav\Filial\MovItem' I,",consulta,baixa-media
+LavSoft,,,,,,,"5Select * From ""c:\EquipExe\Lav\Filial\MovItem"" I,",consulta,baixa-media
+LavSoft,,,,,,,"5Select * From ""C:\EquipExe\Rec\Filial\Duplicat.Db"" D,",consulta,baixa-media
+LavSoft,,,,,,,Attempt to mix objs from diff ses,consulta,baixa-media
+LavSoft,,,,,,,"C.TelCli2 = (SELECT T.TelCli2 from """,consulta,baixa-media
+LavSoft,,,,,,,"C.TelCli3 = (SELECT T.TelCli3 from """,consulta,baixa-media
+LavSoft,,,,,,,Delete all selected records?,escrita/controle,baixa-media
+LavSoft,,,,,,,Delete from ',consulta,baixa-media
+LavSoft,,,,,,,"Delete From """,consulta,baixa-media
+LavSoft,,,,,,,"digo, NomFor as Fornecedor From """,consulta,baixa-media
+LavSoft,,,,,,,"digo, NomFor as Fornecedor From "":",consulta,baixa-media
+LavSoft,,,,,,,"Duplicate CardId found""An error returned from DDE ($0%x)/DDE Error - conversation not established ($0%x)0Error occurred when DDE ran out of memory ($0%x)""Unable to connect DDE conversation",consulta,baixa-media
+LavSoft,,,,,,,"Edit Report...1Component requires a later version of ReportSmith(Unable to obtain Version details from %s""Unable to load ReportSmith DLL: %s2The requested Reportsmith file '%s' does not exist",consulta,baixa-media
+LavSoft,,,,,,,"Filtros - Fecha, Limpa e Coloca Select na Query",consulta,baixa-media
+LavSoft,,,,,,,"from "":",consulta,baixa-media
+LavSoft,,,,,,,"From """,consulta,baixa-media
+LavSoft,,,,,,,"From "":",consulta,baixa-media
+LavSoft,,,,,,,"From """,consulta,baixa-media
+LavSoft,,,,,,,"from "":",consulta,baixa-media
+LavSoft,,,,,,,"From """,consulta,baixa-media
+LavSoft,,,,,,,"From "":",consulta,baixa-media
+LavSoft,,,,,,,"From """,consulta,baixa-media
+LavSoft,,,,,,,"From "":",consulta,baixa-media
+LavSoft,,,,,,,"from""",consulta,baixa-media
+LavSoft,,,,,,,"Invalid field registration7Field '%s', from the Detail Fields list, must be linked",consulta,baixa-media
+LavSoft,,,,,,,"Invalid variant type or size7Must select at least one key field and one update field1Update SQL statements not generated, exit anyway?&Unable to determine field names for %s",consulta,baixa-media
+LavSoft,,,,,,,Select,consulta,baixa-media
+LavSoft,,,,,,,"Select P.*, I.Rol, M.Rol, I.CodPro, R.CodPro, M.CodPas, P.CodPas,",consulta,baixa-media
+LavSoft,,,,,,,"Select (O.Rol)as Entrada, (O.CodCli) as Cliente, O.DatLan,O.DatEnt,O.NumOS, O.RolOrc, O.Cancelado,OI.Rol, (OI.CodPro)as CodPro, OI.SeqPro, OI.Quantidade, OI.CodLoc, (OI.Peso)as PesoEnt,C.CodCli, C.Unidade,C.EndCli,C.NomCli,M.Rol ,(M.DatLan)",consulta,baixa-media
+LavSoft,,,,,,,"Select (O.Rol)as Entrada, (O.CodCli) as Cliente, O.DatLan,O.DatEnt,O.NumOS, O.RolOrc, O.Cancelado,OI.Rol, (OI.CodPro)as CodPro, OI.SeqPro, OI.Quantidade, OI.CodLoc, OI.CodCor, (OI.Peso)as PesoEnt,C.CodCli, C.Unidade,C.EndCli,C.NomCli,P.CodP",consulta,baixa-media
+LavSoft,,,,,,,Select *,consulta,baixa-media
+LavSoft,,,,,,,Select *,consulta,baixa-media
+LavSoft,,,,,,,"Select * From """,consulta,baixa-media
+LavSoft,,,,,,,"Select * From "":",consulta,baixa-media
+LavSoft,,,,,,,Select * From,consulta,baixa-media
+LavSoft,,,,,,,Select * From,consulta,baixa-media
+LavSoft,,,,,,,"Select * From """,consulta,baixa-media
+LavSoft,,,,,,,"Select * From "":",consulta,baixa-media
+LavSoft,,,,,,,Select * from ',consulta,baixa-media
+LavSoft,,,,,,,"Select * From """,consulta,baixa-media
+LavSoft,,,,,,,"Select * From "":",consulta,baixa-media
+LavSoft,,,,,,,"Select * From ""C:\EquipExe\Importa\TrocaPro.Dbf""",consulta,baixa-media
+LavSoft,,,,,,,Select * from movcab,consulta,baixa-media
+LavSoft,,,,,,,select * from MovSaida,consulta,baixa-media
+LavSoft,,,,,,,Select a Date,consulta,baixa-media
+LavSoft,,,,,,,"Select C.*, extract( day from C.datnas) As DiaAniver,extract( Month from C.datnas) As MesAniver From """,consulta,baixa-media
+LavSoft,,,,,,,"Select C.*, extract( day from C.datnas) As DiaAniver,extract( Month from C.datnas) As MesAniver From "":",consulta,baixa-media
+LavSoft,,,,,,,"Select C.CodCli,Max(M.DatLan),C.NomCli, C.EndCli, C.TelCli, C.Unidade, C.Contato From """,consulta,baixa-media
+LavSoft,,,,,,,"Select C.CodCli,Max(M.DatLan),C.NomCli, C.EndCli, C.TelCli, C.Unidade, C.Contato From "":",consulta,baixa-media
+LavSoft,,,,,,,"SELECT C.CodVen , SUM(T.ValTitPag) as ValPag from",consulta,baixa-media
+LavSoft,,,,,,,"SELECT C.NomCli ,C.CodCli ,C.DatCad ,AVG(M.ValTot)as MediaPorRol, SUM(M.ValTot)as total,",consulta,baixa-media
+LavSoft,,,,,,,"Select CL.DatPas,M.CodPro,CL.CodPas,Count (M.CodPro) as TotPecas",consulta,baixa-media
+LavSoft,,,,,,,"SELECT CodCli, Sum(Quant_Real) as Total, AVG(MedLan) as MedLan, NomCli FROM """,consulta,baixa-media
+LavSoft,,,,,,,"SELECT CodCli, Sum(Quant_Real) as Total, AVG(MedLan) as MedLan, NomCli FROM "":",consulta,baixa-media
+LavSoft,,,,,,,"Select CodFatPre as Codigo, DesFatPre as Descricao",consulta,baixa-media
+LavSoft,,,,,,,"SELECT CodFil as Codigo, NomFil as Filial FROM """,consulta,baixa-media
+LavSoft,,,,,,,"Select CodFil as Codigo, NomFil as Nome From",consulta,baixa-media
+LavSoft,,,,,,,Select CodFor as C,consulta,baixa-media
+LavSoft,,,,,,,"Select CodFor as Codigo, NomFor as Nome From",consulta,baixa-media
+LavSoft,,,,,,,"Select CodigoTPV as Codigo, DescTPV as Descricao, Obs",consulta,baixa-media
+LavSoft,,,,,,,"Select CodPro as Codigo, DesPro as Descricao",consulta,baixa-media
+LavSoft,,,,,,,"Select CodPro, Sum(MI.QdeSi) as Quant, Sum(MI.KG) as Peso",consulta,baixa-media
+LavSoft,,,,,,,"Select CodPro, Sum(MI.Quantidade) as Quant, Sum(MI.Peso) as Peso",consulta,baixa-media
+LavSoft,,,,,,,"Select CodPro,DesPro,Marca,CodCar,CodDef,GruPro,SeqPro,Rol,CodCli,NomCli,CodTipEnt,Identif,DatEnt,CodPas,NomPas,EndPas,CidPas,EstPas,CodCor,Quantidade,TipCom,ValCom,PreFinal,TipoControle,Pontos",consulta,baixa-media
+LavSoft,,,,,,,"Select CodPro,DesPro,Marca,CodCar,CodDef,GruPro,SeqPro,Rol,CodCli,NomCli,CodTipEnt,Identif,DatEnt,CodPas,NomPas,EndPas,CidPas,EstPas,CodCor,Quantidade,TipCom,ValCom,PreFinal,TipoControle,Pontos",consulta,baixa-media
+LavSoft,,,,,,,"Select CodSerLav as Codigo, DesSerLav as Descricao,SeqPro as Seq From """,consulta,baixa-media
+LavSoft,,,,,,,"Select CodSerTer, DatLan From """,consulta,baixa-media
+LavSoft,,,,,,,"Select CodTab as Codigo, DesTab as Descricao From",consulta,baixa-media
+LavSoft,,,,,,,"Select CodTab,CodPro From """,consulta,baixa-media
+LavSoft,,,,,,,"Select CodUsuario as Codigo, NomUsuario as Nome From",consulta,baixa-media
+LavSoft,,,,,,,"Select Count(DatEnt) as Total From """,consulta,baixa-media
+LavSoft,,,,,,,Select Count(Rol) as TotRol From,consulta,baixa-media
+LavSoft,,,,,,,"Select datemi, Sum(faturado) as faturado, Sum(rols) as rols, Sum(pecas) as pecas from",consulta,baixa-media
+LavSoft,,,,,,,Select Directory,consulta,baixa-media
+LavSoft,,,,,,,"SELECT Distinct(I.CodSerTer) as Terceirizacao, F.NomFor as Fornecedor FROM",consulta,baixa-media
+LavSoft,,,,,,,"Select extract( day from C.datnas) As DiaAniver,extract( Month from C.datnas) As MesAniver , C.* From """,consulta,baixa-media
+LavSoft,,,,,,,"Select extract( day from C.datnas) As DiaAniver,extract( Month from C.datnas) As MesAniver , C.* From "":",consulta,baixa-media
+LavSoft,,,,,,,"Select GruPro as Codigo, DesGruPro as Descricao",consulta,baixa-media
+LavSoft,,,,,,,Select GruSerLav As Grupo From,consulta,baixa-media
+LavSoft,,,,,,,"Select GruSerLav From """,consulta,baixa-media
+LavSoft,,,,,,,"Select I.Rol,I.Quantidade,I.CodPro,I.SeqPro,P.CodPro,G.GruPro,I.PreFinal From """,consulta,baixa-media
+LavSoft,,,,,,,"Select I.Rol,I.Quantidade,I.CodPro,I.SeqPro,P.CodPro,T.CodTab,I.PreFinal,M.CodTab,M.Rol From """,consulta,baixa-media
+LavSoft,,,,,,,"Select L.CodLoc as Local, L.Rol, p.DesPro as Descri",consulta,baixa-media
+LavSoft,,,,,,,"Select M.*,C.* ,V.* ,P.*,T.*, B.CodTipTab, R.CodTipTab, R.CodTab",consulta,baixa-media
+LavSoft,,,,,,,"Select M.*,N.*,C.CodCli,C.EndCli,C.NomCli",consulta,baixa-media
+LavSoft,,,,,,,"Select M.CodCli,",consulta,baixa-media
+LavSoft,,,,,,,"Select M.CodSerTer as Controle, M.DatLan as Data,",consulta,baixa-media
+LavSoft,,,,,,,"Select M.ROL, M.CODCLI, M.CODVEN, M.CODTAB, M.CODTIPSER, M.CODTIPENT , M.NUMGR, M.NUMOS, M.DATLAN, M.DATENT, M.VALTOT, M.TOTPECAS, M.POSICAO, M.NUMNOT, M.NUMNOTADI, M.UNIDADE, M.CODUSUARIO, M.DESCONTOROL, M.DESCONTOVALOR, M.CANCELADO, M.HOR",consulta,baixa-media
+LavSoft,,,,,,,"Select M.ROL, M.DATLAN, M.DATENT, M.DATENTROL, M.POSICAO, M.HORLAN, M.HORENT, M.HORENTROL, M.NUMGR, M.NUMOS, M.CODCLI, M.CODVEN, M.CODCONF, M.CODTIPSER, M.CANCELADO, M.SITROL, M.CODCONF, M.VALTOT, M.UNIDADE, M.CODLOC, M.TOTPECAS, M.CODTAB, ",consulta,baixa-media
+LavSoft,,,,,,,"Select MC.DatPas,M.CodPro,MC.CodPas,Count (M.CodPro) as TotPecas",consulta,baixa-media
+LavSoft,,,,,,,"Select MC.DatPas,M.CodPro,MC.CodPas,M.Quantidade as TotPecas",consulta,baixa-media
+LavSoft,,,,,,,"select MovCab.RolOrc, MovCab.Rol, MovCab.DatLan, MovItem.CodPro, MovItem.FatPre01, MovItem.Quantidade from",consulta,baixa-media
+LavSoft,,,,,,,select MovEstLan.Quantidade from,consulta,baixa-media
+LavSoft,,,,,,,"Select MV.CodVen, MV.ROL, GP.GruPro, MV.CodPro, MV.SeqPro, MV.Data, MV.CodFaiCom,MV.ValPro, FC.DesFaiCom, FC.TipFaiCom,FC.ValCom MV.Taxa, MV.ValMat, MV.Quantidade,MV.ValFaiCom, MC.ROL,MC.Cancelado,MC.NumNotAdi,MC.NumNot,MC.ValTot, GP.DesGru",consulta,baixa-media
+LavSoft,,,,,,,"Select NumNot, DatEmi, Obs, ValNot From """,consulta,baixa-media
+LavSoft,,,,,,,"Select NumNot, DatEmi, Obs, ValNot From "":",consulta,baixa-media
+LavSoft,,,,,,,"select OrcCab.RolOrc, OrcCab.Rol, OrcCab.DatLan, OrcItem.CodPro, OrcItem.FatPre01, OrcItem.Quantidade from",consulta,baixa-media
+LavSoft,,,,,,,"Select P.DesPro,M.CenCusCli,P.GruPro,I.Rol,I.CodPro,I.CodLoc,I.Obs,I.FatPre01,",consulta,baixa-media
+LavSoft,,,,,,,"Select Rol,CodPro,SeqPro, CodSerTer, Sum(ValorTerc) as Valor From",consulta,baixa-media
+LavSoft,,,,,,,"Select Rol,CodPro,SeqPro, Sum(PreFinal) as PreFinal From """,consulta,baixa-media
+LavSoft,,,,,,,"Select Rol,CodPro,SeqPro, Sum(PreFinalSer) as PreFinal From """,consulta,baixa-media
+LavSoft,,,,,,,"Select Rol,CodPro,SeqPro,CodSerTer,Identif,Quantidade, Sum(ValorTerc) as Valor From",consulta,baixa-media
+LavSoft,,,,,,,"Select Seq, Data, Valor, Cancelado From",consulta,baixa-media
+LavSoft,,,,,,,"Select Seq,CodPro From """,consulta,baixa-media
+LavSoft,,,,,,,"Select Seq,CodPro,SeqPro From """,consulta,baixa-media
+LavSoft,,,,,,,"Select SeqFin as Seq, Histor, TipLan as Tipo From",consulta,baixa-media
+LavSoft,,,,,,,"Select SeqRetira, CodCli, DatRet, HorRet, NomCli, Status, EndCli",consulta,baixa-media
+LavSoft,,,,,,,"Select Sum(I.Quantidade) as TotQde From """,consulta,baixa-media
+LavSoft,,,,,,,"Select Sum(ValDup) as Total, CodCli From """,consulta,baixa-media
+LavSoft,,,,,,,"Select Sum(ValDup) as Total, CodCli From "":",consulta,baixa-media
+LavSoft,,,,,,,Select Sum(ValNot) as Total From,consulta,baixa-media
+LavSoft,,,,,,,"Select Sum(ValTot) as Total From """,consulta,baixa-media
+LavSoft,,,,,,,"select T.CodFor, T.CodSerTer, T.DatBaixa, P.DesPro, P.ComForTer, P.TipoControle, F.NomFor, T.DatLan, M.DatEntRol, T.DatPrevEnt,CodPro,SeqPro,",consulta,baixa-media
+LavSoft,,,,,,,"select T.CodFor, T.CodSerTer, T.DatBaixa, P.DesPro, P.ComForTer, P.TipPagTer, P.TipoControle, F.NomFor, T.DatLan, M.DatEntRol, T.DatPrevEnt,CodPro,SeqPro,",consulta,baixa-media
+LavSoft,,,,,,,"select TabPro.CodTab, TabPro.CodPro, Produt.DesPro, TabPro.PreUniVen, TabProLim.QdeLim, TabProLim.QdeAcu, TabProLim.MesAno from",consulta,baixa-media
+LavFacilLan,,,,,,,And (EXTRACT(MONTH FROM C.DatNas) =,consulta,baixa-media
+LavFacilLan,,,,,,,d.description AS REMARKS FROM pg_class c,consulta,baixa-media
+LavFacilLan,,,,,,,From,consulta,baixa-media
+LavFacilLan,,,,,,,"From """,consulta,baixa-media
+LavFacilLan,,,,,,,"From "":",consulta,baixa-media
+LavFacilLan,,,,,,,"From """,consulta,baixa-media
+LavFacilLan,,,,,,,"From """,consulta,baixa-media
+LavFacilLan,,,,,,,"from """,consulta,baixa-media
+LavFacilLan,,,,,,,"From "":",consulta,baixa-media
+LavFacilLan,,,,,,,FROM %s M,consulta,baixa-media
+LavFacilLan,,,,,,,"FROM pg_catalog.pg_namespace n, pg_catalog.pg_class ct, pg_catalog.pg_class ci, pg_catalog.pg_attribute a, pg_catalog.pg_index i",consulta,baixa-media
+LavFacilLan,,,,,,,"FROM pg_catalog.pg_namespace n, pg_catalog.pg_class ct, pg_catalog.pg_class ci, pg_catalog.pg_index i, pg_catalog.pg_attribute a, pg_catalog.pg_am am",consulta,baixa-media
+LavFacilLan,,,,,,,"FROM pg_catalog.pg_namespace n, pg_catalog.pg_proc p",consulta,baixa-media
+LavFacilLan,,,,,,,FROM pg_catalog.pg_namespace n1 JOIN pg_catalog.pg_class c1 ON (c1.relnamespace = n1.oid) JOIN pg_catalog.pg_index i ON (c1.oid=i.indrelid) JOIN pg_catalog.pg_class ic ON (i.indexrelid=ic.oid) JOIN pg_catalog.pg_attribute a ON (ic.oid=a.att,consulta,baixa-media
+LavFacilLan,,,,,,,"FROM pg_class c1 JOIN pg_index i ON (c1.oid=i.indrelid) JOIN pg_class ic ON (i.indexrelid=ic.oid) JOIN pg_attribute a ON (ic.oid=a.attrelid), pg_class c2, pg_trigger t1 JOIN pg_proc p1 ON (t1.tgfoid=p1.oid), pg_trigger t2 JOIN pg_proc p2 ON",consulta,baixa-media
+LavFacilLan,,,,,,,"FROM pg_class ct, pg_class ci, pg_attribute a, pg_index i",consulta,baixa-media
+LavFacilLan,,,,,,,"FROM pg_class ct, pg_class ci, pg_index i, pg_attribute a, pg_am am",consulta,baixa-media
+LavFacilLan,,,,,,,FROM pg_proc p LEFT JOIN pg_description d ON (p.oid=d.objoid),consulta,baixa-media
+LavFacilLan,,,,,,,FROM pg_proc p WHERE p.proname LIKE ',consulta,baixa-media
+LavFacilLan,,,,,,,FROM RDB$DATABASE,consulta,baixa-media
+LavFacilLan,,,,,,,NULL AS REMARKS FROM pg_class c WHERE true,consulta,baixa-media
+LavFacilLan,,,,,,,"Select MC.DatLan, MC.HorLan, MC.DatEnt, MC.NumOS, MC.SitRol, MC.NumNot, MC.Cancelado, MC.Posicao, CP.Rol, CP.CodPro, CP.CodVenEst, CP.DatEst, CP.HorEst,CP.Situacao,CP.DatEst, PD.DesPro, MI.Identif, MI.CodLoc, CL.NomCli, VE.NomVen, VE.CodVen",consulta,baixa-media
+LavFacilLan,,,,,,,"Select MC.Rol, MC.Posicao, MC.DatLan, MC.DatEntRol, MC.DatEnt, MC.Unidade, MC.NumOS, MC.NumGR, MC.CodTab, MC.ValTot, MC.DescontoROL, MC.DescontoValor, MC.CodLoc as CodLocRol, MC.CodVen, MC.SitRol, MC.CodCli, MC.HorEnt, MC.CodTipEnt, MC.CenC",consulta,baixa-media
+LavFacilLan,,,,,,,"Select MC.Rol,MC.DatLan, MC.HorLan, MC.DatEnt, MC.NumOS, MC.SitRol, MC.NumNot, MC.Cancelado, MC.Posicao",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT a.RDB$RELATION_NAME, a.RDB$FIELD_NAME, a.RDB$FIELD_POSITION, a.RDB$NULL_FLAG, a.RDB$DEFAULT_VALUE, b. RDB$FIELD_LENGTH, b.RDB$FIELD_SCALE, c.RDB$TYPE_NAME, b.RDB$FIELD_TYPE, b.RDB$FIELD_SUB_TYPE, b.RDB$DESCRIPTION, b.RDB$CHARACTER_LE",consulta,baixa-media
+LavFacilLan,,,,,,,"Select DF.CodDef, DF.DesDef, DG.CodDef, DG.GruPro",consulta,baixa-media
+LavFacilLan,,,,,,,"Select FP.CodFatPre, FC.DesFatPre",consulta,baixa-media
+LavFacilLan,,,,,,,"Select FP.CodFatPre, FP.DesFatPre, FG.CodFatPre, FG.GruPro",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT I.RDB$RELATION_NAME, I.RDB$UNIQUE_FLAG, I.RDB$INDEX_NAME, ISGMT.RDB$FIELD_POSITION,",consulta,baixa-media
+LavFacilLan,,,,,,,"Select LP.DatLan, LP.CodSerLav, LP.QdePonLan, MC.Rol, MC.TotPecas",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT M.Rol, C.NomCli, M.DatLan, M.%s as OS",consulta,baixa-media
+LavFacilLan,,,,,,,"Select MA.CodMar, MA.DesMar, MA.Cancelado, MG.CodMar, MG.GruPro",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME, CASE (n.nspname LIKE 'pg\\_%') OR (n.nspname='information_schema') WHEN true THEN CASE n.nspname WHEN 'pg_catalog' THEN CASE c.relkind WHEN 'r' THEN 'SYSTEM TABLE'",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT null as TABLE_CAT, null as TABLE_SCHEM, a.RDB$RELATION_NAME as TABLE_NAME, b.RDB$FIELD_NAME as COLUMN_NAME, b.RDB$FIELD_POSITION+1 as KEY_SEQ, a.RDB$INDEX_NAME as PK_NAME FROM RDB$RELATION_CONSTRAINTS a JOIN RDB$INDEX_SEGMENTS b ON (",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT P.RDB$PROCEDURE_NAME, PP.RDB$PARAMETER_NAME, PP.RDB$PARAMETER_TYPE, F.RDB$FIELD_TYPE, F.RDB$FIELD_SUB_TYPE, F.RDB$FIELD_SCALE, F.RDB$FIELD_LENGTH, F.RDB$NULL_FLAG, PP.RDB$DESCRIPTION, F.RDB$FIELD_PRECISION, F.RDB$NULL_FLAG FROM RDB$P",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT P.RDB$PROCEDURE_NAME, PP.RDB$PARAMETER_NAME, PP.RDB$PARAMETER_TYPE, F.RDB$FIELD_TYPE, F.RDB$FIELD_SUB_TYPE, F.RDB$FIELD_SCALE, F.RDB$FIELD_LENGTH, F.RDB$NULL_FLAG, PP.RDB$DESCRIPTION, F.RDB$FIELD_SCALE as RDB$FIELD_PRECISION, F.RDB$N",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT RC_PRIM.RDB$RELATION_NAME, IS_PRIM.RDB$FIELD_NAME, RC_FOR.RDB$RELATION_NAME, IS_FOR.RDB$FIELD_NAME, IS_FOR.RDB$FIELD_POSITION, REFC_PRIM.RDB$UPDATE_RULE, REFC_PRIM.RDB$DELETE_RULE, RC_FOR.RDB$CONSTRAINT_NAME, RC_PRIM.RDB$CONSTRAINT_N",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT RDB$TYPE, RDB$TYPE_NAME FROM RDB$TYPES WHERE RDB$FIELD_NAME = 'RDB$FIELD_TYPE'",consulta,baixa-media
+LavFacilLan,,,,,,,SELECT Rol FROM MovCab M WHERE,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT t.typlen FROM pg_catalog.pg_type t, pg_catalog.pg_namespace n WHERE t.typnamespace=n.oid AND t.typname='name' AND n.nspname='pg_catalog'",consulta,baixa-media
+LavFacilLan,,,,,,,SELECT t1.typlen/t2.typlen FROM,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT typlen FROM pg_type WHERE typname='name',consulta,baixa-media
+LavFacilLan,,,,,,,SELECT typname FROM pg_catalog.pg_type,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT typname FROM pg_type,consulta,baixa-media
+LavFacilLan,,,,,,,Where C.Email = ( Select E.Email From,consulta,baixa-media
+LavFacilLan,,,,,,,"-Select * From ""C:\EquipExe\Lav\Filial\MovCab""",consulta,baixa-media
+LavFacilLan,,,,,,,"-Select * From ""S:\EquipExe\Lav\Filial\MovCab""",consulta,baixa-media
+LavFacilLan,,,,,,,",from ""c:\EquipExe\Lav\Filial\movcab"" M,",consulta,baixa-media
+LavFacilLan,,,,,,,",insert,update,delete,select,drop,create,from,set,values,where,order,group,by,having,into,as,table,index,primary,key,on,is,null,char,varchar,integer,number,",consulta,baixa-media
+LavFacilLan,,,,,,,!No Stored Procedure Name assigned<use ExecProc for Procedure; use TQuery for Select procedures,consulta,baixa-media
+LavFacilLan,,,,,,,"'from ""c:\EquipExe\Lav\Filial\Notas""N,",consulta,baixa-media
+LavFacilLan,,,,,,,") From """,consulta,baixa-media
+LavFacilLan,,,,,,,")from ""c:\EquipExe\Pag\Filial\Titulos"" T",consulta,baixa-media
+LavFacilLan,,,,,,,"*Can't write to a read-only resource streamECheckSynchronize called from thread $%x, which is NOT the main thread",consulta,baixa-media
+LavFacilLan,,,,,,,"*from ""c:\EquipExe\Lav\Filial\MovItem"" I,",consulta,baixa-media
+LavFacilLan,,,,,,,"*from ""c:\EquipExe\Rec\Filial\Duplicat"" D",consulta,baixa-media
+LavFacilLan,,,,,,,"*Select*From""C:\EquipExe\Lav\Filial\MovCab""",consulta,baixa-media
+LavFacilLan,,,,,,,"/Select * From ""C:\EquipExe\Lav\Dados\TabPro"" T,",consulta,baixa-media
+LavFacilLan,,,,,,,"0Select * From ""C:\Equipexe\Ger\Dados\Clientes"" C",consulta,baixa-media
+LavFacilLan,,,,,,,"1Select * From 'c:\Equipexe\Lav\Filial\MovItem' I,",consulta,baixa-media
+LavFacilLan,,,,,,,"ALL,AND,AS,BETWEEN,BY,CASE,CHECK,COLLATE,COMMIT,CONSTRAINT,CREATE,DEFAULT,DEFERRABLE,DELETE,DISTINCT,DROP,ELSE,EXCEPT,FOREIGN,FROM,GLOB,GROUP,HAVING,IN,INDEX,INSERT,INTERSECT,INTO,IS,ISNULL,JOIN,LIKE,LIMIT,NOT,NOTNULL,NULL,ON,OR,ORDER,PRIMA",consulta,baixa-media
+LavFacilLan,,,,,,,Auto Select,consulta,baixa-media
+LavFacilLan,,,,,,,"Cannot drag a form""An error returned from DDE ($0%x)/DDE Error - conversation not established ($0%x)0Error occurred when DDE ran out of memory ($0%x)""Unable to connect DDE conversation",consulta,baixa-media
+LavFacilLan,,,,,,,Column lists do not match8Column types don't match. (From index: %d; To index: %d)_Can't end a shared transaction unless it is forced and equal to the transaction's TimeoutAction,consulta,baixa-media
+LavFacilLan,,,,,,,"DataSource cannot be changed*Nested datasets cannot have a MasterSource0Cannot perform this operation on an open dataset""Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on a",escrita/controle,baixa-media
+LavFacilLan,,,,,,,Delete all selected records?,escrita/controle,baixa-media
+LavFacilLan,,,,,,,Delete all selected records?%Operation not allowed in a DBCtrlGrid&Control cannot be used in a DBCtrlGrid(Property already defined by lookup field/Grid requested to display more than 256 columns,escrita/controle,baixa-media
+LavFacilLan,,,,,,,"Delete From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Delete From "":",consulta,baixa-media
+LavFacilLan,,,,,,,DELETE FROM %s,consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbCadFpgData Where (Not (CodFpg is null)),consulta,baixa-media
+LavFacilLan,,,,,,,"Delete From dbClientesCompData Where (Not CodCli is null) or (Not(CodCli=""""))",consulta,baixa-media
+LavFacilLan,,,,,,,"Delete From dbClientesData Where (Not (CodCli is null)) or (Not(CodCli=""""))",consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbCoresData Where (Not (CodCor is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbDefeitoData Where (Not (CodDef is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbMovCabData Where (Not (NumOS is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbMovItemCorData Where (Not (NumOS is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbMovItemData Where (Not (NumOS is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbMovItemDefData Where (Not (NumOS is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbMovItemSerData Where (Not (NumOS is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbNotasData Where (Not (NumNot is null)),consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbNotCompData Where (Not (NumNot is null)),consulta,baixa-media
+LavFacilLan,,,,,,,"Delete From dbRolsAbertoData Where (Not (CodCli is null)) or (Not(CodCli=""""))",consulta,baixa-media
+LavFacilLan,,,,,,,Delete From dbTabCliData Where (Not (CodCli is null)),consulta,baixa-media
+LavFacilLan,,,,,,,"Delete From dbTabProData Where (Not (CodTab is null)) or (Not(CodTab=""""))",consulta,baixa-media
+LavFacilLan,,,,,,,"Delete From dbTabProSerData Where (Not (CodTab is null)) or (Not(CodTab=""""))",consulta,baixa-media
+LavFacilLan,,,,,,,"DISCONNECT FROM ""%s""",consulta,baixa-media
+LavFacilLan,,,,,,,Docked control must have a name%Error removing control from dock tree,consulta,baixa-media
+LavFacilLan,,,,,,,"ELSE NULL END END WHEN false THEN CASE c.relkind WHEN 'r' THEN 'TABLE' WHEN 'i' THEN 'INDEX' WHEN 'S' THEN 'SEQUENCE' WHEN 'v' THEN 'VIEW' ELSE NULL END ELSE NULL END AS TABLE_TYPE, d.description AS REMARKS FROM pg_catalog.pg_namespace n, p",consulta,baixa-media
+LavFacilLan,,,,,,,"Empty query3Cannot ""open"" a non-select statement. Use ExecQuery",consulta,baixa-media
+LavFacilLan,,,,,,,FROM,consulta,baixa-media
+LavFacilLan,,,,,,,From,consulta,baixa-media
+LavFacilLan,,,,,,,FROM ':,consulta,baixa-media
+LavFacilLan,,,,,,,"From """,consulta,baixa-media
+LavFacilLan,,,,,,,"From "":",consulta,baixa-media
+LavFacilLan,,,,,,,"From """,consulta,baixa-media
+LavFacilLan,,,,,,,"From "":",consulta,baixa-media
+LavFacilLan,,,,,,,FROM ',consulta,baixa-media
+LavFacilLan,,,,,,,"from """,consulta,baixa-media
+LavFacilLan,,,,,,,"From "":",consulta,baixa-media
+LavFacilLan,,,,,,,From MovCab M Left Join,consulta,baixa-media
+LavFacilLan,,,,,,,"If you load database from file, existing memory database will be cleared!",consulta,baixa-media
+LavFacilLan,,,,,,,Invalid ImageList Index)Failed to read ImageList data from stream(Failed to write ImageList data to stream,consulta,baixa-media
+LavFacilLan,,,,,,,"ISGMT.RDB$FIELD_NAME, I.RDB$INDEX_TYPE, I.RDB$SEGMENT_COUNT, COUNT (DISTINCT P.RDB$PAGE_NUMBER) FROM RDB$INDICES I JOIN RDB$INDEX_SEGMENTS ISGMT ON I.RDB$INDEX_NAME = ISGMT.RDB$INDEX_NAME JOIN RDB$RELATIONS R ON (R.RDB$RELATION_NAME = I.RDB",consulta,baixa-media
+LavFacilLan,,,,,,,method not supported$Insufficient data for Content-Length&Error reading from Mime Request Stream,consulta,baixa-media
+LavFacilLan,,,,,,,MOrder QuickReport 3.0 Professional or download free updates from our web site,consulta,baixa-media
+LavFacilLan,,,,,,,No WSDL or URL property was set in the THTTPRIO component. You must set the WSDL or URL property before invoking the Web ServiceMUnable to retrieve the URL endpoint for Service/Port '%s'/'%s' from WSDL '%s'HDatatype of TypeKind: %s not supp,consulta,baixa-media
+LavFacilLan,,,,,,,Not in edit mode-Cannot insert into dataset. (No insert query)%Cannot post. (No update/insert query) Cannot update. (No update query)-Cannot delete from dataset. (No delete query),consulta,baixa-media
+LavFacilLan,,,,,,,"o,L.Data,L.Descricao2 as Hora,L.Chave as Sequencia,L.Sequencia as Log,L.Tipo From""",consulta,baixa-media
+LavFacilLan,,,,,,,Row buffer is not assigned&Column with index %d is not accessable6Convertion is not possible for column %d from %s to %s4Can not access blob record in column %d with type %s,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT,consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.DatRet, M.HorRet,M.HorRet2,M.Obs, C.NomCli, V.CodVen , V.NomVen",consulta,baixa-media
+LavFacilLan,,,,,,,SELECT ',consulta,baixa-media
+LavFacilLan,,,,,,,SELECT ''::text AS TABLE_SCHEM ORDER BY TABLE_SCHEM,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT @@IDENTITY,consulta,baixa-media
+LavFacilLan,,,,,,,select @@rowcount,consulta,baixa-media
+LavFacilLan,,,,,,,Select *,consulta,baixa-media
+LavFacilLan,,,,,,,Select *,consulta,baixa-media
+LavFacilLan,,,,,,,Select *,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbMovitemData Where (NumOS=,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From,consulta,baixa-media
+LavFacilLan,,,,,,,"Select * From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select * From "":",consulta,baixa-media
+LavFacilLan,,,,,,,"Select * From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select * From "":",consulta,baixa-media
+LavFacilLan,,,,,,,"Select * from ""CliCredito""",consulta,baixa-media
+LavFacilLan,,,,,,,Select * from CliContato where CodCli =',consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbCadFPGData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbClientesCompData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,select * from dbClientesData,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbClientesData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbClientesData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbCoresData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbDefeitoData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbMovCabData order by NumOS,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbMovCabData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbMovItemData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbMovItemSerData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbNotasData order by UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbNotCompData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,"Select * From dbParametrosData order by CodSis, CodVar",consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbTabCliData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbTabProData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,Select * From dbTabProSerData Order By UniqueID,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT * FROM MensagensSMS where Status = :ParStatus,consulta,baixa-media
+LavFacilLan,,,,,,,Select * from movcab,consulta,baixa-media
+LavFacilLan,,,,,,,"Select 1 as Quantidade, M.CodCli, M.CodVen,M.ObsRol, M.CodConf, M.Rol, M.CodTab, M.CodTipEnt, M.CodTipSer, M.Cancelado, M.SitRol, M.HorEnt, M.DescontoRol, M.DescontoValor, M.CodUsuario, M.DatLan, M.DataCanc, M.DatEnt, M.DatEntRol, M.NumOS, ",consulta,baixa-media
+LavFacilLan,,,,,,,Select a Date,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT a.attname,a.atttypid FROM pg_catalog.pg_attribute a WHERE a.attrelid=%s ORDER BY a.attnum",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT a.RDB$RELATION_NAME, a.RDB$FIELD_NAME, a.RDB$FIELD_POSITION, a.RDB$NULL_FLAG, b. RDB$FIELD_LENGTH, b.RDB$FIELD_SCALE, c.RDB$TYPE_NAME, b.RDB$FIELD_TYPE, b.RDB$FIELD_SUB_TYPE, b.RDB$DESCRIPTION, b.RDB$CHARACTER_LENGTH, b.RDB$FIELD_SCA",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT a.RDB$USER, a.RDB$GRANTOR, a.RDB$PRIVILEGE, a.RDB$GRANT_OPTION, a.RDB$RELATION_NAME FROM RDB$USER_PRIVILEGES a, RDB$TYPES b WHERE a.RDB$OBJECT_TYPE = b.RDB$TYPE AND b.RDB$TYPE_NAME IN ('RELATION', 'VIEW', 'COMPUTED_FIELD', 'FIELD' ) ",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT a.RDB$USER, a.RDB$GRANTOR, a.RDB$PRIVILEGE, a.RDB$GRANT_OPTION, a.RDB$RELATION_NAME, a.RDB$FIELD_NAME FROM RDB$USER_PRIVILEGES a, RDB$TYPES b WHERE a.RDB$OBJECT_TYPE = b.RDB$TYPE AND",consulta,baixa-media
+LavFacilLan,,,,,,,Select AllLFatal error: Cannot create application object in a shared object or library.>Fatal error: Cannot create more than one TApplication instance,consulta,baixa-media
+LavFacilLan,,,,,,,select c.* from syscolumns c inner join sysobjects o on (o.id = c.id) where o.name = %s and c.number = %s order by colid,consulta,baixa-media
+LavFacilLan,,,,,,,"Select C.CodPacote, C.DesPacote, C.Cancelado, P.ValTotPac",consulta,baixa-media
+LavFacilLan,,,,,,,"select c.colid, c.name, c.type, c.prec, c.scale, c.colstat, c.status, c.iscomputed from syscolumns c inner join sysobjects o on (o.id = c.id) where o.name = %s order by colid",consulta,baixa-media
+LavFacilLan,,,,,,,"select c.colid, c.name, c.type, c.prec, c.scale, c.status from syscolumns c inner join sysobjects o on (o.id = c.id) where o.name = %s order by colid",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT c.host, c.db, t.grantor, c.user, c.table_name, c.column_name, c.column_priv FROM mysql.columns_priv c, mysql.tables_priv t WHERE c.host=t.host AND c.db=t.db AND c.table_name=t.table_name AND c.db='%s' AND c.table_name='%s' AND c.colu",consulta,baixa-media
+LavFacilLan,,,,,,,"Select C.NumFat, C.NumDup, C.NumNot,",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodCenCus as Codigo, DesCenCus as Descricao From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodCla as Codigo, DesCla as Descricao From """,consulta,baixa-media
+LavFacilLan,,,,,,,Select CodCli as C,consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodFil as Codigo, NomFil as Nome From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodFor as Codigo, NomFor as Nome From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodFor, NomFor From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodFpg as Codigo, DesFpg as Descricao",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodigoTPV as Codigo, DescTPV as Descricao, Obs",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodPro, DesPro, DesProTab From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodSerTer, DatLan From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodSubC as Codigo, DesSubC as Descricao From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodUsuario as Codigo, NomUsuario as Nome From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select CodVen as Codigo, NomVen as Nome From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select Count(DatEnt) as Total From """,consulta,baixa-media
+LavFacilLan,,,,,,,Select Count(Rol) as TotRol From,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT D.CodCli, D.Baixa, D.Cancelado, D.DatVen, D.ValDup, D.NumFat",consulta,baixa-media
+LavFacilLan,,,,,,,"Select D.DatDoa, D.ValDoa from """,consulta,baixa-media
+LavFacilLan,,,,,,,Select dataset,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT datname AS TABLE_CAT FROM pg_catalog.pg_database ORDER BY TABLE_CAT,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT datname AS TABLE_CAT FROM pg_database ORDER BY TABLE_CAT,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT DISTINCT (M.CODCLI),C.* FROM """,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT DISTINCT a.RDB$RELATION_NAME, b.RDB$SYSTEM_FLAG, b.RDB$VIEW_CONTEXT, a.RDB$VIEW_SOURCE FROM RDB$RELATIONS a JOIN RDB$RELATION_FIELDS b ON a.RDB$RELATION_NAME=b.RDB$RELATION_NAME",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT DISTINCT n1.nspname as pnspname,n2.nspname as fnspname,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT DISTINCT NULL::text as pnspname, NULL::text as fnspname,",consulta,baixa-media
+LavFacilLan,,,,,,,"select E.CodCli, P.CodPro, P.DesPro, E.Quant_Prev, E.Quant_Real",consulta,baixa-media
+LavFacilLan,,,,,,,"Select FisJur ,Count(FisJur) AS Fisica From """,consulta,baixa-media
+LavFacilLan,,,,,,,Select function,consulta,baixa-media
+LavFacilLan,,,,,,,Select GetDate(),consulta,baixa-media
+LavFacilLan,,,,,,,Select GruSerLav As Grupo From,consulta,baixa-media
+LavFacilLan,,,,,,,"Select GruSerLav From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select GruVen as Codigo, DesGruVen as Grupo",consulta,baixa-media
+LavFacilLan,,,,,,,"Select GS.DesGruSerLav as Grupo, Sum(MI.Quantidade) as Quantidade, Sum(MI.PreFinal) as Valor",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT host,db,table_name,grantor,user,table_priv from mysql.tables_priv WHERE db='%s' AND table_name LIKE '%s'",consulta,baixa-media
+LavFacilLan,,,,,,,"Select I.CodPro as Produto, P.DesPro as Descri",consulta,baixa-media
+LavFacilLan,,,,,,,"Select I.Rol, I.CodPro, I.SeqPro, I.CodSerLav,",consulta,baixa-media
+LavFacilLan,,,,,,,"Select L.CodLoc as Local, L.Rol, p.DesPro as Descri",consulta,baixa-media
+LavFacilLan,,,,,,,"Select L.CodVen as Vendedor,L.Descricao1 as Descri",consulta,baixa-media
+LavFacilLan,,,,,,,SELECT LAST_INSERT_ID(),consulta,baixa-media
+LavFacilLan,,,,,,,SELECT LAST_INSERT_ROWID(),consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.CodCli,",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.CodCli, M.CodVen,M.ObsRol, M.CodConf, M.Rol, M.CodTab, M.CodTipEnt, M.CodTipSer, M.Cancelado, M.SitRol, M.HorEnt, M.DescontoRol, M.DescontoValor, M.CodUsuario, M.DatLan, M.DataCanc, M.DatEnt, M.DatEntRol, M.NumOS, M.Unidade, M.NumG",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.CodPacote, M.TotValPec, M.TotValLcto, M.DatFim, M.GruPro From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.Numero, M.DatEnv, M.HorEnv, M.Status, M.Erro, M.CodErro, M.Mensagem, M.Tipo, M.Protocolo from """,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT M.Rol, M.CodCli, M.Cancelado, M.DatLan, M.ValTot, M.DescontoRol, M.DescontoValor, TotPecas, M.NumOs, M.Posicao, M.NumNot, M.NumNotAdi",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.ROl, M.CodPro, M.SeqPro, M.Quantidade",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.Rol, M.DatLan, M.CodCli, D.CodDesc, D.Desconto",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.Rol,M.Cancelado,I.CodPro,I.SeqPro,I.Identif,I.Rol",consulta,baixa-media
+LavFacilLan,,,,,,,"Select M.ValTot, M.DescontoRol, M.DescontoValor, M.NumNot, M.NumNotAdi,N.ValBasNot,",consulta,baixa-media
+LavFacilLan,,,,,,,Select MAX(,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,def.adsrc,dsc.description FROM pg_catalog.pg_namespace n JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid) JOIN pg_catalog.pg_attribute a ON (a.",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT n.nspname,c.relname,u.usename,c.relacl FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c, pg_catalog.pg_user u WHERE c.relnamespace = n.oid AND u.usesysid = c.relowner AND c.relkind = 'r'",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT n.nspname,c.relname,u.usename,c.relacl,a.attname FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_attribute a WHERE c.relnamespace = n.oid AND u.usesysid = c.relowner AND c.oid = a.attrelid A",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT n.nspname,p.proname,p.prorettype,p.proargtypes,t.typtype,t.typrelid FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_type t WHERE p.pronamespace=n.oid AND p.prorettype=t.oid",consulta,baixa-media
+LavFacilLan,,,,,,,select name as TABLE_OWNER from sysusers where islogin = 1,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT nspname AS TABLE_SCHEM FROM pg_catalog.pg_namespace WHERE nspname <> 'pg_toast' AND nspname NOT LIKE 'pg\\_temp\\_%' ORDER BY TABLE_SCHEM,consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS nspname,p.proname,p.prorettype,p.proargtypes,t.typtype,t.typrelid FROM pg_proc p, pg_type t WHERE p.prorettype=t.oid AND p.proname LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS PROCEDURE_CAT, n.nspname AS PROCEDURE_SCHEM, p.proname AS PROCEDURE_NAME, NULL AS RESERVED1, NULL AS RESERVED2, NULL AS RESERVED3, d.description AS REMARKS,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS PROCEDURE_CAT, NULL AS PROCEDURE_SCHEM, p.proname AS PROCEDURE_NAME, NULL AS RESERVED1, NULL AS RESERVED2, NULL AS RESERVED3, d.description AS REMARKS,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS PROCEDURE_CAT, NULL AS PROCEDURE_SCHEM, p.proname AS PROCEDURE_NAME, NULL AS RESERVED1, NULL AS RESERVED2, NULL AS RESERVED3, NULL AS REMARKS,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, A.OWNER AS TABLE_SCHEM, A.TABLE_NAME, B.COLUMN_NAME, B.COLUMN_POSITION AS KEY_SEQ, A.INDEX_NAME AS PK_NAME FROM ALL_INDEXES A, ALL_IND_COLUMNS B WHERE A.OWNER=B.INDEX_OWNER AND A.INDEX_NAME=B.INDEX_NAME AND A.TABLE",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, NULL AS TABLE_SCHEM,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, NULL AS TABLE_SCHEM, c.relname AS TABLE_NAME,",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, OWNER AS TABLE_SCHEM, SYNONYM_NAME AS TABLE_NAME, 'SYNONYM' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_SYNONYMS WHERE OWNER LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, OWNER AS TABLE_SCHEM, TABLE_NAME, 'TABLE' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_TABLES WHERE OWNER LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, OWNER AS TABLE_SCHEM, VIEW_NAME AS TABLE_NAME, 'VIEW' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_VIEWS WHERE OWNER LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, SEQUENCE_OWNER AS TABLE_SCHEM, SEQUENCE_NAME AS TABLE_NAME, 'SEQUENCE' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, TABLE_SCHEMA AS TABLE_SCHEM, TABLE_NAME, COLUMN_NAME, GRANTOR, GRANTEE, PRIVILEGE, GRANTABLE AS IS_GRANTABLE FROM SYS.ALL_COL_PRIVS WHERE",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL AS TABLE_CAT, TABLE_SCHEMA AS TABLE_SCHEM, TABLE_NAME, GRANTOR, GRANTEE, PRIVILEGE, GRANTABLE AS IS_GRANTABLE FROM SYS.ALL_TAB_PRIVS WHERE TABLE_SCHEMA LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL, A.OWNER, A.TABLE_NAME, A.UNIQUENESS, NULL, A.INDEX_NAME, 3, B.COLUMN_POSITION, B.COLUMN_NAME, B.DESCEND, 0, 0, NULL FROM ALL_INDEXES A, ALL_IND_COLUMNS B WHERE A.OWNER=B.INDEX_OWNER AND A.INDEX_NAME=B.INDEX_NAME AND A.TABLE_OWN",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL, OWNER, TABLE_NAME, COLUMN_NAME, NULL, DATA_TYPE, DATA_LENGTH, NULL, DATA_PRECISION, DATA_SCALE, NULLABLE, NULL, DATA_DEFAULT, NULL, NULL, NULL, COLUMN_ID, NULLABLE FROM SYS.ALL_TAB_COLUMNS WHERE OWNER LIKE '",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL::text AS nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,def.adsrc,dsc.description FROM pg_class c JOIN pg_attribute a ON (a.attrelid=c.oid) LEFT JOIN pg_attrdef def ON (a.attrelid=def.adrelid A",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL::text AS nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,def.adsrc,dsc.description FROM pg_class c JOIN pg_attribute a ON (a.attrelid=c.oid) LEFT JOIN pg_attrdef def ON (a.attrelid=def.adrelid A",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL::text AS nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,NULL AS adsrc,NULL AS description FROM pg_class c, pg_attribute a WHERE a.attrelid=c.oid AND a.attnum > 0",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL::text AS nspname,c.relname,u.usename,c.relacl FROM pg_class c, pg_user u WHERE u.usesysid = c.relowner AND c.relkind = 'r'",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT NULL::text AS nspname,c.relname,u.usename,c.relacl,a.attname FROM pg_class c, pg_user u,pg_attribute a WHERE u.usesysid = c.relowner AND c.oid = a.attrelid AND a.attnum > 0 AND c.relkind = 'r'",consulta,baixa-media
+LavFacilLan,,,,,,,"Select NumNot, DatEmi, Obs, ValNot From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select NumNot,ValCre from ""CliCredito"" Where NumNot='",consulta,baixa-media
+LavFacilLan,,,,,,,"Select O.ROl, O.CodPro, O.SeqPro, O.Quantidade",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT oid, typname FROM pg_type WHERE oid<10000",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT oid, typname, typbasetype FROM pg_type WHERE oid<10000 OR typbasetype<>0 ORDER BY oid",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT P.CodPro, M.CodPro, M.CodCli, M.CodPro, M.Quant_Real, M.Quant_Prev, M.MedLan, P.DesPro",consulta,baixa-media
+LavFacilLan,,,,,,,"Select P.DesPro,P.GruPro,I.Rol,I.CodPro,I.CodLoc,I.Obs,I.FatPre01,",consulta,baixa-media
+LavFacilLan,,,,,,,SELECT RDB$FIELD_NAME FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = ',consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT RDB$PROCEDURE_NAME, RDB$PROCEDURE_OUTPUTS, RDB$DESCRIPTION FROM RDB$PROCEDURES",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT RELC_PRIM.RDB$RELATION_NAME, IS_PRIM.RDB$FIELD_NAME, RELC_FOR.RDB$RELATION_NAME, IS_FOR.RDB$FIELD_NAME, IS_FOR.RDB$FIELD_POSITION, REFC_PRIM.RDB$UPDATE_RULE, REFC_PRIM.RDB$DELETE_RULE, RELC_FOR.RDB$CONSTRAINT_NAME, RELC_PRIM.RDB$CONS",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT rol as RolOrc, DatLan, ValTot, ObsRol as Descricao FROM",consulta,baixa-media
+LavFacilLan,,,,,,,"Select Rol, NumNot, NumNotAdi",consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT Rol, ValTot, SitRol, DescontoRol, DescontoValor",consulta,baixa-media
+LavFacilLan,,,,,,,Select S.DesSerLav as Servi,consulta,baixa-media
+LavFacilLan,,,,,,,"Select Seq, Data, Valor, Cancelado From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select SeqFin as Seq, Histor, TipLan as Tipo From",consulta,baixa-media
+LavFacilLan,,,,,,,"Select SeqRetira, CodCli, DatRet, HorRet, NomCli, Status, Roteiro",consulta,baixa-media
+LavFacilLan,,,,,,,"Select sigla_UF From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select Sum(I.Quantidade) as TotQde From """,consulta,baixa-media
+LavFacilLan,,,,,,,Select Sum(ValNot) as Total From,consulta,baixa-media
+LavFacilLan,,,,,,,"Select Sum(ValTot) as Total From """,consulta,baixa-media
+LavFacilLan,,,,,,,"Select Sum(ValTot) as Total From "":",consulta,baixa-media
+LavFacilLan,,,,,,,"Select T.CodTab,T.CodPro,T.CodSerLav,S.CodSerLav,S.DesSerLav,T.PreUniSer,S.GruSerLav",consulta,baixa-media
+LavFacilLan,,,,,,,Select UniqueID as Registro From dbMovCabData,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT USERNAME AS TABLE_SCHEM FROM SYS.ALL_USERS,consulta,baixa-media
+LavFacilLan,,,,,,,Select variable,consulta,baixa-media
+LavFacilLan,,,,,,,SELECT VERSION(),consulta,baixa-media
+LavFacilLan,,,,,,,"SELECT version(), CASE WHEN pg_encoding_to_char(1)='SQL_ASCII' THEN 'UNKNOWN' ELSE getdatabaseencoding() END",consulta,baixa-media
+LavFacilLan,,,,,,,SHOW COLUMNS FROM %s.%s LIKE '%s',consulta,baixa-media
+LavFacilLan,,,,,,,SHOW INDEX FROM %s.%s,consulta,baixa-media
+LavFacilLan,,,,,,,SHOW KEYS FROM %s.%s,consulta,baixa-media
+LavFacilLan,,,,,,,SHOW TABLE STATUS FROM %s,consulta,baixa-media
+LavFacilLan,,,,,,,SHOW TABLE STATUS FROM %s LIKE '%s',consulta,baixa-media
+LavFacilLan,,,,,,,SHOW TABLES FROM %s LIKE '%s',consulta,baixa-media
+LavFacilLan,,,,,,,"The credentials supplied were not complete, and could not be verified. Additional information can be returned from the context.4The context data must be renegotiated with the peer.'The target principal name is incorrect.:There is no LSA mod",consulta,baixa-media
+LavFacilLan,,,,,,,Unsupported operation)No dynamic library from the list %s found,consulta,baixa-media
+LavFacilLan,,,,,,,use Open for a Select Statement,consulta,baixa-media
+LavFacilLan,,,,,,,XX CodingLLength from Encryptionkey is invalid.,consulta,baixa-media
+Estoque,,,,,,,And (EXTRACT(MONTH FROM C.DatNas) =,consulta,baixa-media
+Estoque,,,,,,,d.description AS REMARKS FROM pg_class c,consulta,baixa-media
+Estoque,,,,,,,FROM,consulta,baixa-media
+Estoque,,,,,,,"from """,consulta,baixa-media
+Estoque,,,,,,,"from "":",consulta,baixa-media
+Estoque,,,,,,,"FROM pg_catalog.pg_namespace n, pg_catalog.pg_class ct, pg_catalog.pg_class ci, pg_catalog.pg_attribute a, pg_catalog.pg_index i",consulta,baixa-media
+Estoque,,,,,,,"FROM pg_catalog.pg_namespace n, pg_catalog.pg_class ct, pg_catalog.pg_class ci, pg_catalog.pg_index i, pg_catalog.pg_attribute a, pg_catalog.pg_am am",consulta,baixa-media
+Estoque,,,,,,,"FROM pg_catalog.pg_namespace n, pg_catalog.pg_proc p",consulta,baixa-media
+Estoque,,,,,,,FROM pg_catalog.pg_namespace n1 JOIN pg_catalog.pg_class c1 ON (c1.relnamespace = n1.oid) JOIN pg_catalog.pg_index i ON (c1.oid=i.indrelid) JOIN pg_catalog.pg_class ic ON (i.indexrelid=ic.oid) JOIN pg_catalog.pg_attribute a ON (ic.oid=a.att,consulta,baixa-media
+Estoque,,,,,,,"FROM pg_class c1 JOIN pg_index i ON (c1.oid=i.indrelid) JOIN pg_class ic ON (i.indexrelid=ic.oid) JOIN pg_attribute a ON (ic.oid=a.attrelid), pg_class c2, pg_trigger t1 JOIN pg_proc p1 ON (t1.tgfoid=p1.oid), pg_trigger t2 JOIN pg_proc p2 ON",consulta,baixa-media
+Estoque,,,,,,,"FROM pg_class ct, pg_class ci, pg_attribute a, pg_index i",consulta,baixa-media
+Estoque,,,,,,,"FROM pg_class ct, pg_class ci, pg_index i, pg_attribute a, pg_am am",consulta,baixa-media
+Estoque,,,,,,,FROM pg_proc p LEFT JOIN pg_description d ON (p.oid=d.objoid),consulta,baixa-media
+Estoque,,,,,,,FROM pg_proc p WHERE p.proname LIKE ',consulta,baixa-media
+Estoque,,,,,,,FROM RDB$DATABASE,consulta,baixa-media
+Estoque,,,,,,,NULL AS REMARKS FROM pg_class c WHERE true,consulta,baixa-media
+Estoque,,,,,,,"SELECT a.RDB$RELATION_NAME, a.RDB$FIELD_NAME, a.RDB$FIELD_POSITION, a.RDB$NULL_FLAG, a.RDB$DEFAULT_VALUE, b. RDB$FIELD_LENGTH, b.RDB$FIELD_SCALE, c.RDB$TYPE_NAME, b.RDB$FIELD_TYPE, b.RDB$FIELD_SUB_TYPE, b.RDB$DESCRIPTION, b.RDB$CHARACTER_LE",consulta,baixa-media
+Estoque,,,,,,,"SELECT I.RDB$RELATION_NAME, I.RDB$UNIQUE_FLAG, I.RDB$INDEX_NAME, ISGMT.RDB$FIELD_POSITION,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM, c.relname AS TABLE_NAME, CASE (n.nspname LIKE 'pg\\_%') OR (n.nspname='information_schema') WHEN true THEN CASE n.nspname WHEN 'pg_catalog' THEN CASE c.relkind WHEN 'r' THEN 'SYSTEM TABLE'",consulta,baixa-media
+Estoque,,,,,,,"SELECT null as TABLE_CAT, null as TABLE_SCHEM, a.RDB$RELATION_NAME as TABLE_NAME, b.RDB$FIELD_NAME as COLUMN_NAME, b.RDB$FIELD_POSITION+1 as KEY_SEQ, a.RDB$INDEX_NAME as PK_NAME FROM RDB$RELATION_CONSTRAINTS a JOIN RDB$INDEX_SEGMENTS b ON (",consulta,baixa-media
+Estoque,,,,,,,"SELECT P.RDB$PROCEDURE_NAME, PP.RDB$PARAMETER_NAME, PP.RDB$PARAMETER_TYPE, F.RDB$FIELD_TYPE, F.RDB$FIELD_SUB_TYPE, F.RDB$FIELD_SCALE, F.RDB$FIELD_LENGTH, F.RDB$NULL_FLAG, PP.RDB$DESCRIPTION, F.RDB$FIELD_PRECISION, F.RDB$NULL_FLAG FROM RDB$P",consulta,baixa-media
+Estoque,,,,,,,"SELECT P.RDB$PROCEDURE_NAME, PP.RDB$PARAMETER_NAME, PP.RDB$PARAMETER_TYPE, F.RDB$FIELD_TYPE, F.RDB$FIELD_SUB_TYPE, F.RDB$FIELD_SCALE, F.RDB$FIELD_LENGTH, F.RDB$NULL_FLAG, PP.RDB$DESCRIPTION, F.RDB$FIELD_SCALE as RDB$FIELD_PRECISION, F.RDB$N",consulta,baixa-media
+Estoque,,,,,,,"SELECT RC_PRIM.RDB$RELATION_NAME, IS_PRIM.RDB$FIELD_NAME, RC_FOR.RDB$RELATION_NAME, IS_FOR.RDB$FIELD_NAME, IS_FOR.RDB$FIELD_POSITION, REFC_PRIM.RDB$UPDATE_RULE, REFC_PRIM.RDB$DELETE_RULE, RC_FOR.RDB$CONSTRAINT_NAME, RC_PRIM.RDB$CONSTRAINT_N",consulta,baixa-media
+Estoque,,,,,,,"SELECT RDB$TYPE, RDB$TYPE_NAME FROM RDB$TYPES WHERE RDB$FIELD_NAME = 'RDB$FIELD_TYPE'",consulta,baixa-media
+Estoque,,,,,,,"SELECT t.typlen FROM pg_catalog.pg_type t, pg_catalog.pg_namespace n WHERE t.typnamespace=n.oid AND t.typname='name' AND n.nspname='pg_catalog'",consulta,baixa-media
+Estoque,,,,,,,SELECT t1.typlen/t2.typlen FROM,consulta,baixa-media
+Estoque,,,,,,,SELECT typlen FROM pg_type WHERE typname='name',consulta,baixa-media
+Estoque,,,,,,,SELECT typname FROM pg_catalog.pg_type,consulta,baixa-media
+Estoque,,,,,,,SELECT typname FROM pg_type,consulta,baixa-media
+Estoque,,,,,,,Where C.Email = ( Select E.Email From,consulta,baixa-media
+Estoque,,,,,,,",insert,update,delete,select,drop,create,from,set,values,where,order,group,by,having,into,as,table,index,primary,key,on,is,null,char,varchar,integer,number,",consulta,baixa-media
+Estoque,,,,,,,"""Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on an empty dataset!Cannot modify a read-only dataset#Nested dataset must inherit from %s(Filter expression incorrectly term",consulta,baixa-media
+Estoque,,,,,,,") From """,consulta,baixa-media
+Estoque,,,,,,,"*Can't write to a read-only resource streamECheckSynchronize called from thread $%x, which is NOT the main thread",consulta,baixa-media
+Estoque,,,,,,,"0Select * From ""C:\Equipexe\Est\Dados\ProdEst.db""",consulta,baixa-media
+Estoque,,,,,,,"0Select * From ""C:\Equipexe\Est\Filial\MovEst"" M,",consulta,baixa-media
+Estoque,,,,,,,"0Select * From ""C:\Equipexe\Ger\Dados\Clientes"" C",consulta,baixa-media
+Estoque,,,,,,,"1Select * From ""C:\Equipexe\Ger\Dados\Forneced.db""",consulta,baixa-media
+Estoque,,,,,,,"2Select * from ""C:\EquipExe\Est\Dados\EstMinMax"" M,",consulta,baixa-media
+Estoque,,,,,,,"4Select * From 's:\EquipExe\Est\Filial\PedCompra' P,",consulta,baixa-media
+Estoque,,,,,,,"ALL,AND,AS,BETWEEN,BY,CASE,CHECK,COLLATE,COMMIT,CONSTRAINT,CREATE,DEFAULT,DEFERRABLE,DELETE,DISTINCT,DROP,ELSE,EXCEPT,FOREIGN,FROM,GLOB,GROUP,HAVING,IN,INDEX,INSERT,INTERSECT,INTO,IS,ISNULL,JOIN,LIKE,LIMIT,NOT,NOTNULL,NULL,ON,OR,ORDER,PRIMA",consulta,baixa-media
+Estoque,,,,,,,Auto Select,consulta,baixa-media
+Estoque,,,,,,,Delete all selected records?,escrita/controle,baixa-media
+Estoque,,,,,,,Delete all selected records?%Operation not allowed in a DBCtrlGrid(Property already defined by lookup field/Grid requested to display more than 256 columns,escrita/controle,baixa-media
+Estoque,,,,,,,DELETE FROM %s,consulta,baixa-media
+Estoque,,,,,,,"DISCONNECT FROM ""%s""",consulta,baixa-media
+Estoque,,,,,,,Docked control must have a name%Error removing control from dock tree,consulta,baixa-media
+Estoque,,,,,,,"ELSE NULL END END WHEN false THEN CASE c.relkind WHEN 'r' THEN 'TABLE' WHEN 'i' THEN 'INDEX' WHEN 'S' THEN 'SEQUENCE' WHEN 'v' THEN 'VIEW' ELSE NULL END ELSE NULL END AS TABLE_TYPE, d.description AS REMARKS FROM pg_catalog.pg_namespace n, p",consulta,baixa-media
+Estoque,,,,,,,FROM,consulta,baixa-media
+Estoque,,,,,,,From ',consulta,baixa-media
+Estoque,,,,,,,"From """,consulta,baixa-media
+Estoque,,,,,,,"From "":",consulta,baixa-media
+Estoque,,,,,,,From MovCab M Left Join,consulta,baixa-media
+Estoque,,,,,,,Invalid ImageList Index)Failed to read ImageList data from stream(Failed to write ImageList data to stream$Error creating window device context,consulta,baixa-media
+Estoque,,,,,,,"ISGMT.RDB$FIELD_NAME, I.RDB$INDEX_TYPE, I.RDB$SEGMENT_COUNT, COUNT (DISTINCT P.RDB$PAGE_NUMBER) FROM RDB$INDICES I JOIN RDB$INDEX_SEGMENTS ISGMT ON I.RDB$INDEX_NAME = ISGMT.RDB$INDEX_NAME JOIN RDB$RELATIONS R ON (R.RDB$RELATION_NAME = I.RDB",consulta,baixa-media
+Estoque,,,,,,,method not supported$Insufficient data for Content-Length&Error reading from Mime Request Stream,consulta,baixa-media
+Estoque,,,,,,,MOrder QuickReport 3.0 Professional or download free updates from our web site,consulta,baixa-media
+Estoque,,,,,,,No WSDL or URL property was set in the THTTPRIO component. You must set the WSDL or URL property before invoking the Web ServiceMUnable to retrieve the URL endpoint for Service/Port '%s'/'%s' from WSDL '%s'HDatatype of TypeKind: %s not supp,consulta,baixa-media
+Estoque,,,,,,,"o, CodigoTPV as Codigo, Obs From """,consulta,baixa-media
+Estoque,,,,,,,Row buffer is not assigned&Column with index %d is not accessable6Convertion is not possible for column %d from %s to %s4Can not access blob record in column %d with type %s,consulta,baixa-media
+Estoque,,,,,,,SELECT,consulta,baixa-media
+Estoque,,,,,,,SELECT,consulta,baixa-media
+Estoque,,,,,,,SELECT ',consulta,baixa-media
+Estoque,,,,,,,SELECT ''::text AS TABLE_SCHEM ORDER BY TABLE_SCHEM,consulta,baixa-media
+Estoque,,,,,,,SELECT @@IDENTITY,consulta,baixa-media
+Estoque,,,,,,,select @@rowcount,consulta,baixa-media
+Estoque,,,,,,,"Select * From """,consulta,baixa-media
+Estoque,,,,,,,SELECT * FROM,consulta,baixa-media
+Estoque,,,,,,,"Select * From """,consulta,baixa-media
+Estoque,,,,,,,"Select * From "":",consulta,baixa-media
+Estoque,,,,,,,"Select * From """,consulta,baixa-media
+Estoque,,,,,,,"Select * From "":",consulta,baixa-media
+Estoque,,,,,,,Select * from CliContato where CodCli =',consulta,baixa-media
+Estoque,,,,,,,Select a Date,consulta,baixa-media
+Estoque,,,,,,,"SELECT a.attname,a.atttypid FROM pg_catalog.pg_attribute a WHERE a.attrelid=%s ORDER BY a.attnum",consulta,baixa-media
+Estoque,,,,,,,"SELECT a.RDB$RELATION_NAME, a.RDB$FIELD_NAME, a.RDB$FIELD_POSITION, a.RDB$NULL_FLAG, b. RDB$FIELD_LENGTH, b.RDB$FIELD_SCALE, c.RDB$TYPE_NAME, b.RDB$FIELD_TYPE, b.RDB$FIELD_SUB_TYPE, b.RDB$DESCRIPTION, b.RDB$CHARACTER_LENGTH, b.RDB$FIELD_SCA",consulta,baixa-media
+Estoque,,,,,,,"SELECT a.RDB$USER, a.RDB$GRANTOR, a.RDB$PRIVILEGE, a.RDB$GRANT_OPTION, a.RDB$RELATION_NAME FROM RDB$USER_PRIVILEGES a, RDB$TYPES b WHERE a.RDB$OBJECT_TYPE = b.RDB$TYPE AND b.RDB$TYPE_NAME IN ('RELATION', 'VIEW', 'COMPUTED_FIELD', 'FIELD' ) ",consulta,baixa-media
+Estoque,,,,,,,"SELECT a.RDB$USER, a.RDB$GRANTOR, a.RDB$PRIVILEGE, a.RDB$GRANT_OPTION, a.RDB$RELATION_NAME, a.RDB$FIELD_NAME FROM RDB$USER_PRIVILEGES a, RDB$TYPES b WHERE a.RDB$OBJECT_TYPE = b.RDB$TYPE AND",consulta,baixa-media
+Estoque,,,,,,,select c.* from syscolumns c inner join sysobjects o on (o.id = c.id) where o.name = %s and c.number = %s order by colid,consulta,baixa-media
+Estoque,,,,,,,"select c.colid, c.name, c.type, c.prec, c.scale, c.colstat, c.status, c.iscomputed from syscolumns c inner join sysobjects o on (o.id = c.id) where o.name = %s order by colid",consulta,baixa-media
+Estoque,,,,,,,"select c.colid, c.name, c.type, c.prec, c.scale, c.status from syscolumns c inner join sysobjects o on (o.id = c.id) where o.name = %s order by colid",consulta,baixa-media
+Estoque,,,,,,,"SELECT c.host, c.db, t.grantor, c.user, c.table_name, c.column_name, c.column_priv FROM mysql.columns_priv c, mysql.tables_priv t WHERE c.host=t.host AND c.db=t.db AND c.table_name=t.table_name AND c.db='%s' AND c.table_name='%s' AND c.colu",consulta,baixa-media
+Estoque,,,,,,,"Select CodEst,CodProEst",consulta,baixa-media
+Estoque,,,,,,,"Select CodTabEst,CodProEst,DesProEst,PreUni,Moeda From """,consulta,baixa-media
+Estoque,,,,,,,"SELECT D.CodCli, D.Baixa, D.Cancelado, D.DatVen, D.ValDup, D.NumFat",consulta,baixa-media
+Estoque,,,,,,,Select dataset,consulta,baixa-media
+Estoque,,,,,,,SELECT datname AS TABLE_CAT FROM pg_catalog.pg_database ORDER BY TABLE_CAT,consulta,baixa-media
+Estoque,,,,,,,SELECT datname AS TABLE_CAT FROM pg_database ORDER BY TABLE_CAT,consulta,baixa-media
+Estoque,,,,,,,Select DescTPV as Descri,consulta,baixa-media
+Estoque,,,,,,,"SELECT DISTINCT a.RDB$RELATION_NAME, b.RDB$SYSTEM_FLAG, b.RDB$VIEW_CONTEXT, a.RDB$VIEW_SOURCE FROM RDB$RELATIONS a JOIN RDB$RELATION_FIELDS b ON a.RDB$RELATION_NAME=b.RDB$RELATION_NAME",consulta,baixa-media
+Estoque,,,,,,,"SELECT DISTINCT n1.nspname as pnspname,n2.nspname as fnspname,",consulta,baixa-media
+Estoque,,,,,,,"SELECT DISTINCT NULL::text as pnspname, NULL::text as fnspname,",consulta,baixa-media
+Estoque,,,,,,,Select function,consulta,baixa-media
+Estoque,,,,,,,"SELECT host,db,table_name,grantor,user,table_priv from mysql.tables_priv WHERE db='%s' AND table_name LIKE '%s'",consulta,baixa-media
+Estoque,,,,,,,SELECT LAST_INSERT_ID(),consulta,baixa-media
+Estoque,,,,,,,SELECT LAST_INSERT_ROWID(),consulta,baixa-media
+Estoque,,,,,,,"Select M.CodKit, C.DesKit, F.NomFun, M.DatLan From """,consulta,baixa-media
+Estoque,,,,,,,"SELECT M.Rol, M.CodCli, M.Cancelado, M.DatLan, M.ValTot, M.DescontoRol, M.DescontoValor, TotPecas, M.NumOs, M.Posicao, M.NumNot, M.NumNotAdi",consulta,baixa-media
+Estoque,,,,,,,"Select M.ValTot, M.DescontoRol, M.DescontoValor, M.NumNot, M.NumNotAdi,N.ValBasNot,",consulta,baixa-media
+Estoque,,,,,,,Select MAX(,consulta,baixa-media
+Estoque,,,,,,,"Select Max(DatConf), Qde, ValUnit From """,consulta,baixa-media
+Estoque,,,,,,,"SELECT n.nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,def.adsrc,dsc.description FROM pg_catalog.pg_namespace n JOIN pg_catalog.pg_class c ON (c.relnamespace = n.oid) JOIN pg_catalog.pg_attribute a ON (a.",consulta,baixa-media
+Estoque,,,,,,,"SELECT n.nspname,c.relname,u.usename,c.relacl FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c, pg_catalog.pg_user u WHERE c.relnamespace = n.oid AND u.usesysid = c.relowner AND c.relkind = 'r'",consulta,baixa-media
+Estoque,,,,,,,"SELECT n.nspname,c.relname,u.usename,c.relacl,a.attname FROM pg_catalog.pg_namespace n, pg_catalog.pg_class c, pg_catalog.pg_user u, pg_catalog.pg_attribute a WHERE c.relnamespace = n.oid AND u.usesysid = c.relowner AND c.oid = a.attrelid A",consulta,baixa-media
+Estoque,,,,,,,"SELECT n.nspname,p.proname,p.prorettype,p.proargtypes,t.typtype,t.typrelid FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n, pg_catalog.pg_type t WHERE p.pronamespace=n.oid AND p.prorettype=t.oid",consulta,baixa-media
+Estoque,,,,,,,select name as TABLE_OWNER from sysusers where islogin = 1,consulta,baixa-media
+Estoque,,,,,,,SELECT nspname AS TABLE_SCHEM FROM pg_catalog.pg_namespace WHERE nspname <> 'pg_toast' AND nspname NOT LIKE 'pg\\_temp\\_%' ORDER BY TABLE_SCHEM,consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS nspname,p.proname,p.prorettype,p.proargtypes,t.typtype,t.typrelid FROM pg_proc p, pg_type t WHERE p.prorettype=t.oid AND p.proname LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS PROCEDURE_CAT, n.nspname AS PROCEDURE_SCHEM, p.proname AS PROCEDURE_NAME, NULL AS RESERVED1, NULL AS RESERVED2, NULL AS RESERVED3, d.description AS REMARKS,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS PROCEDURE_CAT, NULL AS PROCEDURE_SCHEM, p.proname AS PROCEDURE_NAME, NULL AS RESERVED1, NULL AS RESERVED2, NULL AS RESERVED3, d.description AS REMARKS,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS PROCEDURE_CAT, NULL AS PROCEDURE_SCHEM, p.proname AS PROCEDURE_NAME, NULL AS RESERVED1, NULL AS RESERVED2, NULL AS RESERVED3, NULL AS REMARKS,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, A.OWNER AS TABLE_SCHEM, A.TABLE_NAME, B.COLUMN_NAME, B.COLUMN_POSITION AS KEY_SEQ, A.INDEX_NAME AS PK_NAME FROM ALL_INDEXES A, ALL_IND_COLUMNS B WHERE A.OWNER=B.INDEX_OWNER AND A.INDEX_NAME=B.INDEX_NAME AND A.TABLE",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, n.nspname AS TABLE_SCHEM,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, NULL AS TABLE_SCHEM,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, NULL AS TABLE_SCHEM, c.relname AS TABLE_NAME,",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, OWNER AS TABLE_SCHEM, SYNONYM_NAME AS TABLE_NAME, 'SYNONYM' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_SYNONYMS WHERE OWNER LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, OWNER AS TABLE_SCHEM, TABLE_NAME, 'TABLE' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_TABLES WHERE OWNER LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, OWNER AS TABLE_SCHEM, VIEW_NAME AS TABLE_NAME, 'VIEW' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_VIEWS WHERE OWNER LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, SEQUENCE_OWNER AS TABLE_SCHEM, SEQUENCE_NAME AS TABLE_NAME, 'SEQUENCE' AS TABLE_TYPE, NULL AS REMARKS FROM SYS.ALL_SEQUENCES WHERE SEQUENCE_OWNER LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, TABLE_SCHEMA AS TABLE_SCHEM, TABLE_NAME, COLUMN_NAME, GRANTOR, GRANTEE, PRIVILEGE, GRANTABLE AS IS_GRANTABLE FROM SYS.ALL_COL_PRIVS WHERE",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL AS TABLE_CAT, TABLE_SCHEMA AS TABLE_SCHEM, TABLE_NAME, GRANTOR, GRANTEE, PRIVILEGE, GRANTABLE AS IS_GRANTABLE FROM SYS.ALL_TAB_PRIVS WHERE TABLE_SCHEMA LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL, A.OWNER, A.TABLE_NAME, A.UNIQUENESS, NULL, A.INDEX_NAME, 3, B.COLUMN_POSITION, B.COLUMN_NAME, B.DESCEND, 0, 0, NULL FROM ALL_INDEXES A, ALL_IND_COLUMNS B WHERE A.OWNER=B.INDEX_OWNER AND A.INDEX_NAME=B.INDEX_NAME AND A.TABLE_OWN",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL, OWNER, TABLE_NAME, COLUMN_NAME, NULL, DATA_TYPE, DATA_LENGTH, NULL, DATA_PRECISION, DATA_SCALE, NULLABLE, NULL, DATA_DEFAULT, NULL, NULL, NULL, COLUMN_ID, NULLABLE FROM SYS.ALL_TAB_COLUMNS WHERE OWNER LIKE '",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL::text AS nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,def.adsrc,dsc.description FROM pg_class c JOIN pg_attribute a ON (a.attrelid=c.oid) LEFT JOIN pg_attrdef def ON (a.attrelid=def.adrelid A",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL::text AS nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,def.adsrc,dsc.description FROM pg_class c JOIN pg_attribute a ON (a.attrelid=c.oid) LEFT JOIN pg_attrdef def ON (a.attrelid=def.adrelid A",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL::text AS nspname,c.relname,a.attname,a.atttypid,a.attnotnull,a.atttypmod,a.attlen,a.attnum,NULL AS adsrc,NULL AS description FROM pg_class c, pg_attribute a WHERE a.attrelid=c.oid AND a.attnum > 0",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL::text AS nspname,c.relname,u.usename,c.relacl FROM pg_class c, pg_user u WHERE u.usesysid = c.relowner AND c.relkind = 'r'",consulta,baixa-media
+Estoque,,,,,,,"SELECT NULL::text AS nspname,c.relname,u.usename,c.relacl,a.attname FROM pg_class c, pg_user u,pg_attribute a WHERE u.usesysid = c.relowner AND c.oid = a.attrelid AND a.attnum > 0 AND c.relkind = 'r'",consulta,baixa-media
+Estoque,,,,,,,"Select NumNot,ValCre from ""CliCredito"" Where NumNot='",consulta,baixa-media
+Estoque,,,,,,,"SELECT oid, typname FROM pg_type WHERE oid<10000",consulta,baixa-media
+Estoque,,,,,,,"SELECT oid, typname, typbasetype FROM pg_type WHERE oid<10000 OR typbasetype<>0 ORDER BY oid",consulta,baixa-media
+Estoque,,,,,,,"SELECT P.CodPro, M.CodPro, M.CodCli, M.CodPro, M.Quant_Real, M.Quant_Prev, M.MedLan, P.DesPro",consulta,baixa-media
+Estoque,,,,,,,"Select P.DesProEst,E.CodProEst,P.CodProEst,E.CodEst From """,consulta,baixa-media
+Estoque,,,,,,,"Select P.DesProEst,P.CodProEst From """,consulta,baixa-media
+Estoque,,,,,,,SELECT RDB$FIELD_NAME FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = ',consulta,baixa-media
+Estoque,,,,,,,"SELECT RDB$PROCEDURE_NAME, RDB$PROCEDURE_OUTPUTS, RDB$DESCRIPTION FROM RDB$PROCEDURES",consulta,baixa-media
+Estoque,,,,,,,"SELECT RELC_PRIM.RDB$RELATION_NAME, IS_PRIM.RDB$FIELD_NAME, RELC_FOR.RDB$RELATION_NAME, IS_FOR.RDB$FIELD_NAME, IS_FOR.RDB$FIELD_POSITION, REFC_PRIM.RDB$UPDATE_RULE, REFC_PRIM.RDB$DELETE_RULE, RELC_FOR.RDB$CONSTRAINT_NAME, RELC_PRIM.RDB$CONS",consulta,baixa-media
+Estoque,,,,,,,"Select SeqPed, DatPed, CodFor, Cancelado, NotFisPed, ValTotal, CodEst, CodVen, Obs",consulta,baixa-media
+Estoque,,,,,,,"Select sigla_UF From """,consulta,baixa-media
+Estoque,,,,,,,"Select T.CodProEst AS CODIGO, P.DesProEst AS DESCRICAO, T.PreUni AS VALOR, T.CodTabEst AS TABELA,P.CodProEst From """,consulta,baixa-media
+Estoque,,,,,,,SELECT USERNAME AS TABLE_SCHEM FROM SYS.ALL_USERS,consulta,baixa-media
+Estoque,,,,,,,Select variable,consulta,baixa-media
+Estoque,,,,,,,SELECT VERSION(),consulta,baixa-media
+Estoque,,,,,,,"SELECT version(), CASE WHEN pg_encoding_to_char(1)='SQL_ASCII' THEN 'UNKNOWN' ELSE getdatabaseencoding() END",consulta,baixa-media
+Estoque,,,,,,,SHOW COLUMNS FROM %s.%s LIKE '%s',consulta,baixa-media
+Estoque,,,,,,,SHOW INDEX FROM %s.%s,consulta,baixa-media
+Estoque,,,,,,,SHOW KEYS FROM %s.%s,consulta,baixa-media
+Estoque,,,,,,,SHOW TABLE STATUS FROM %s,consulta,baixa-media
+Estoque,,,,,,,SHOW TABLE STATUS FROM %s LIKE '%s',consulta,baixa-media
+Estoque,,,,,,,SHOW TABLES FROM %s LIKE '%s',consulta,baixa-media
+Estoque,,,,,,,"The credentials supplied were not complete, and could not be verified. Additional information can be returned from the context.4The context data must be renegotiated with the peer.'The target principal name is incorrect.:There is no LSA mod",consulta,baixa-media
+Estoque,,,,,,,Unsupported operation)No dynamic library from the list %s found7This version is not is no supported isc_encode_sql_date7This version is not is no supported isc_encode_sql_time,consulta,baixa-media
+Estoque,,,,,,,XX CodingLLength from Encryptionkey is invalid.,consulta,baixa-media
+Financeiro,,,,,,,",Select * From ""C:\EquipExe\Ger\Dados\CadCla""",consulta,baixa-media
+Financeiro,,,,,,,") From """,consulta,baixa-media
+Financeiro,,,,,,,"0Cannot perform this operation on an open dataset""Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on an empty dataset!Cannot modify a read-only dataset#Nested dataset must i",escrita/controle,baixa-media
+Financeiro,,,,,,,"0Select * From ""C:\Equipexe\Ger\Dados\Clientes"" C",consulta,baixa-media
+Financeiro,,,,,,,"1Select * From ""C:\Equipexe\Ger\Dados\Forneced.db""",consulta,baixa-media
+Financeiro,,,,,,,"3Select * From ""z:\EquipExe\Rec\Filial\Duplicat"" D,",consulta,baixa-media
+Financeiro,,,,,,,Delete all selected records?,escrita/controle,baixa-media
+Financeiro,,,,,,,Delete all selected records?%Operation not allowed in a DBCtrlGrid(Property already defined by lookup field,escrita/controle,baixa-media
+Financeiro,,,,,,,"Delete From """,consulta,baixa-media
+Financeiro,,,,,,,Docked control must have a name%Error removing control from dock tree,consulta,baixa-media
+Financeiro,,,,,,,"ECheckSynchronize called from thread $%x, which is NOT the main thread",consulta,baixa-media
+Financeiro,,,,,,,FROM,consulta,baixa-media
+Financeiro,,,,,,,"From """,consulta,baixa-media
+Financeiro,,,,,,,"From """,consulta,baixa-media
+Financeiro,,,,,,,Invalid ImageList Index)Failed to read ImageList data from stream(Failed to write ImageList data to stream$Error creating window device context,consulta,baixa-media
+Financeiro,,,,,,,MOrder QuickReport 3.0 Professional or download free updates from our web site,consulta,baixa-media
+Financeiro,,,,,,,SELECT,consulta,baixa-media
+Financeiro,,,,,,,Select *,consulta,baixa-media
+Financeiro,,,,,,,"Select * From """,consulta,baixa-media
+Financeiro,,,,,,,"Select * From "":",consulta,baixa-media
+Financeiro,,,,,,,"Select * from """,consulta,baixa-media
+Financeiro,,,,,,,Select * from CliContato where CodCli =',consulta,baixa-media
+Financeiro,,,,,,,Select a Date,consulta,baixa-media
+Financeiro,,,,,,,"Select CodCenCus as Codigo, DesCenCus as Descricao From """,consulta,baixa-media
+Financeiro,,,,,,,"Select CodCla as Codigo, DesCla as Descricao From """,consulta,baixa-media
+Financeiro,,,,,,,"Select CodSubC as Codigo, DesSubC as Descricao From """,consulta,baixa-media
+Financeiro,,,,,,,"Select Count(*) From """,consulta,baixa-media
+Financeiro,,,,,,,Select dataset,consulta,baixa-media
+Financeiro,,,,,,,Select function,consulta,baixa-media
+Financeiro,,,,,,,"Select Leitura,LoteCheque From """,consulta,baixa-media
+Financeiro,,,,,,,Select MAX(,consulta,baixa-media
+Financeiro,,,,,,,"Select SeqLot, DatEmi",consulta,baixa-media
+Financeiro,,,,,,,"Select sigla_UF From """,consulta,baixa-media
+Financeiro,,,,,,,Select variable,consulta,baixa-media
+NFE,,,,,,,"- Dock zone has no controlLError loading dock zone from the stream. Expecting version %d, but found %d.",consulta,baixa-media
+NFE,,,,,,,"Bits index out of range*Can't write to a read-only resource streamECheckSynchronize called from thread $%x, which is NOT the main thread",consulta,baixa-media
+NFE,,,,,,,"DataSource cannot be changed0Cannot perform this operation on an open dataset""Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on an empty dataset!Cannot modify a read-only d",escrita/controle,baixa-media
+NFE,,,,,,,Delete all selected records?%Operation not allowed in a DBCtrlGrid(Property already defined by lookup field/Grid requested to display more than 256 columns,escrita/controle,baixa-media
+NFE,,,,,,,Docked control must have a name%Error removing control from dock tree,consulta,baixa-media
+NFE,,,,,,,"Driver could not be properly initialized. Client library may be missing, not installed properly, of the wrong version, or the driver may be missing from the system path.",consulta,baixa-media
+NFE,,,,,,,FROM,consulta,baixa-media
+NFE,,,,,,,"From """,consulta,baixa-media
+NFE,,,,,,,Invalid ImageList Index)Failed to read ImageList data from stream,consulta,baixa-media
+NFE,,,,,,,method not supported%Method not permitted in TSoapDataList$Insufficient data for Content-Length&Error reading from Mime Request Stream,consulta,baixa-media
+NFE,,,,,,,No WSDL or URL property was set in the THTTPRIO component. You must set the WSDL or URL property before invoking the Web ServiceMUnable to retrieve the URL endpoint for Service/Port '%s'/'%s' from WSDL '%s'HDatatype of TypeKind: %s not supp,consulta,baixa-media
+NFE,,,,,,,SELECT,consulta,baixa-media
+NFE,,,,,,,"Select * From """,consulta,baixa-media
+NFE,,,,,,,"Select a Date-%0:s - Enter a date between ""%1:s"" and ""%2:s"" %0:s - Enter a date after ""%1:s""!%0:s - Enter a date before ""%1:s""",consulta,baixa-media
+NFE,,,,,,,"select n.numnot, n.codcli, n.datemi, n.valnot, c.CpfCli, c.nomcli, c.endcli, c.cidcli, c.estcli, c.cepcli, c.cgccli, c.digcli, c.insestcli, c.insmuncli, c.baicli, c.razsoccli, c.email from",consulta,baixa-media
+NFE,,,,,,,"select n.SitNota, n.SeqSit, n.DatSit, n.SeqNfe, n.numnot, n.codcli,n.datemi, n.valnot,n.OmiteCpf,",consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,and (EXTRACT(MONTH FROM C.DatNas) =,consulta,baixa-media
+SAT,,,,,,,and (EXTRACT(MONTH FROM X.DatCad) =,consulta,baixa-media
+SAT,,,,,,,and (EXTRACT(MONTH FROM X.DatCadInt) =,consulta,baixa-media
+SAT,,,,,,,and (EXTRACT(YEAR FROM C.DatNas) > 1900),consulta,baixa-media
+SAT,,,,,,,and (EXTRACT(YEAR FROM X.DatCad) > 1900),consulta,baixa-media
+SAT,,,,,,,and (EXTRACT(YEAR FROM X.DatCadInt) > 1900),consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,"Select CodUsuario From """,consulta,baixa-media
+SAT,,,,,,,"Select CodUsuario From "":",consulta,baixa-media
+SAT,,,,,,,"-Select * From ""C:\Equipexe\Ger\Dados\Erros"" E",consulta,baixa-media
+SAT,,,,,,,", Marcacao FROM """,consulta,baixa-media
+SAT,,,,,,,", Marcacao FROM "":",consulta,baixa-media
+SAT,,,,,,,",Count(*) FROM """,consulta,baixa-media
+SAT,,,,,,,.select * from ':ParadoxXInterbase:MovSatCli' M,consulta,baixa-media
+SAT,,,,,,,".Select * From "":ParadoxXInterbase:MovSatAle"" A",consulta,baixa-media
+SAT,,,,,,,".Select * From ""C:\Equipexe\Ger\Dados\Clientes""",consulta,baixa-media
+SAT,,,,,,,") From """,consulta,baixa-media
+SAT,,,,,,,"*Can't write to a read-only resource streamECheckSynchronize called from thread $%x, which is NOT the main thread",consulta,baixa-media
+SAT,,,,,,,#Nested dataset must inherit from %s(Filter expression incorrectly terminated,consulta,baixa-media
+SAT,,,,,,,"0Select * From ""C:\Equipexe\Ger\Dados\Clientes"" C",consulta,baixa-media
+SAT,,,,,,,"0Select * From ""C:\Equipexe\Ger\Dados\Interessad""",consulta,baixa-media
+SAT,,,,,,,"0Select * From ""Z:\Equipexe\Sat\Filial\MovSatInt""",consulta,baixa-media
+SAT,,,,,,,"1Select * From ""C:\Equipexe\Ger\Dados\Forneced.db""",consulta,baixa-media
+SAT,,,,,,,"2Select * From ':ParadoxXInterbase:SolAltCli' C,",consulta,baixa-media
+SAT,,,,,,,"2Select * From ""C:\Equipexe\Sat\Filial\Anotacoes"" A",consulta,baixa-media
+SAT,,,,,,,"2Select * From ""C:\Equipexe\Sat\Filial\MovSatAle"" A",consulta,baixa-media
+SAT,,,,,,,3Select * From 'S:\EquipExe\Sat\Filial\MovSatCli' M,consulta,baixa-media
+SAT,,,,,,,"3Select * From 'z:\EquipExe\Sat\Filial\SolAltCli' A,",consulta,baixa-media
+SAT,,,,,,,"3Select * From "":ParadoxXInterbase:MovSatCliOcor"" M,",consulta,baixa-media
+SAT,,,,,,,"5Select * From ""S:\Equipexe\Ger\Dados\Interessad"" I",consulta,baixa-media
+SAT,,,,,,,"5Select * From ""Z:\Equipexe\Ger\Dados\Interessad"" I",consulta,baixa-media
+SAT,,,,,,,Auto Select,consulta,baixa-media
+SAT,,,,,,,Column lists do not match8Column types don't match. (From index: %d; To index: %d)_Can't end a shared transaction unless it is forced and equal to the transaction's TimeoutAction,consulta,baixa-media
+SAT,,,,,,,"DataSource cannot be changed*Nested datasets cannot have a MasterSource0Cannot perform this operation on an open dataset""Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on a",escrita/controle,baixa-media
+SAT,,,,,,,Delete all selected records?,escrita/controle,baixa-media
+SAT,,,,,,,Delete all selected records?%Operation not allowed in a DBCtrlGrid(Property already defined by lookup field/Grid requested to display more than 256 columns,escrita/controle,baixa-media
+SAT,,,,,,,delete from,consulta,baixa-media
+SAT,,,,,,,Docked control must have a name%Error removing control from dock tree,consulta,baixa-media
+SAT,,,,,,,"Empty query3Cannot ""open"" a non-select statement. Use ExecQuery",consulta,baixa-media
+SAT,,,,,,,extract(Month from DatCan) as Mes,consulta,baixa-media
+SAT,,,,,,,FROM,consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,"From """,consulta,baixa-media
+SAT,,,,,,,"From "":",consulta,baixa-media
+SAT,,,,,,,"If you load database from file, existing memory database will be cleared!",consulta,baixa-media
+SAT,,,,,,,Invalid ImageList Index)Failed to read ImageList data from stream(Failed to write ImageList data to stream$Error creating window device context,consulta,baixa-media
+SAT,,,,,,,"ISelect A.CodSat,CodCli,nomCli From 'z:\EquipExe\Sat\Filial\SolAltCli' A,",consulta,baixa-media
+SAT,,,,,,,MOrder QuickReport 3.0 Professional or download free updates from our web site,consulta,baixa-media
+SAT,,,,,,,Not in edit mode-Cannot insert into dataset. (No insert query)%Cannot post. (No update/insert query) Cannot update. (No update query)-Cannot delete from dataset. (No delete query)&Cannot refresh row. (No refresh query),consulta,baixa-media
+SAT,,,,,,,RDB$DB_KEY as IBX_INTERNAL_DBKEY from,consulta,baixa-media
+SAT,,,,,,,Required Param value not set!No Stored Procedure Name assigned<use ExecProc for Procedure; use TQuery for Select procedures,consulta,baixa-media
+SAT,,,,,,,SELECT,consulta,baixa-media
+SAT,,,,,,,Select,consulta,baixa-media
+SAT,,,,,,,"Select * From """,consulta,baixa-media
+SAT,,,,,,,"Select * From "":",consulta,baixa-media
+SAT,,,,,,,Select * From,consulta,baixa-media
+SAT,,,,,,,"Select * From """,consulta,baixa-media
+SAT,,,,,,,"Select * From "":",consulta,baixa-media
+SAT,,,,,,,"Select * From """,consulta,baixa-media
+SAT,,,,,,,"Select * From "":",consulta,baixa-media
+SAT,,,,,,,"Select * From """,consulta,baixa-media
+SAT,,,,,,,"Select * From "":",consulta,baixa-media
+SAT,,,,,,,Select * from CliContato where CodCli =',consulta,baixa-media
+SAT,,,,,,,select * from solaltsist,consulta,baixa-media
+SAT,,,,,,,Select a Date,consulta,baixa-media
+SAT,,,,,,,"Select A.CodSat,CodCli,nomCli From """,consulta,baixa-media
+SAT,,,,,,,"Select A.CodSat,CodCli,nomCli From "":",consulta,baixa-media
+SAT,,,,,,,Select AllLFatal error: Cannot create application object in a shared object or library.>Fatal error: Cannot create more than one TApplication instance,consulta,baixa-media
+SAT,,,,,,,"Select CepInt,Roteiro,NomInt,EndInt,BaiInt,TelInt,TelInt2,CepInt,CodInt,GruCli2,EmailInt,Contato From",consulta,baixa-media
+SAT,,,,,,,"Select CodSatTip,CodSatSit,DatLan,HorLan",consulta,baixa-media
+SAT,,,,,,,"Select CodSatTip,CodSatSit,DatLan,HorLan,CodOcorCla,CodOcorSubC",consulta,baixa-media
+SAT,,,,,,,"Select CodSatTip,CodSatSit,DatSolucao,HorLan",consulta,baixa-media
+SAT,,,,,,,"Select CodSatTip,CodSatSit,DatSolucao,HorLan,CodOcorCla,CodOcorSubC",consulta,baixa-media
+SAT,,,,,,,"Select Count(*) as Qde,Roteiro",consulta,baixa-media
+SAT,,,,,,,"Select Count(*) From """,consulta,baixa-media
+SAT,,,,,,,"Select Count(*) From "":",consulta,baixa-media
+SAT,,,,,,,"Select DatAlerta,HorAlerta",consulta,baixa-media
+SAT,,,,,,,"Select DatAlerta,HorAlerta,CodSat,SeqSat,Cod",consulta,baixa-media
+SAT,,,,,,,Select dataset,consulta,baixa-media
+SAT,,,,,,,"Select DatLan,CodSatTip From """,consulta,baixa-media
+SAT,,,,,,,"Select DatLan,CodSatTip From "":",consulta,baixa-media
+SAT,,,,,,,"Select Descricao,Solucao,TipContato,SeqOcor,CodSatCla,CodSatSubC,CodSatTip,CodSatSit,DatLan,HorLan",consulta,baixa-media
+SAT,,,,,,,"Select Descricao,Solucao,TipContato,SeqOcor,CodSatCla,CodSatSubC,CodSatTip,CodSatSit,DatLan,HorLan,CodOcorCla,CodOcorSubC",consulta,baixa-media
+SAT,,,,,,,"Select extract( day from C.datnas), C.*,S.* From",consulta,baixa-media
+SAT,,,,,,,"Select F.RDB$COMPUTED_BLR, F.RDB$DEFAULT_VALUE, R.RDB$FIELD_NAME from RDB$RELATION_FIELDS R, RDB$FIELDS F where R.RDB$RELATION_NAME = :RELATION and R.RDB$FIELD_SOURCE = F.RDB$FIELD_NAME and ((not F.RDB$COMPUTED_BLR is NULL) or (not F.RDB$DE",consulta,baixa-media
+SAT,,,,,,,Select function,consulta,baixa-media
+SAT,,,,,,,"SELECT GEN_ID(%s, %d) FROM RDB$DATABASE",consulta,baixa-media
+SAT,,,,,,,Select GetDate(),consulta,baixa-media
+SAT,,,,,,,"Select I.RDB$INDEX_NAME, I.RDB$UNIQUE_FLAG, I.RDB$INDEX_TYPE, I.RDB$SEGMENT_COUNT, S.RDB$FIELD_NAME from RDB$INDICES I, RDB$INDEX_SEGMENTS S where I.RDB$INDEX_NAME = S.RDB$INDEX_NAME and I.RDB$RELATION_NAME = '",consulta,baixa-media
+SAT,,,,,,,Select M.Cod,consulta,baixa-media
+SAT,,,,,,,"Select M.HorPrevSol,M.HorPrevSolF,M.SatPara,M.CodSatTipS,M.DatPrevSol,M.Descricao,M.Solucao,C.",consulta,baixa-media
+SAT,,,,,,,"Select M.Obs,M.Cod",consulta,baixa-media
+SAT,,,,,,,Select MAX(,consulta,baixa-media
+SAT,,,,,,,"Select NumFat,NumDup,CodCla,CodSubC,DatEmi,DatVen,SeqOcor,CodCliOcor,SerieNF,NossoNumero,Cancelado,DatPag,FixLan,",consulta,baixa-media
+SAT,,,,,,,"Select NumTit,Seq,CodCla,CodSubC,DatEmi,DatVen,Baixa,ValTit,Cancelado,DatPag,",consulta,baixa-media
+SAT,,,,,,,"Select R.RDB$FIELD_NAME, R.RDB$FIELD_POSITION, F.RDB$COMPUTED_BLR, F.RDB$DEFAULT_VALUE, F.RDB$NULL_FLAG, F.RDB$FIELD_LENGTH, F.RDB$FIELD_SCALE, F.RDB$FIELD_TYPE, F.RDB$FIELD_SUB_TYPE, F.RDB$EXTERNAL_LENGTH, F.RDB$EXTERNAL_SCALE, F.RDB$EXTER",consulta,baixa-media
+SAT,,,,,,,select RDB$DB_KEY as IBX_INTERNAL_DBKEY from,consulta,baixa-media
+SAT,,,,,,,Select RDB$FIELD_NAME from RDB$INDEX_SEGMENTS where RDB$INDEX_NAME = ',consulta,baixa-media
+SAT,,,,,,,"Select RDB$SYSTEM_FLAG, RDB$DBKEY_LENGTH from RDB$RELATIONS where RDB$RELATION_NAME = '",consulta,baixa-media
+SAT,,,,,,,"Select SeqAlerta,TipSat,CodSat,SeqSat,DatLan,CodUsuario From """,consulta,baixa-media
+SAT,,,,,,,"Select sigla_UF From """,consulta,baixa-media
+SAT,,,,,,,Select USER from RDB$RELATIONS where RDB$RELATION_NAME = ',consulta,baixa-media
+SAT,,,,,,,Select variable,consulta,baixa-media
+SAT,,,,,,,"Select W.DesOcorCla as Grupo, Z.CodOcorCla as Codigo, Y.DesOcorSubC as Descricao, Count(Z.CodOcorSubC) as Qde From """,consulta,baixa-media
+SAT,,,,,,,"Select W.DesOcorCla as Grupo, Z.CodOcorCla as Codigo, Y.DesOcorSubC as Descricao, Count(Z.CodOcorSubC) as Qde From "":",consulta,baixa-media
+SAT,,,,,,,"Select Y.DesOcorSubC as Grupo, Z.CodOcorCla as Codigo, W.DesOcorCla as Descricao, Count(Z.CodOcorCla) as Qde From """,consulta,baixa-media
+SAT,,,,,,,"Select Y.DesOcorSubC as Grupo, Z.CodOcorCla as Codigo, W.DesOcorCla as Descricao, Count(Z.CodOcorCla) as Qde From "":",consulta,baixa-media
+SAT,,,,,,,"Select Y.ObsOcorCla as Grupo, Z.CodOcorCla as Codigo, Y.DesOcorCla as Descricao, Count(Z.CodOcorCla) as Qde From """,consulta,baixa-media
+SAT,,,,,,,"Select Y.ObsOcorCla as Grupo, Z.CodOcorCla as Codigo, Y.DesOcorCla as Descricao, Count(Z.CodOcorCla) as Qde From "":",consulta,baixa-media
+SAT,,,,,,,"Select Y.ObsOcorSubC as Grupo, Z.CodOcorSubC as Codigo, Y.DesOcorSubC as Descricao, Count(Z.CodOcorSubC) as Qde From """,consulta,baixa-media
+SAT,,,,,,,"Select Y.ObsOcorSubC as Grupo, Z.CodOcorSubC as Codigo, Y.DesOcorSubC as Descricao, Count(Z.CodOcorSubC) as Qde From "":",consulta,baixa-media
+SAT,,,,,,,use Open for a Select Statement,consulta,baixa-media
+Senhas,,,,,,,"Bits index out of range*Can't write to a read-only resource streamECheckSynchronize called from thread $%x, which is NOT the main thread",consulta,baixa-media
+Senhas,,,,,,,"DataSource cannot be changed0Cannot perform this operation on an open dataset""Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on an empty dataset!Cannot modify a read-only d",escrita/controle,baixa-media
+Senhas,,,,,,,Delete all selected records?%Operation not allowed in a DBCtrlGrid(Property already defined by lookup field/Grid requested to display more than 256 columns,escrita/controle,baixa-media
+Senhas,,,,,,,Docked control must have a name%Error removing control from dock tree,consulta,baixa-media
+Senhas,,,,,,,FROM,consulta,baixa-media
+Senhas,,,,,,,Invalid ImageList Index)Failed to read ImageList data from stream(Failed to write ImageList data to stream$Error creating window device context,consulta,baixa-media
+Senhas,,,,,,,MOrder QuickReport 3.0 Professional or download free updates from our web site,consulta,baixa-media
+Senhas,,,,,,,SELECT,consulta,baixa-media
+Senhas,,,,,,,"Select * From """,consulta,baixa-media
+Senhas,,,,,,,Select a Date,consulta,baixa-media
+Senhas,,,,,,,Select dataset,consulta,baixa-media
+Senhas,,,,,,,Select function,consulta,baixa-media
+Senhas,,,,,,,Select variable,consulta,baixa-media

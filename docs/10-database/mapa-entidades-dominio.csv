@@ -1,0 +1,479 @@
+﻿Dominio,Tabela,Caminho,TamanhoArquivo,QtdColunas,ClassesCampo,CamposPrincipais,Criticidade
+auditoria_log,CEP_LOG,CEP\DADOS\CEP_LOG.DB,2048,12,outro:7; cliente_ref:2; id_codigo:1; texto_observacao:1; data_hora:1,CHAVE_LOG; NOME_LOG; CHVLOCAL_LOG; CHVBAI1_LOG; CHVBAI2_LOG; CEP8_LOG; UF_LOG; CHVTIPO_LOG; COMPLE_LOG; REOP_LOG; OPER_LOG; DATA_LOG,media
+auditoria_log,EstatLavSoft,Ger\Dados\EstatLavSoft.DB,2048,17,outro:14; id_codigo:2; valor_monetario:1,CodFilCam; Ano; CodFil; Campo; Descricao; Mes1; Mes2; Mes3; Mes4; Mes5; Mes6; Mes7; Mes8; Mes9; Mes10; Mes11; Mes12,media
+auditoria_log,MovPecLavLog,Ger\Dados\MovPecLavLog.DB,2048,4,outro:2; data_hora:1; id_codigo:1,Leitura; DatLido; HorLido; CodErro,media
+auditoria_log,LogExporta,Lav\FILIAL\LogExporta.DB,34816,6,outro:2; data_hora:2; id_codigo:1; ordem_rol_ref:1,SeqExporta; DesExporta; DatExporta; DatExportaFim; CodUsuario; TotLanctos,media
+auditoria_log,LogSisPec,PEC\FILIAL\LogSisPec.DB,2048,11,outro:4; id_codigo:4; valor_monetario:2; data_hora:1,Sequencia; CodUsuario; Sistema; Data; Tipo; Descricao1; Descricao2; SeqExporta; Chave; NomeChave; CodVen,media
+cliente,CliContEst,EST\FILIAL\CliContEst.DB,2048,15,outro:7; id_codigo:4; data_hora:3; status_situacao:1,CodCli; CodProEst; CenCus; DatIniCont; Qde; ValCont; DiaVenc; CodCla; CodSubC; BanCai; CenCusCli; EmiBol; EmiNot; DatFimCont; Status,critica
+cliente,Clientes,Ger\Dados\Backup\Clientes.DB,8296448,124,outro:49; id_codigo:27; cliente_ref:18; valor_monetario:6; data_hora:5; texto_observacao:5; ordem_rol_ref:4; status_situacao:3,CodCli; NomCli; EndCli; CidCli; EstCli; CepCli; TelCli; TelCli2; Contato; CgcCli; DigCli; GruCli; CodTab; InsEstCli; InsMunCli; EndCobCli; EndEntCli; CidCobCli,critica
+cliente,CliCont,Ger\Dados\CliCont.DB,34816,4,id_codigo:2; outro:1; data_hora:1,CodCli; NParc; VencCont; CodInd,critica
+cliente,CliContato,Ger\Dados\CliContato.DB,2048,17,cliente_ref:10; outro:4; id_codigo:1; data_hora:1; texto_observacao:1,CodCli; Contato; Cargo; Setor; DatNas; TelContato1; RamTel1; TelContato2; RamTel2; CelContato; email; Obs; Cancelado; Restricao; TipContato; CepCon; EndCon,critica
+cliente,Clientes,Ger\Dados\Clientes.DB,11835392,124,outro:49; id_codigo:27; cliente_ref:18; valor_monetario:6; data_hora:5; texto_observacao:5; ordem_rol_ref:4; status_situacao:3,CodCli; NomCli; EndCli; CidCli; EstCli; CepCli; TelCli; TelCli2; Contato; CgcCli; DigCli; GruCli; CodTab; InsEstCli; InsMunCli; EndCobCli; EndEntCli; CidCobCli,critica
+cliente,Clientes-,Ger\Dados\Clientes-.DB,4331520,123,outro:48; id_codigo:27; cliente_ref:18; valor_monetario:6; data_hora:5; texto_observacao:5; ordem_rol_ref:4; status_situacao:3,CodCli; NomCli; EndCli; CidCli; EstCli; CepCli; TelCli; TelCli2; Contato; CgcCli; DigCli; GruCli; CodTab; InsEstCli; InsMunCli; EndCobCli; EndEntCli; CidCobCli,critica
+cliente,ClientesInt,Ger\Dados\ClientesInt.DB,2048,3,id_codigo:2; data_hora:1,CodCad; CodCadSec; TipCad,critica
+cliente,ClientesObs,Ger\Dados\ClientesObs.DB,2048,4,texto_observacao:3; id_codigo:1,CodCli; Obs1; Obs2; Obs3,critica
+cliente,FunCli,Ger\Dados\FunCli.DB,2048,25,outro:14; id_codigo:4; cliente_ref:3; texto_observacao:2; data_hora:1; status_situacao:1,CodCli; CodFun; NomFun; EndFun; BaiFun; CidFun; EstFun; CepFun; DatAdm; ChapaFun; SitFun; CodCenCus; Box; Obs1; Obs2; Cancelado; TamRoupa; Gaveta,critica
+cliente,FunCliCan,Ger\Dados\FunCliCan.DB,2048,5,id_codigo:3; data_hora:1; texto_observacao:1,CodCli; CodFun; DatCan; MotivoCan; CodUsuario,critica
+cliente,FunCliRou,Ger\Dados\FunCliRou.DB,2048,13,id_codigo:7; outro:2; status_situacao:1; data_hora:1; texto_observacao:1; produto_ref:1,CodRoupa; CodCli; CodFun; CodPro; SitRoupa; DatCad; ObsRoupa; CodCor; Modelo; TamRoupa; FatPre01; CodDef; CodTipTec,critica
+cliente,FunCliRouM,Ger\Dados\FunCliRouM.DB,2048,14,id_codigo:6; outro:3; data_hora:2; status_situacao:1; usuario_auditoria:1; cliente_ref:1,CodRoupa; CodClaMan; DatMan; CodUsuario; CompMan; CodFun; SitMan; CodFor; DatRet; HorRet; RetUsuario; Cancelado; BaiSaida; CodCli,critica
+cliente,FunCliRouP,Ger\Dados\FunCliRouP.DB,2048,6,id_codigo:4; data_hora:1; outro:1,CodRoupa; CodClaPer; DatPer; CodUsuario; CompPer; CodFun,critica
+cliente,FunCliRouUni,Ger\Dados\FunCliRouUni.DB,2048,5,id_codigo:3; outro:2,CodCli; CodFun; CodPro; TamRoupa; Qde,critica
+cliente,GruClientes,Ger\Dados\GruClientes.DB,34816,12,outro:3; cliente_ref:3; texto_observacao:2; data_hora:1; ordem_rol_ref:1; id_codigo:1; valor_monetario:1,GruCli; DesGrupo; ObsGrupo; CorGrupo; CorGrupoF; PrioridGru; Cancelado; MotivoCan; DatCan; HorCan; CodVenCan; Desconto,critica
+cliente,GruClientes2,Ger\Dados\GruClientes2.DB,2048,12,outro:3; cliente_ref:3; texto_observacao:2; data_hora:1; ordem_rol_ref:1; id_codigo:1; valor_monetario:1,GruCli; DesGrupo; ObsGrupo; CorGrupo; CorGrupoF; PrioridGru; Cancelado; MotivoCan; DatCan; HorCan; CodVenCan; Desconto,critica
+cliente,GruClientes3,Ger\Dados\GruClientes3.DB,2048,12,outro:3; cliente_ref:3; texto_observacao:2; data_hora:1; ordem_rol_ref:1; id_codigo:1; valor_monetario:1,GruCli; DesGrupo; ObsGrupo; CorGrupo; CorGrupoF; PrioridGru; Cancelado; MotivoCan; DatCan; HorCan; CodVenCan; Desconto,critica
+cliente,GruClientes4,Ger\Dados\GruClientes4.DB,2048,12,outro:3; cliente_ref:3; texto_observacao:2; data_hora:1; ordem_rol_ref:1; id_codigo:1; valor_monetario:1,GruCli; DesGrupo; ObsGrupo; CorGrupo; CorGrupoF; PrioridGru; Cancelado; MotivoCan; DatCan; HorCan; CodVenCan; Desconto,critica
+cliente,EstCli,Lav\FILIAL\EstCli.DB,2048,24,data_hora:8; outro:8; id_codigo:3; quantidade:3; valor_monetario:2,CodCli; CodPro; DatLan; CodCor; Quant_Prev; Quant_Real; MedLan; UltLan2; UltLan3; UltLan4; UltLan5; UltLan1; QdeMinLan; QdeMaxLan; DatMinLan; DatMaxLan; DatUltLan1; DatUltLan2,critica
+cliente,FunCli,PEC\DADOS\FunCli.DB,2048,25,outro:14; id_codigo:4; cliente_ref:3; texto_observacao:2; data_hora:1; status_situacao:1,CodCli; CodFun; NomFun; EndFun; BaiFun; CidFun; EstFun; CepFun; DatAdm; ChapaFun; SitFun; CodCenCus; Box; Obs1; Obs2; Cancelado; TamRoupa; Gaveta,critica
+cliente,FunCliCan,PEC\DADOS\FunCliCan.DB,2048,5,id_codigo:3; data_hora:1; texto_observacao:1,CodCli; CodFun; DatCan; MotivoCan; CodUsuario,critica
+cliente,FunCliRou,PEC\DADOS\FunCliRou.DB,2048,20,id_codigo:8; outro:7; status_situacao:1; data_hora:1; texto_observacao:1; produto_ref:1; valor_monetario:1,CodRoupa; CodCli; CodFun; CodPro; SitRoupa; DatCad; ObsRoupa; CodCor; Modelo; TamRoupa; FatPre01; CodDef; CodTipTec; Seq; ImpEti; QdeProc; VidaUtil; IntAval,critica
+cliente,FunCliRouM,PEC\DADOS\FunCliRouM.DB,2048,16,id_codigo:6; data_hora:3; outro:3; status_situacao:2; usuario_auditoria:1; cliente_ref:1,CodRoupa; CodClaMan; DatMan; CodUsuario; CompMan; CodFun; SitMan; CodFor; DatRet; HorRet; RetUsuario; Cancelado; BaiSaida; CodCli; DatBaixa; HorBaixa,critica
+cliente,FunCliRouP,PEC\DADOS\FunCliRouP.DB,2048,6,id_codigo:4; data_hora:1; outro:1,CodRoupa; CodClaPer; DatPer; CodUsuario; CompPer; CodFun,critica
+cliente,FunCliRouUni,PEC\DADOS\FunCliRouUni.DB,2048,5,id_codigo:3; outro:2,CodCli; CodFun; CodPro; TamRoupa; Qde,critica
+config_admin,CadAlu,ESC\FILIAL\CadAlu.DB,2048,26,outro:9; cliente_ref:7; id_codigo:3; data_hora:3; valor_monetario:3; texto_observacao:1,CodCont; NomAlu; EndAlu; CidAlu; EstAlu; CepAlu; DatNas; TelAluR; TelAluC; ComTelC; AluMaior; CodCli; SexAlu; RgAlu; CicAlu; CodCon; DescAlu; ObsAlu,media
+config_admin,CadAul,ESC\FILIAL\CadAul.DB,2048,11,id_codigo:5; outro:2; texto_observacao:1; data_hora:1; cliente_ref:1; fiscal_documento:1,CodAul; CodTur; CodPro; CodMat; Obs; DatAul; MatDada; CargHor; Atraso; LanFal; CodHor,media
+config_admin,CadCur,ESC\FILIAL\CadCur.DB,2048,6,valor_monetario:2; outro:2; id_codigo:1; texto_observacao:1,CodCur; DesCur; PreReq; PreReq2; Preco; Obs,media
+config_admin,CadInt,ESC\FILIAL\CadInt.DB,2048,26,outro:12; id_codigo:5; cliente_ref:4; data_hora:4; texto_observacao:1,CodInt; NomInt; EndInt; CidInt; EstInt; CepInt; DatNas; TelInt; ComTelC; CodCur1; CodCur2; CodVen; CodCon; DatInt; DatCnt; Obs; DiaSem; HorIni,media
+config_admin,CadMat,ESC\FILIAL\CadMat.DB,2048,3,id_codigo:1; outro:1; texto_observacao:1,CodMat; DesMat; Obs,media
+config_admin,CadMatComp,ESC\FILIAL\CadMatComp.DB,2048,4,id_codigo:2; status_situacao:1; quantidade:1,CodCur; CodMat; MedAprov; Peso,media
+config_admin,CadNot,ESC\FILIAL\CadNot.DB,2048,5,id_codigo:3; outro:1; fiscal_documento:1,CodCont; CodTur; CodMat; Seq; Nota,media
+config_admin,CadPre,ESC\FILIAL\CadPre.DB,2048,3,id_codigo:2; outro:1,CodAul; CodCont; Presenca,media
+config_admin,CadRes,ESC\FILIAL\CadRes.DB,2048,34,outro:12; cliente_ref:12; id_codigo:3; texto_observacao:3; data_hora:2; status_situacao:2,CodCont; NomRes; EndRes; CidRes; EstRes; CepRes; DatNasR; TelResR; TelResC; ComResC; RgRes; CicRes; ObsRes; SitRes2; SitRes; NomRes2; EndRes2; CidRes2,media
+config_admin,CadTur,ESC\FILIAL\CadTur.DB,2048,16,outro:8; id_codigo:4; data_hora:2; texto_observacao:1; cliente_ref:1,CodTur; DesTur; CodCur; PreCur; QdeAlu; ObsTur; DatIni; DatFim; CargHor; DiaSem; CodPro; ValMat; HorIni; HorFim; Encena; CodHor,media
+config_admin,CompTurmas,ESC\FILIAL\CompTurmas.DB,2048,13,outro:5; id_codigo:3; data_hora:3; valor_monetario:1; texto_observacao:1,CodTur; CodCont; CodVen; IndMat; DatIniPg; DatProxima; TipoParc; DescAlu; QdeParc; DatMat; DiaPgto; ValCur; Obs,media
+config_admin,MovPdv,ESC\FILIAL\MovPdv.DB,2048,11,id_codigo:5; outro:2; valor_monetario:2; data_hora:1; texto_observacao:1,CodPdv; SeqLan; CodTur; CodCont; Qde; ValorUni; ValorFinal; DatLan; Obs; NumNot; CodUsuario,media
+config_admin,NotCompEsc,ESC\FILIAL\NotCompEsc.DB,2048,8,id_codigo:5; outro:3,NumNot; Seq; NumFat; NumDup; ValComp; CodFpg; NumDoc; SeqCai,media
+config_admin,MovKit,EST\FILIAL\MovKit.DB,2048,4,id_codigo:2; outro:1; data_hora:1,Seq; CodKit; CodFun; DatLan,media
+config_admin,PedComItem,EST\FILIAL\PedComItem.DB,2048,16,outro:7; fiscal_documento:5; status_situacao:2; id_codigo:1; valor_monetario:1,SeqPed; CodProEst; SeqPro; ValUnit; Qde; Disp1; SeqConf; ValFinal; DescItem; Confirmado; ObsItem; Cfop; IPI; ICMS; CFiscal; SitTrib,media
+config_admin,PedCompra,EST\FILIAL\PedCompra.DB,2048,18,outro:6; id_codigo:5; data_hora:2; valor_monetario:2; cliente_ref:1; status_situacao:1; texto_observacao:1,SeqPed; DatPed; CodFor; Cancelado; Disp1; NotFisPed; DatConfPed; ValTotal; Baixa; CodEst; DescPed; Contato; CodVen; NumOS; OBS; CodCon; EmitNot; EmitBol,media
+config_admin,PedCompraCanc,EST\FILIAL\PedCompraCanc.DB,2048,5,outro:1; data_hora:1; ordem_rol_ref:1; texto_observacao:1; id_codigo:1,SeqPed; DatCan; HorCan; MotivoCan; CodUsuario,media
+config_admin,PedConf,EST\FILIAL\PedConf.DB,2048,7,outro:2; fiscal_documento:1; data_hora:1; ordem_rol_ref:1; cliente_ref:1; id_codigo:1,SeqPed; SeqConf; DatConf; HorConf; Cancelado; Contato; NumNotFis,media
+config_admin,PedConfItem,EST\FILIAL\PedConfItem.DB,2048,14,outro:6; fiscal_documento:4; id_codigo:2; status_situacao:2,SeqPed; CodProEst; SeqPro; SeqConf; ValUnit; Qde; SeqLan; CodEst; ObsItem; Cfop; IPI; ICMS; CFiscal; SitTrib,media
+config_admin,PedVenConf,EST\FILIAL\PedVenConf.DB,2048,7,outro:2; fiscal_documento:1; data_hora:1; ordem_rol_ref:1; cliente_ref:1; id_codigo:1,SeqPed; SeqConf; DatConf; HorConf; Cancelado; Contato; NumNotFis,media
+config_admin,PedVenConfItem,EST\FILIAL\PedVenConfItem.DB,2048,14,outro:6; fiscal_documento:4; id_codigo:2; status_situacao:2,SeqPed; CodProEst; SeqPro; SeqConf; ValUnit; Qde; SeqLan; CodEst; ObsItem; Cfop; IPI; ICMS; CFiscal; SitTrib,media
+config_admin,PedVenda,EST\FILIAL\PedVenda.DB,2048,18,outro:6; id_codigo:5; data_hora:2; valor_monetario:2; cliente_ref:1; status_situacao:1; texto_observacao:1,SeqPed; DatPed; CodFor; Cancelado; Disp1; NotFisPed; DatConfPed; ValTotal; Baixa; CodEst; DescPed; Contato; CodVen; NumOS; Obs; CodCon; EmitNot; EmitBol,media
+config_admin,PedVendaCanc,EST\FILIAL\PedVendaCanc.DB,2048,5,outro:1; data_hora:1; ordem_rol_ref:1; texto_observacao:1; id_codigo:1,SeqPed; DatCan; HorCan; MotivoCan; CodUsuario,media
+config_admin,PedVenItem,EST\FILIAL\PedVenItem.DB,2048,16,outro:7; fiscal_documento:5; status_situacao:2; id_codigo:1; valor_monetario:1,SeqPed; CodProEst; SeqPro; ValUnit; Qde; Disp1; SeqConf; ValFinal; DescItem; Confirmado; ObsItem; Cfop; IPI; ICMS; CFiscal; SitTrib,media
+config_admin,Inis,Estruturas\Inis.DB,419840,11,outro:9; id_codigo:1; valor_monetario:1,UNIT; FUNCAO; SECAO; CHAVE; DESCRICAO; ATIVACAO; GRUPO1; GRUPO2; TIPO; LOCAL; SISTEMA,media
+config_admin,Parametros,Estruturas\Parametros.DB,1198080,16,outro:16,Sistema; Grupo; Parametro; GrupoExibido; TextoExibido; Tipo; ConteudoPadrao; Caminho; Tamanho; TipoComp; Local; NomIni; PorFilial; Detalhes; Unit; Caminho2,media
+config_admin,ParamOpcao,Estruturas\ParamOpcao.DB,133120,4,outro:4,Sistema; Grupo; Parametro; Opcao,media
+config_admin,Sistemas,Estruturas\Sistemas.DB,24576,8,outro:5; id_codigo:1; ordem_rol_ref:1; texto_observacao:1,CodSistema; NomSistema; Tipo; Versao; ControlaSenha; CaminhoOrigem; Executavel; NomeCompact,media
+config_admin,CadSistema,Ger\Dados\CadSistema.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodSistema; DesSistema; ObsSistema; Cancelado; MotivoCan; DatCan,media
+config_admin,GruMiniLav,Ger\Dados\GruMiniLav.DB,2048,5,outro:2; cliente_ref:1; data_hora:1; texto_observacao:1,GruMiniLav; DesGruMiniLav; Cancelado; DatCan; MotivoCan,media
+config_admin,NovoReg.BD,Ger\Dados\NovoReg.BD.DB,2048,1,outro:1,NovoReg,media
+config_admin,NovoReg,Ger\Dados\NovoReg.DB,2048,1,outro:1,NovoReg,media
+config_admin,NovoReg.db,Ger\Dados\NovoReg.db.DB,2048,1,outro:1,NovoReg,media
+config_admin,NovoRegBD,Ger\Dados\NovoRegBD.DB,2048,1,outro:1,NovoReg,media
+config_admin,TelFilial,Ger\Dados\TelFilial.DB,2048,4,outro:2; id_codigo:1; texto_observacao:1,NumTel; Finalidade; DiaVen; EmNome,media
+config_admin,CadCai,Ger\Filial\CadCai.DB,1214464,17,id_codigo:8; outro:7; texto_observacao:1; data_hora:1,SeqCai; Histor; DatLan; ValCai; TipLan; CodCla; CodSubC; SeqDes; TipOpe; CodOpe; CodUsuario; SeqBan; NumBan; CodCenCus; CodClaProj; CodUnid; HorLan,media
+config_admin,CadDes,Ger\Filial\CadDes.DB,2048,10,outro:5; id_codigo:3; texto_observacao:1; data_hora:1,SeqDes; Histor; DatLan; ValDes; TipLan; SeqCai; CodCla; CodSubC; FixLan; CodCenCus,media
+config_admin,CadMaq,Ger\Filial\CadMaq.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodMaq; DesMaq; Cancelado; DatCan; MotivoCan; Obs,media
+config_admin,Cheque1,Ger\Filial\Cheque1.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque1Comp,Ger\Filial\Cheque1Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque2,Ger\Filial\Cheque2.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque2Comp,Ger\Filial\Cheque2Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque3,Ger\Filial\Cheque3.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque3Comp,Ger\Filial\Cheque3Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque4,Ger\Filial\Cheque4.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque4Comp,Ger\Filial\Cheque4Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque5,Ger\Filial\Cheque5.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque5Comp,Ger\Filial\Cheque5Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque6,Ger\Filial\Cheque6.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque6Comp,Ger\Filial\Cheque6Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque7,Ger\Filial\Cheque7.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque7Comp,Ger\Filial\Cheque7Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque8,Ger\Filial\Cheque8.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque8Comp,Ger\Filial\Cheque8Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,Cheque9,Ger\Filial\Cheque9.DB,2048,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+config_admin,Cheque9Comp,Ger\Filial\Cheque9Comp.DB,2048,11,id_codigo:7; outro:2; data_hora:1; texto_observacao:1,NumChe; SeqChe; NumTit; Seq; CodFor; CodCla; CodSubC; ValTit; Obs; CodFil; CodCenCus,media
+config_admin,CompMat,Ger\Filial\CompMat.DB,2048,3,id_codigo:2; quantidade:1,CodPro; CodMat; Quantidade,media
+config_admin,ContChequeLot,Ger\Filial\ContChequeLot.DB,2048,12,outro:3; data_hora:3; texto_observacao:2; id_codigo:1; cliente_ref:1; status_situacao:1; usuario_auditoria:1,LoteCheque; ContaCor; DatLan; HorLan; CodUsuario; Cancelado; MotivoCan; DatCan; Baixa; DatBaixa; BaiUsuario; ObsLote,media
+config_admin,ContChequeRec,Ger\Filial\ContChequeRec.DB,2048,15,outro:10; id_codigo:3; data_hora:1; cliente_ref:1,Leitura; Banco; Agencia; Conta; NCheque; Comp; Analise; LoteCheque; NumDup; NumFat; DatLan; HorLan; CodUsuario; Cancelado; ValCheque,media
+config_admin,EncCai,Ger\Filial\EncCai.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc1,Ger\Filial\EncCc1.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc2,Ger\Filial\EncCc2.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc3,Ger\Filial\EncCc3.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc4,Ger\Filial\EncCc4.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc5,Ger\Filial\EncCc5.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc6,Ger\Filial\EncCc6.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc7,Ger\Filial\EncCc7.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc8,Ger\Filial\EncCc8.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EncCc9,Ger\Filial\EncCc9.DB,2048,2,data_hora:1; valor_monetario:1,DatEnc; Saldo,media
+config_admin,EnvEmails,Ger\Filial\EnvEmails.DB,2048,12,outro:3; fiscal_documento:2; data_hora:2; texto_observacao:2; id_codigo:1; cliente_ref:1; status_situacao:1,TipSat; CodSat; DatLan; HorLan; email; Status; DatEmi; HorEmi; Obs; ObsEnvio; NomSat; Contato,media
+config_admin,LanOrc,Ger\Filial\LanOrc.DB,2048,16,texto_observacao:11; id_codigo:3; ordem_rol_ref:1; outro:1,NumOrc; CodCli; DatOrc; CodVen; PreFinal; ObsFat1; ObsFat2; ObsFat3; ObsFat4; ObsFat5; ObsFat6; ObsFat7; ObsFat8; ObsFat9; ObsFinanc; ObsTransp,media
+config_admin,LanOrcPro,Ger\Filial\LanOrcPro.DB,2048,5,id_codigo:2; outro:2; quantidade:1,NumOrc; CodPro; Quantidade; PrePro; PreFinal,media
+config_admin,Material,Ger\Filial\Material.DB,2048,12,outro:5; texto_observacao:5; id_codigo:1; produto_ref:1,CodMat; DesMat; Unidade; Estoque; PreUni; TaxInicial; Obs; Obs2; Obs3; Obs4; Obs5; Tipo,media
+config_admin,MensagensSMS,Ger\Filial\MensagensSMS.DB,2048,12,outro:6; id_codigo:2; data_hora:2; status_situacao:1; ordem_rol_ref:1,Seq; Numero; Protocolo; Status; Tipo; DatCad; HorCad; DatEnv; HorEnv; Erro; Mensagem; CodErro,media
+config_admin,MovConTel,Ger\Filial\MovConTel.DB,2048,10,cliente_ref:5; id_codigo:2; usuario_auditoria:1; outro:1; data_hora:1,NumLinha; Operadora; NumTel; DatTel; HorTel; DurTel; ObsTel; ValTel; TipLigacao; DatVen,media
+config_admin,NovoReg,Ger\Filial\NovoReg.DB,2048,1,outro:1,NovoReg,media
+config_admin,Ponto,Ger\Filial\Ponto.DB,133120,7,data_hora:3; outro:2; id_codigo:1; texto_observacao:1,CodUsuario; DatPonto; Horas; Obs; SeqExporta; PontoClas; HorasDia,media
+config_admin,PontoEnc,Ger\Filial\PontoEnc.DB,2048,4,id_codigo:1; data_hora:1; valor_monetario:1; texto_observacao:1,CodUsuario; DatEnc; SaldoMin; Obs,media
+config_admin,ProcesMaq,Ger\Filial\ProcesMaq.DB,2048,7,id_codigo:2; texto_observacao:2; produto_ref:1; cliente_ref:1; data_hora:1,CodProcMaq; CodMaq; DesProcMaq; Cancelado; DatCan; MotivoCan; Obs,media
+config_admin,ProcesMaqComp,Ger\Filial\ProcesMaqComp.DB,2048,5,id_codigo:4; outro:1,CodProcMaq; CodMaq; CodTipProc; CodUniPro; Tempo,media
+config_admin,ProdComArea,Ger\Filial\ProdComArea.DB,2048,4,id_codigo:2; fiscal_documento:1; outro:1,CodPro; CodArea; Comissao; Tipo,media
+config_admin,ProdKit,Ger\Filial\ProdKit.DB,2048,3,id_codigo:2; texto_observacao:1,CodPro; CodProKit; Obs,media
+config_admin,ProdutImp,Ger\Filial\ProdutImp.DB,2048,4,outro:2; id_codigo:1; valor_monetario:1,CodPro; Campo; Conteudo; Valor,media
+config_admin,ProFaiCom,Ger\Filial\ProFaiCom.DB,2048,4,id_codigo:2; outro:2,CodPro; CodFaiCom; ValCom; TipFaiCom,media
+config_admin,ResCli,Ger\Filial\ResCli.DB,2048,5,outro:3; id_codigo:2,CodCli; CodPro; SeqResCli; DesResPro; OrdemImp,media
+config_admin,ResPro,Ger\Filial\ResPro.DB,2048,5,outro:4; id_codigo:1,CodPro; SeqResPro; DesResPro; OrdemImp; SeqExporta,media
+config_admin,tabmat,Ger\Filial\tabmat.db,2048,4,outro:2; id_codigo:1; produto_ref:1,Codmat; Desmat; Unidade; Estoque,media
+config_admin,TimeSheet,Ger\Filial\TimeSheet.DB,2048,8,outro:4; id_codigo:2; valor_monetario:1; data_hora:1,SeqAtiv; DescAtiv; ProjAtiv; CodAtiv; DatLan; Duracao; Finalizado; CodUsuario,media
+config_admin,CadAlu,Importa\ESC\FILIAL\CadAlu.DB,2048,26,outro:9; cliente_ref:7; id_codigo:3; data_hora:3; valor_monetario:3; texto_observacao:1,CodCont; NomAlu; EndAlu; CidAlu; EstAlu; CepAlu; DatNas; TelAluR; TelAluC; ComTelC; AluMaior; CodCli; SexAlu; RgAlu; CicAlu; CodCon; DescAlu; ObsAlu,media
+config_admin,CadAul,Importa\ESC\FILIAL\CadAul.DB,2048,11,id_codigo:5; outro:2; texto_observacao:1; data_hora:1; cliente_ref:1; fiscal_documento:1,CodAul; CodTur; CodPro; CodMat; Obs; DatAul; MatDada; CargHor; Atraso; LanFal; CodHor,media
+config_admin,CadCur,Importa\ESC\FILIAL\CadCur.DB,2048,6,valor_monetario:2; outro:2; id_codigo:1; texto_observacao:1,CodCur; DesCur; PreReq; PreReq2; Preco; Obs,media
+config_admin,CadInt,Importa\ESC\FILIAL\CadInt.DB,2048,26,outro:12; id_codigo:5; cliente_ref:4; data_hora:4; texto_observacao:1,CodInt; NomInt; EndInt; CidInt; EstInt; CepInt; DatNas; TelInt; ComTelC; CodCur1; CodCur2; CodVen; CodCon; DatInt; DatCnt; Obs; DiaSem; HorIni,media
+config_admin,CadMat,Importa\ESC\FILIAL\CadMat.DB,2048,3,id_codigo:1; outro:1; texto_observacao:1,CodMat; DesMat; Obs,media
+config_admin,CadNot,Importa\ESC\FILIAL\CadNot.DB,2048,5,id_codigo:3; outro:1; fiscal_documento:1,CodCont; CodTur; CodMat; Seq; Nota,media
+config_admin,CadPre,Importa\ESC\FILIAL\CadPre.DB,2048,3,id_codigo:2; outro:1,CodAul; CodCont; Presenca,media
+config_admin,CadRes,Importa\ESC\FILIAL\CadRes.DB,2048,34,outro:12; cliente_ref:12; id_codigo:3; texto_observacao:3; data_hora:2; status_situacao:2,CodCont; NomRes; EndRes; CidRes; EstRes; CepRes; DatNasR; TelResR; TelResC; ComResC; RgRes; CicRes; ObsRes; SitRes2; SitRes; NomRes2; EndRes2; CidRes2,media
+config_admin,CadTur,Importa\ESC\FILIAL\CadTur.DB,2048,16,outro:8; id_codigo:4; data_hora:2; texto_observacao:1; cliente_ref:1,CodTur; DesTur; CodCur; PreCur; QdeAlu; ObsTur; DatIni; DatFim; CargHor; DiaSem; CodPro; ValMat; HorIni; HorFim; Encena; CodHor,media
+config_admin,MovPdv,Importa\ESC\FILIAL\MovPdv.DB,2048,11,id_codigo:5; outro:2; valor_monetario:2; data_hora:1; texto_observacao:1,CodPdv; SeqLan; CodTur; CodCont; Qde; ValorUni; ValorFinal; DatLan; Obs; NumNot; CodUsuario,media
+config_admin,AvisoContEti,Lav\FILIAL\AvisoContEti.DB,2048,11,outro:3; id_codigo:2; status_situacao:2; ordem_rol_ref:1; valor_monetario:1; quantidade:1; data_hora:1,Rol; CodPro; SeqPro; DescAviso; Quantidade; QdeSaida; Diferenca; Baixa; DatBaixa; ObsBaixa; CodCli,media
+config_admin,Bonus,Lav\FILIAL\Bonus.DB,2048,7,id_codigo:3; outro:2; data_hora:1; texto_observacao:1,Campanha; Chave; DatBon; HorBon; CodUsuario; CodVen; Obs,media
+config_admin,CadGR,Lav\FILIAL\CadGR.DB,2048,2,id_codigo:1; data_hora:1,NumGR; DatLan,media
+config_admin,CadLoc,Lav\FILIAL\CadLoc.DB,34816,12,id_codigo:4; outro:4; ordem_rol_ref:2; status_situacao:1; cliente_ref:1,CodLoc; DesLoc; TipLoc; Rol; Prioridade; Bloqueia; Cancelado; CodPro; SeqPro; TamPeca; RegCodLoc; CodCli,media
+config_admin,CadLocPec,Lav\FILIAL\CadLocPec.DB,9209856,20,outro:7; id_codigo:6; data_hora:4; ordem_rol_ref:1; status_situacao:1; fiscal_documento:1,Rol; CodPro; SeqPro; CodLoc; Situacao; DatPrevEnt; DatEnt; CodVen; HorPrevEnt; HorEnt; NumNot; SeqExport; NotaFis; CodPas; DatPas; HorPas; GeraAutom; CodVenEst,media
+config_admin,CadLocReg,Lav\FILIAL\CadLocReg.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,RegCodLoc; DesReg; ObsReg; Cancelado; MotivoCan; DatCan,media
+config_admin,CliPromAcu,Lav\FILIAL\CliPromAcu.DB,2048,3,id_codigo:2; outro:1,CodCli; CodProm; QdeAcum,media
+config_admin,ContIdent,Lav\FILIAL\ContIdent.DB,2048,5,outro:2; id_codigo:2; ordem_rol_ref:1,Grupo; Identif; Rol; CodPro; SeqPro,media
+config_admin,Disp,Lav\FILIAL\Disp.DB,2048,6,id_codigo:3; valor_monetario:2; ordem_rol_ref:1,CodAp; IdAp; Descricao; DescAbr; ImpRol; CodApAbr,media
+config_admin,Doacao,Lav\FILIAL\Doacao.DB,2048,8,outro:3; id_codigo:2; ordem_rol_ref:1; data_hora:1; status_situacao:1,Doacao; Rol; CodCli; NumNot; DatDoa; ValDoa; Status; MotCanc,media
+config_admin,EncCaiLav,Lav\FILIAL\EncCaiLav.DB,2048,9,outro:4; data_hora:2; id_codigo:2; texto_observacao:1,DatEnc; TipEnc; CodUsuario; CodVen; Obs; HorEnc; DatEncSis; SeqExporta; HorEncIni,media
+config_admin,EntLote,Lav\FILIAL\EntLote.DB,2048,16,data_hora:5; id_codigo:4; outro:2; usuario_auditoria:2; texto_observacao:2; cliente_ref:1,Seq; DataA; HoraA; Usuario; CodVen; Tipo; Obs; DataF; HoraF; CodVenF; UsuarioF; Cancelado; DatCan; MotivoCan; CodVenCan; CodEmpree,media
+config_admin,EntMovLote,Lav\FILIAL\EntMovLote.DB,2048,9,outro:2; data_hora:2; id_codigo:2; ordem_rol_ref:1; quantidade:1; texto_observacao:1,Seq; Rol; Tipo; Data; Hora; CodVen; Quantidade; Obs; CodEmpree,media
+config_admin,MetasGruPro,Lav\FILIAL\MetasGruPro.DB,2048,3,outro:1; texto_observacao:1; valor_monetario:1,GruVen; AnoMes; Valor,media
+config_admin,MetasVen,Lav\FILIAL\MetasVen.DB,2048,3,outro:1; texto_observacao:1; valor_monetario:1,GruVen; AnoMes; Valor,media
+config_admin,MovAgenda,Lav\FILIAL\MovAgenda.DB,2048,6,data_hora:2; cliente_ref:1; ordem_rol_ref:1; outro:1; id_codigo:1,SeqAgenda; Rol; DatAgen; HorAgen; Duracao; CodVen,media
+config_admin,MovCabDes,Lav\FILIAL\MovCabDes.DB,34816,3,ordem_rol_ref:1; id_codigo:1; valor_monetario:1,Rol; CodDesc; Desconto,media
+config_admin,MovDesc,Lav\FILIAL\MovDesc.DB,2048,11,id_codigo:3; outro:2; ordem_rol_ref:2; data_hora:2; quantidade:1; status_situacao:1,Seq; CodCli; CodDesc; RolOrigem; DatLan; RolDestino; DataUtilizada; Quantidade; CodProDestino; SeqProDestino; Status,media
+config_admin,MovEntSai,Lav\FILIAL\MovEntSai.DB,2048,6,id_codigo:2; valor_monetario:2; ordem_rol_ref:1; outro:1,CodCli; CodPro; SaldoAnt; SaldoAtu; UltRol; UltSeq,media
+config_admin,MovImportacao,Lav\FILIAL\MovImportacao.DB,2048,7,id_codigo:3; outro:2; data_hora:1; status_situacao:1,Seq; NumOs; CodAp; CodCli; DatLan; Status; GerPor,media
+config_admin,MovItemDef,Lav\FILIAL\MovItemDef.DB,34816,5,id_codigo:2; outro:2; ordem_rol_ref:1,Rol; CodPro; SeqPro; CodDef; DesDef,media
+config_admin,MovItemPac,Lav\FILIAL\MovItemPac.DB,2048,5,outro:2; ordem_rol_ref:1; id_codigo:1; status_situacao:1,Rol; CodPro; SeqPro; Seq; Status,media
+config_admin,MovItemPro,Lav\FILIAL\MovItemPro.DB,2048,5,outro:2; ordem_rol_ref:1; id_codigo:1; texto_observacao:1,Rol; CodPro; SeqPro; Qde; Obs,media
+config_admin,MovItemSer,Lav\FILIAL\MovItemSer.DB,37029888,11,id_codigo:3; outro:3; quantidade:2; ordem_rol_ref:1; texto_observacao:1; valor_monetario:1,Rol; CodPro; SeqPro; CodSerLav; Quantidade; Peso; PreUniSer; PreFinalSer; CodSerTer; Obs; ValorTerc,media
+config_admin,MovItemSerPro,Lav\FILIAL\MovItemSerPro.DB,2048,8,id_codigo:4; outro:2; ordem_rol_ref:1; data_hora:1,Rol; CodPro; SeqPro; CodSerLav; CodPas; DatPas; CodVen; HorPas,media
+config_admin,MovItemTin,Lav\FILIAL\MovItemTin.DB,2048,7,id_codigo:5; ordem_rol_ref:1; outro:1,Rol; CodPro; SeqPro; CodCor1; CodCor2; CodSerTer; CodTipTin,media
+config_admin,MovLimite,Lav\FILIAL\MovLimite.DB,2048,3,outro:1; data_hora:1; ordem_rol_ref:1,SeqLimite; DatMesAno; CanUtilizados,media
+config_admin,MovLimPro,Lav\FILIAL\MovLimPro.DB,67584,3,data_hora:1; id_codigo:1; outro:1,DatLan; CodSerLav; QdePonLan,media
+config_admin,MovPacot,Lav\FILIAL\MovPacot.DB,2048,13,outro:5; id_codigo:3; data_hora:3; cliente_ref:1; quantidade:1,Seq; CodCli; CodPacote; GruPro; DatIni; DatFim; MedPec; TotValPec; TotValLcto; Cancelado; NumNot; VenctoOriginal; QtdRenovacao,media
+config_admin,MovPecLav,Lav\FILIAL\MovPecLav.DB,2048,8,id_codigo:4; outro:2; data_hora:1; ordem_rol_ref:1,CodPas; CodArea; DatLan; HorLan; Rol; CodPro; SeqPro; CodFil,media
+config_admin,MovPontos,Lav\FILIAL\MovPontos.DB,264192,6,outro:2; id_codigo:2; data_hora:1; ordem_rol_ref:1,Seq; DatLan; CodCli; Pontos; DesPremio; CodVen,media
+config_admin,MovRetirada,Lav\FILIAL\MovRetirada.DB,2048,22,id_codigo:6; outro:5; data_hora:3; texto_observacao:3; ordem_rol_ref:3; status_situacao:1; cliente_ref:1,SeqRetira; CodCli; DatLan; HorLan; DatRet; HorRet; Obs; CodVen; CodUsuario; Status; Cancelado; DatCan; MotivoCan; Rol; SeqExporta; Obs2; HorCan; CodVenCan,media
+config_admin,MovSaida,Lav\FILIAL\MovSaida.DB,2048,12,id_codigo:4; data_hora:2; ordem_rol_ref:2; texto_observacao:2; outro:1; cliente_ref:1,Seq; CodCli; DatLan; Rol; Obs; Cancelado; MotivoCan; DatCan; CodTab; HorCan; CodVenCan; CodVen,media
+config_admin,MovSaidaItem,Lav\FILIAL\MovSaidaItem.DB,2048,11,outro:6; valor_monetario:2; id_codigo:1; texto_observacao:1; produto_ref:1,Seq; CodPro; SeqPro; QdeSi; Obs; SaldoAnt; SaldoAtu; QdePrev; KG; GruPro; DesPro,media
+config_admin,MovTerc,Lav\FILIAL\MovTerc.DB,2048,17,id_codigo:4; data_hora:4; outro:3; texto_observacao:3; cliente_ref:1; status_situacao:1; ordem_rol_ref:1,CodSerTer; CodFor; DatLan; ComForTer; TipForTer; CodUsuario; Obs; Cancelado; DatCan; MotivoCan; SeqExporta; Status; DatPrevEnt; Obs1; HorCan; CodVenCan; DatBaixa,media
+config_admin,MovTerCom,Lav\FILIAL\MovTerCom.DB,2048,7,id_codigo:3; outro:2; ordem_rol_ref:1; fiscal_documento:1,CodSerTer; Rol; CodPro; SeqPro; CodSerLav; TipCom; Comissao,media
+config_admin,MovTercPec,Lav\FILIAL\MovTercPec.DB,2048,8,id_codigo:3; outro:2; ordem_rol_ref:1; data_hora:1; status_situacao:1,CodSerTer; Rol; CodPro; SeqPro; CodSerLav; DatEnt; HorEnt; Status,media
+config_admin,MovVenItem,Lav\FILIAL\MovVenItem.DB,2048,12,outro:6; id_codigo:3; ordem_rol_ref:1; data_hora:1; quantidade:1,CodVen; ROL; CodPro; SeqPro; Data; NotFat; CodFaiCom; ValPro; Taxa; ValMat; Quantidade; ValFaiCom,media
+config_admin,NotComp,Lav\FILIAL\NotComp.DB,5113856,12,id_codigo:6; outro:6,NumNot; Seq; NumFat; NumDup; ValComp; CodFpg; NumDoc; SeqCai; TipSeq; SeqTaxa; CompDoc; NumFatIni,media
+config_admin,NotFis,Lav\FILIAL\NotFis.DB,2048,16,fiscal_documento:3; ordem_rol_ref:3; outro:3; id_codigo:2; data_hora:2; texto_observacao:2; cliente_ref:1,NumNotFis; TipNota; Controle1; Controle2; DatEmi; ValNot; ValBasNot; PorISS; ISS; Obs1; Obs2; Cancelado; DatCanc; MotCanc; HorCan; CodVenCan,media
+config_admin,NotFisConf,Lav\FILIAL\NotFisConf.DB,2048,3,id_codigo:1; outro:1; texto_observacao:1,ID; Conteudo; Obs,media
+config_admin,NotFisE,Lav\FILIAL\NotFisE.DB,2048,16,outro:4; id_codigo:3; data_hora:3; status_situacao:2; texto_observacao:2; fiscal_documento:1; cliente_ref:1,SeqNfe; NumNot; CodCli; ValNot; DatEmi; SitNota; Obs; SeqSit; DatSit; DatVen; Instrucao; CodVencim; MotivoCan; SeqExporta; OmiteCpf; CaminhoPDF,media
+config_admin,NotFisEComp,Lav\FILIAL\NotFisEComp.DB,2048,8,outro:3; produto_ref:2; quantidade:2; fiscal_documento:1,SeqNfe; SeqPro; DesPro; Quantidade; Peso; PreUniVen; PreFinal; Unidade,media
+config_admin,AvisoRoupa,PEC\FILIAL\AvisoRoupa.DB,2048,16,outro:5; id_codigo:3; data_hora:3; usuario_auditoria:2; ordem_rol_ref:1; status_situacao:1; texto_observacao:1,SeqAviso; CodRoupa; DatLan; HorLan; CodUsuario; MotAviso; PosRoupa; ResUsuario; GeraAlerta; CodClaMan; DatMan; SitAviso; ObsAviso; DatProces; HorProces; UsuarioProces,media
+config_admin,DupComp,REC\FILIAL\DupComp.DB,2048,4,id_codigo:2; outro:2,NumFat; NumDup; NomCampo; Campo,media
+config_admin,DupIntTit,REC\FILIAL\DupIntTit.DB,2048,6,id_codigo:3; outro:2; status_situacao:1,NumFat; NumDup; NumTit; Seq; Status; Modulo,media
+config_admin,DupMotAlt,REC\FILIAL\DupMotAlt.DB,2048,10,data_hora:4; id_codigo:3; texto_observacao:1; outro:1; usuario_auditoria:1,NumFat; NumDup; CodCli; DatAlt; MotAltDup; DiasAlt; Obs; ValDup; Usuario; DatMod,media
+config_admin,DupReaj,REC\FILIAL\DupReaj.DB,2048,5,id_codigo:2; ordem_rol_ref:1; outro:1; status_situacao:1,NumFat; NumDup; PorcReaj; ValFinal; Status,media
+config_admin,FatArq,REC\FILIAL\FatArq.DB,2048,9,outro:3; id_codigo:3; status_situacao:1; cliente_ref:1; data_hora:1,Seq; NumNot; NumFat; NumDup; ArqFat; ArqBoleto; Status; EnvioEmail; DataEnvio,media
+config_admin,NotFisFin,REC\FILIAL\NotFisFin.DB,2048,11,fiscal_documento:5; outro:2; data_hora:1; id_codigo:1; cliente_ref:1; texto_observacao:1,Serie; NotFisFin; DatEmi; HorEmi; ValNota; CodUsuario; Cancelado; RecISS; RecIcms; RecIPI; Obs,media
+config_admin,NotFisFinCan,REC\FILIAL\NotFisFinCan.DB,2048,6,fiscal_documento:1; outro:1; data_hora:1; ordem_rol_ref:1; id_codigo:1; texto_observacao:1,Serie; NotFisFin; DatCan; HorCan; CodUsuario; MotivoCan,media
+config_admin,Remessa,REC\FILIAL\Remessa.DB,2048,8,data_hora:3; outro:2; id_codigo:1; texto_observacao:1; usuario_auditoria:1,SeqConta; Numero; Data; Hora; Observacao; Usuario; DatRet; HorRet,media
+estoque,ProdEst,EST\DADOS\ProdEst.DB,2048,24,id_codigo:11; outro:5; fiscal_documento:4; produto_ref:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodProEst; DesProEst; CodUniPro; GruProEst; TipConEst; CodCla; CodSubC; Cancelado; MotivoCan; DatCan; ArqImagem; CodMarEst; QdeEmb; CodCenCus; CodGruEst1; CodGruEst2; CodGruEst3; CodGruEst4,critica
+estoque,ProdEstKit,EST\DADOS\ProdEstKit.DB,2048,3,id_codigo:3,CodPro; CodEst; CodKit,critica
+estoque,ProdEstPac,EST\DADOS\ProdEstPac.DB,2048,3,id_codigo:2; outro:1,CodProEst; CodProEstP; Qde,critica
+estoque,TabProdEst,EST\DADOS\TabProdEst.DB,2048,4,id_codigo:2; outro:2,CodTabEst; CodProEst; PreUni; Moeda,critica
+estoque,MovEst,EST\FILIAL\MovEst.DB,34816,17,outro:6; id_codigo:6; data_hora:2; fiscal_documento:1; texto_observacao:1; cliente_ref:1,SeqLan; CodEst; CodProEst; DatLan; Qde; TipoES; ValTot; ValUnit; TipInteg; CodInteg; Obs; Cancelado; CodUsuario; CodClaEst; SeqExporta; CodFun; CFiscal,critica
+estoque,MovEstCan,EST\FILIAL\MovEstCan.DB,2048,6,id_codigo:3; outro:1; data_hora:1; texto_observacao:1,CodEst; CodProEst; SeqLan; DatCan; MotivoCan; CodUsuario,critica
+estoque,MovEstEnc,EST\FILIAL\MovEstEnc.DB,2048,6,id_codigo:3; outro:2; data_hora:1,CodEst; CodProEst; DatEnc; QdeEst; CodUsuario; SeqExporta,critica
+estoque,ProdEst,Importa\EST\DADOS\ProdEst.DB,2048,18,id_codigo:10; outro:4; produto_ref:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodProEst; DesProEst; CodUniPro; GruProEst; TipConEst; CodCla; CodSubC; Cancelado; MotivoCan; DatCan; ArqImagem; CodMarEst; QdeEmb; CodCenCus; CodGruEst1; CodGruEst2; CodGruEst3; CodGruEst4,critica
+estoque,MovEst,Importa\EST\FILIAL\MovEst.DB,2048,15,outro:5; id_codigo:5; data_hora:2; fiscal_documento:1; texto_observacao:1; cliente_ref:1,SeqLan; CodEst; CodProEst; DatLan; Qde; TipoES; ValTot; ValUnit; TipInteg; CodInteg; Obs; Cancelado; CodUsuario; CodClaEst; SeqExporta,critica
+estoque,MovEstLan,Lav\FILIAL\MovEstLan.DB,2048,6,outro:2; id_codigo:2; quantidade:1; data_hora:1,Sequencia; CodTab; CodPro; Quantidade; Tipo; DatLan,critica
+financeiro,NotasEsc,ESC\FILIAL\NotasEsc.DB,2048,16,id_codigo:6; fiscal_documento:3; data_hora:2; outro:2; texto_observacao:2; cliente_ref:1,NumNot; CodCli; DatEmi; ValNot; CodUsuario; ValBasNot; TipNota; Obs; CodTransp; Cancelada; DataCanc; MotivoCanc; BaseISS; ISS; CodVen; NumNotFis,critica
+financeiro,CliCredito,Lav\FILIAL\CliCredito.DB,34816,14,outro:5; id_codigo:3; data_hora:2; texto_observacao:1; cliente_ref:1; status_situacao:1; ordem_rol_ref:1,NumNot; CodCli; ValCre; DatCre; Integra; Obs; Cancelado; Sit; SeqExporta; DatVal; VerVal; CodPacote; QdeParc; Rol,critica
+financeiro,FecCaixa,Lav\FILIAL\FecCaixa.DB,2048,3,outro:1; id_codigo:1; data_hora:1,SeqCaixa; CodUsuario; DatEnc,critica
+financeiro,MovIniCaixa,Lav\FILIAL\MovIniCaixa.DB,2048,6,data_hora:2; outro:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,Data; Seq; Valor; Cancelado; DatCan; MotivoCan,critica
+financeiro,NotaFisPag,Lav\FILIAL\NotaFisPag.DB,2048,16,fiscal_documento:3; ordem_rol_ref:3; outro:3; id_codigo:2; data_hora:2; texto_observacao:2; cliente_ref:1,NumNotFis; TipNota; Controle1; Controle2; DatEmi; ValNot; ValBasNot; PorISS; ISS; Obs1; Obs2; Cancelado; DatCanc; MotCanc; HorCan; CodVenCan,critica
+financeiro,Notas,Lav\FILIAL\Notas.DB,13043712,37,id_codigo:10; outro:9; fiscal_documento:4; ordem_rol_ref:4; data_hora:2; texto_observacao:2; quantidade:2; valor_monetario:2,NumNot; CodCli; DatEmi; ValNot; CodUsuario; ValBasNot; TipNota; Obs; CodTransp; Cancelada; DataCanc; MotivoCanc; BaseISS; ISS; CodVen; NumNotFis; Placa; CodEsp,critica
+financeiro,PrevisaoPag,PAG\FILIAL\PrevisaoPag.DB,2048,9,id_codigo:4; data_hora:2; outro:1; valor_monetario:1; status_situacao:1,Seq; CodCla; CodSubC; CodFor; Valor; DatIni; DatFim; CodCenCus; Status,critica
+financeiro,TitGru,PAG\FILIAL\TitGru.DB,2048,9,data_hora:4; texto_observacao:2; outro:1; id_codigo:1; cliente_ref:1,SeqGru; CodFor; DatEmi; DatVen; ValTit; Obs; Cancelado; DatCan; MotivoCan,critica
+financeiro,TitGruLan,PAG\FILIAL\TitGruLan.DB,2048,8,outro:3; id_codigo:3; valor_monetario:1; texto_observacao:1,SeqGru; SeqGruLan; CodCla; CodSubC; CodCenCus; Valor; Obs; Documento,critica
+financeiro,Titulos,PAG\FILIAL\Titulos.DB,67584,36,id_codigo:13; outro:9; data_hora:8; texto_observacao:3; status_situacao:2; cliente_ref:1,NumTit; Seq; DatEmi; DatVen; ValTot; ValTit; Baixa; DatPag; ValTitPag; CodFor; CodBan; CodAgeBan; ConCor; NumDev; ValDev; Obs; SeqCai; CodCla,critica
+financeiro,Boletos,REC\FILIAL\Boletos.DB,2048,10,outro:5; id_codigo:2; data_hora:1; cliente_ref:1; status_situacao:1,BanCai; NossoNumero; DatEmi; HorEmi; ValBol; CodUsuario; Cancelado; SeqLot; Banco; Baixa,critica
+financeiro,BoletosCan,REC\FILIAL\BoletosCan.DB,2048,6,id_codigo:2; outro:1; data_hora:1; ordem_rol_ref:1; texto_observacao:1,BanCai; NossoNumero; DatCan; HorCan; CodUsuario; MotivoCan,critica
+financeiro,BoletosDupCan,REC\FILIAL\BoletosDupCan.DB,2048,4,id_codigo:3; outro:1,BanCai; NossoNumero; NumFat; NumDup,critica
+financeiro,BoletosLot,REC\FILIAL\BoletosLot.DB,2048,8,outro:4; data_hora:1; id_codigo:1; cliente_ref:1; status_situacao:1,SeqLot; DatEmi; HorEmi; CodUsuario; Cancelado; BanCai; Banco; Baixa,critica
+financeiro,DupBoleto,REC\FILIAL\DupBoleto.DB,2048,16,id_codigo:6; outro:5; status_situacao:3; data_hora:2,Seq; NumFat; NumDup; DatEmi; CodUsuario; Conta; ValBoleto; URLBoleto; CodBarras; Mensagem; Status; Baixa; DatBaixa; ValBaixa; idTransacao; NumeroPedido,critica
+financeiro,Duplicat,REC\FILIAL\Duplicat.DB,13701120,60,id_codigo:21; outro:21; data_hora:6; ordem_rol_ref:3; texto_observacao:3; status_situacao:2; fiscal_documento:2; cliente_ref:1,NumFat; NumDup; DatEmi; DatVen; ValFat; ValDup; EmiBol; Baixa; DatPag; ValDupPag; CodCli; EmitDup; CodFpg; CodCpg; CodBan; CodAgeBan; ConCor; NumDev,critica
+financeiro,Anotacoes,SAT\FILIAL\Anotacoes.DB,2048,17,outro:6; data_hora:4; fiscal_documento:3; id_codigo:2; status_situacao:1; usuario_auditoria:1,SeqAnota; CodUsuario; DatAnota; HorAnota; DesAnota; SitAnota; DatAlerta; HorAlerta; ParUsuario; Titulo; SeqExporta; Vis; Lido; Importante; TipSat; CodSat; SeqOcor,critica
+financeiro,NotaSat,SAT\FILIAL\NotaSat.DB,2048,10,id_codigo:3; outro:3; data_hora:1; fiscal_documento:1; texto_observacao:1; cliente_ref:1,NumNotSat; CodCli; DatEmi; ValNot; CodUsuario; ValBasNot; TipNota; Obs; Cancelada; HorEmi,critica
+financeiro,NotaSatCanc,SAT\FILIAL\NotaSatCanc.DB,2048,5,id_codigo:2; data_hora:1; ordem_rol_ref:1; texto_observacao:1,NumNotSat; DatCan; HorCan; MotivoCan; CodUsuario,critica
+fiscal,NFeConf,Estruturas\NFeConf.DB,4096,5,outro:2; id_codigo:1; valor_monetario:1; texto_observacao:1,ID; Campo; Descricao; Obs; Grupo,alta
+fiscal,CadDesatCli,Ger\Dados\CadDesatCli.DB,2048,2,id_codigo:1; outro:1,CodMotDes; DesMotDes,alta
+fiscal,CamRecFil,REC\FILIAL\CamRecFil.DB,2048,7,id_codigo:3; outro:2; valor_monetario:1; data_hora:1,NumFat; NumDup; Arquivo; Campo; DesCampo; DatLan; CodUsuario,alta
+fiscal,ArqDocum,SAT\DADOS\ArqDocum.DB,2048,9,outro:7; usuario_auditoria:1; texto_observacao:1,SeqArq; NomDocum; Caminho; UsuarioArq; ArqBD; Obs; TipArq; CaminhoDes; PlanX,alta
+fiscal,CadAjuDoc,SAT\DADOS\CadAjuDoc.DB,2048,9,outro:7; texto_observacao:1; data_hora:1,ArqDoc; Rotina; Arquivo; Campo; Obs; Linha; Coluna; Tipo; TrocaDe,alta
+fiscal,CadClaAlt,SAT\DADOS\CadClaAlt.DB,2048,6,data_hora:2; id_codigo:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,CodClaAlt; DesClaAlt; ObsClaAlt; Cancelado; MotivoCan; DatCan,alta
+fiscal,CadSatCla,SAT\DADOS\CadSatCla.DB,2048,9,fiscal_documento:3; texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodSatCla; DesSatCla; ObsSatCla; CorSatCla; PrioridCor; Cancelado; MotivoCan; DatCan; CorSatClaF,alta
+fiscal,CadSatSit,SAT\DADOS\CadSatSit.DB,2048,9,status_situacao:4; id_codigo:1; outro:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodSatSit; DesSatSit; ObsSatSit; CorSatSit; PrioridCor; Cancelado; MotivoCan; DatCan; CorSatSitF,alta
+fiscal,CadSatSubC,SAT\DADOS\CadSatSubC.DB,2048,6,texto_observacao:2; id_codigo:1; fiscal_documento:1; cliente_ref:1; data_hora:1,CodSatSubC; DesSatSubC; ObsSatSubC; Cancelado; MotivoCan; DatCan,alta
+fiscal,CadSatTip,SAT\DADOS\CadSatTip.DB,2048,9,fiscal_documento:3; texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodSatTip; DesSatTip; ObsSatTip; CorSatTip; PrioridCor; Cancelado; MotivoCan; DatCan; CorSatTipF,alta
+fiscal,CadSubCAlt,SAT\DADOS\CadSubCAlt.DB,2048,6,data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1,CodSubCAlt; DesSubCAlt; ObsSubCAlt; Cancelado; MotivoCan; DatCan,alta
+fiscal,CadTipAlt,SAT\DADOS\CadTipAlt.DB,2048,6,data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1,CodTipAlt; DesTipAlt; ObsTipAlt; Cancelado; MotivoCan; DatCan,alta
+fiscal,CadVer,SAT\DADOS\CadVer.DB,2048,2,id_codigo:2,CodSis; CodVer,alta
+fiscal,CompAlt,SAT\DADOS\CompAlt.DB,2048,6,data_hora:2; id_codigo:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,CodCompAlt; DesCompAlt; Cancelado; DatCan; MotivoCan; ObsCompAlt,alta
+fiscal,Documentos,SAT\DADOS\Documentos.DB,2048,4,outro:4,NomDoc; Finalidade; Caminho; Atributo,alta
+fiscal,ErrosSat,SAT\DADOS\ErrosSat.DB,2048,7,id_codigo:4; outro:3,CodErro; DesErro; DesErroCom; Solucao; CodSatCla; CodSatSubC; CodSatGru,alta
+fiscal,GruSatLan,SAT\DADOS\GruSatLan.DB,2048,6,fiscal_documento:2; texto_observacao:2; data_hora:1; cliente_ref:1,GruSat; DesGruSat; Obs; DatCan; Cancelado; MotivoCan,alta
+fiscal,PadMenSat,SAT\DADOS\PadMenSat.DB,2048,10,id_codigo:4; fiscal_documento:1; valor_monetario:1; outro:1; cliente_ref:1; texto_observacao:1; data_hora:1,SeqSatPad; Descricao; Solucao; CodSatCla; CodSatSubC; CodErro; CodUsuario; Cancelado; MotivoCan; DatCan,alta
+fiscal,Alteracoes,SAT\FILIAL\Alteracoes.DB,2048,20,outro:9; id_codigo:4; data_hora:4; valor_monetario:1; status_situacao:1; usuario_auditoria:1,Seq; CodCli; DatLan; HorLan; CodUsuario; Sistema; Rotina; CodClaAlt; Descricao; DatSolic; HorSolic; CodSatTip; Contactant; Situacao; Prioridade; DatProm; DatSolucao; HorSolucao,alta
+fiscal,AndAltSist,SAT\FILIAL\AndAltSist.DB,2048,8,data_hora:4; outro:2; id_codigo:1; cliente_ref:1,SeqSolAltSist; SeqAndAltSist; CodUsuario; DatInicio; HorInicio; DatFinal; HorFinal; Cancelado,alta
+fiscal,LogExpSat,SAT\FILIAL\LogExpSat.DB,2048,7,outro:3; data_hora:1; id_codigo:1; ordem_rol_ref:1; status_situacao:1,SeqExporta; DesExporta; DatExporta; CodUsuario; TotLanctos; SitExporta; TipExporta,alta
+fiscal,LogImpSat,SAT\FILIAL\LogImpSat.DB,2048,5,outro:2; data_hora:1; id_codigo:1; ordem_rol_ref:1,SeqImporta; DesImporta; DatImporta; CodUsuario; TotLanctos,alta
+fiscal,MovSatAle,SAT\FILIAL\MovSatAle.DB,2048,16,outro:5; fiscal_documento:3; id_codigo:3; data_hora:3; status_situacao:1; usuario_auditoria:1,SeqAlerta; TipSat; CodSat; SeqSat; DatLan; HorLan; CodUsuario; DatAlerta; HorAlerta; SitAlerta; ExportaSAT; CodSatTip; Importante; Lido; Reuniao; UsuarioReu,alta
+fiscal,MovSatCli,SAT\FILIAL\MovSatCli.DB,2048,33,id_codigo:12; outro:9; data_hora:5; fiscal_documento:4; valor_monetario:1; cliente_ref:1; usuario_auditoria:1,SeqSatCli; CodCli; DatLan; HorLan; CodSatTip; Descricao; CodSatSit; CodUsuario; SatPara; Contactant; Contactad; CodSatCla; Cancelado; DatSolucao; HorSolucao; ExportaSat; CodSatSubC; DatPrevSol,alta
+fiscal,MovSatCliPro,SAT\FILIAL\MovSatCliPro.DB,2048,6,outro:3; fiscal_documento:1; id_codigo:1; valor_monetario:1,SeqSatCli; CodPro; Descricao; ValUnit; Qde; ValFinal,alta
+fiscal,MovSatEmail,SAT\FILIAL\MovSatEmail.DB,2048,12,outro:3; id_codigo:2; data_hora:2; texto_observacao:2; fiscal_documento:1; cliente_ref:1; status_situacao:1,TipSat; CodSat; DatLan; HorLan; CodUsuario; DatEnv; HorEnv; Email; Status; Obs; Titulo; Nome,alta
+fiscal,MovSatExec,SAT\FILIAL\MovSatExec.DB,2048,8,outro:3; fiscal_documento:2; id_codigo:2; ordem_rol_ref:1,TipSat; CodSat; SeqSat; CodOpeExe; SeqExe; TipComando; Comando; Parametros,alta
+fiscal,MovSatFor,SAT\FILIAL\MovSatFor.DB,2048,32,id_codigo:11; outro:9; data_hora:5; fiscal_documento:4; valor_monetario:1; cliente_ref:1; usuario_auditoria:1,SeqSatFor; CodFor; DatLan; HorLan; CodSatTip; Descricao; CodSatSit; CodUsuario; SatPara; Contactant; Contactad; CodSatCla; Cancelado; DatSolucao; HorSolucao; ExportaSAT; CodSatSubC; DatPrevSol,alta
+fiscal,MovSatInt,SAT\FILIAL\MovSatInt.DB,2048,32,id_codigo:11; outro:9; data_hora:5; fiscal_documento:4; valor_monetario:1; cliente_ref:1; usuario_auditoria:1,SeqSatInt; CodInt; DatLan; HorLan; CodSatTip; Descricao; CodSatSit; CodUsuario; SatPara; Contactant; Contactad; CodSatCla; Cancelado; DatSolucao; HorSolucao; ExportaSat; CodSatSubC; DatPrevSol,alta
+fiscal,NotCompSat,SAT\FILIAL\NotCompSat.DB,2048,9,id_codigo:5; outro:4,NumNotSat; Seq; NumFat; NumDup; ValComp; CodFpg; NumDoc; SeqCai; TipSeq,alta
+fiscal,SatFilCam,SAT\FILIAL\SatFilCam.DB,2048,5,outro:4; id_codigo:1,Arquivo; Campo; Chave1; Conteudo; Memo,alta
+fiscal,SolAltCli,SAT\FILIAL\SolAltCli.DB,2048,10,data_hora:3; fiscal_documento:2; id_codigo:1; texto_observacao:1; cliente_ref:1; outro:1; usuario_auditoria:1,CodSat; TipSat; SeqSat; SeqSolAltSist; Obs; Cancelado; DatProment; DatAviCli; ContatoCli; UsuarioCli,alta
+fiscal,SolAltCliCan,SAT\FILIAL\SolAltCliCan.DB,2048,9,fiscal_documento:2; id_codigo:2; data_hora:2; ordem_rol_ref:1; texto_observacao:1; outro:1,TipSat; SeqSat; CodSat; SeqSolAltSist; DatCan; HorCan; MotivoCan; CodUsuario; Contato,alta
+fiscal,SolAltSist,SAT\FILIAL\SolAltSist.DB,2048,36,data_hora:10; outro:10; id_codigo:8; usuario_auditoria:4; texto_observacao:2; fiscal_documento:1; valor_monetario:1,SeqSolAltSist; DesSolAltSist; CodClaAlt; CodSubCAlt; CodTipAlt; CodSat; DiasPrevDes; HorPrevDes; CodUsuario; ResUsuario; DatSolucao; HorSolucao; SitAlteracao; TipSat; DatPrevIni; Finalidade; DatAnalise; UsuAnalise,alta
+fiscal,SolAltSistCan,SAT\FILIAL\SolAltSistCan.DB,2048,5,data_hora:2; ordem_rol_ref:1; texto_observacao:1; id_codigo:1,SeqSolAltSist; DatCan; HorCan; MotivoCan; CodUsuario,alta
+fiscal,SolAltSistTest,SAT\FILIAL\SolAltSistTest.DB,2048,14,outro:5; data_hora:3; status_situacao:1; cliente_ref:1; usuario_auditoria:1; id_codigo:1; ordem_rol_ref:1; texto_observacao:1,SeqSolAltSist; SeqTest; SitTeste; Cancelado; ResUsuario; CodFil; NomFil; Equipamentos; DatEnt; HorEnt; DatExe; HorExe; Obs; QdeTest,alta
+ordem_servico_rol,MovControle,Ger\Filial\MovControle.DB,4096,61,id_codigo:16; outro:15; data_hora:12; status_situacao:8; ordem_rol_ref:3; cliente_ref:2; texto_observacao:2; valor_monetario:1,CodCont; Seq; DatLan; HorLan; CodUsuario; CodSistema; SeqOcor; Solicitacao; CodCli; Anexo; Documenta; CodTipCon; ObsEntrega; ProcEfetuados; Contato; email; Situacao; DatAnalise,critica
+ordem_servico_rol,MovProc,Ger\Filial\MovProc.DB,2048,13,outro:5; id_codigo:2; fiscal_documento:2; status_situacao:1; texto_observacao:1; produto_ref:1; data_hora:1,CodCad; CodProces; SeqProces; SeqSat; SeqOcor; Situacao; Obs; Versao; Prazo; DesProces; DatIni; Resp; TipSat,critica
+ordem_servico_rol,MovProcItem,Ger\Filial\MovProcItem.DB,2048,15,outro:6; data_hora:3; id_codigo:2; texto_observacao:2; status_situacao:1; produto_ref:1,CodCad; CodProces; SeqProcCad; Seq; Situacao; Obs; DesOpera; TipProces; Ordem; DatFim; DatConc; RespConc; Resp; ObsOpera; Marca,critica
+ordem_servico_rol,CadLocRol,Lav\Dados\CadLocRol.DB,2048,6,texto_observacao:2; id_codigo:1; ordem_rol_ref:1; cliente_ref:1; data_hora:1,CodLocRol; DesLocRol; Obs; Cancelado; MotivoCan; DatCan,critica
+ordem_servico_rol,TabProLim,Lav\Dados\TabProLim.DB,2048,11,quantidade:5; outro:4; id_codigo:2,CodTab; CodPro; MesAno; QdeLim; QdeAcu; QtdeAcuQuim; Qtde1Sem; Qtde2Sem; Qtde3Sem; Qtde4Sem; Contrato,critica
+ordem_servico_rol,ControleEti,Lav\FILIAL\ControleEti.DB,2048,7,ordem_rol_ref:3; outro:2; data_hora:1; id_codigo:1,ControleEti; Data; Rol; CodPro; QdeReal; SeqPro; RolSeqPro,critica
+ordem_servico_rol,IndenRol,Lav\FILIAL\IndenRol.DB,2048,5,outro:2; ordem_rol_ref:1; id_codigo:1; texto_observacao:1,SeqInden; Rol; CodPro; Motivo; SeqCai,critica
+ordem_servico_rol,MovCab,Lav\FILIAL\MovCab.DB,14487552,58,id_codigo:22; ordem_rol_ref:13; outro:11; data_hora:6; produto_ref:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,ROL; CodCli; DatEntLoja; CodTab; CodTipSer; CodTipEnt; CodPra; NumGR; NumOS; DatLan; CodVen; DatEnt; ValTot; TotPecas; Posicao; NumNot; Unidade; CodUsuario,critica
+ordem_servico_rol,MovLocRol,Lav\FILIAL\MovLocRol.DB,2048,7,id_codigo:3; ordem_rol_ref:1; data_hora:1; outro:1; cliente_ref:1,Rol; CodLocRol; DatLan; HorLan; CodVen; Cancelado; CodUsuario,critica
+ordem_servico_rol,OrcCab,Lav\FILIAL\OrcCab.DB,4096,58,id_codigo:22; ordem_rol_ref:13; outro:11; data_hora:6; produto_ref:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,ROL; CodCli; DatEntLoja; CodTab; CodTipSer; CodTipEnt; CodPra; NumGR; NumOS; DatLan; CodVen; DatEnt; ValTot; TotPecas; Posicao; NumNot; Unidade; CodUsuario,critica
+ordem_servico_rol,OrcItem,Lav\FILIAL\OrcItem.DB,2048,25,id_codigo:9; outro:9; quantidade:2; texto_observacao:2; ordem_rol_ref:1; produto_ref:1; valor_monetario:1,ROL; CodPro; SeqPro; CodCor; FatPre01; FatPre02; FatPre03; FatPre04; FatPre05; FatPre06; Marca; Quantidade; Peso; PreUniVen; PreFinal; CodDef; CodCar; Obs,critica
+ordem_servico_rol,OrcItemCab,Lav\FILIAL\OrcItemCab.DB,2048,9,outro:3; ordem_rol_ref:2; id_codigo:2; quantidade:2,Rol; CodPro; SeqPro; RolOrc; SeqProNovo; CodProNovo; Quantidade; Peso; GruPro,critica
+ordem_servico_rol,OrcItemCor,Lav\FILIAL\OrcItemCor.DB,2048,5,id_codigo:2; ordem_rol_ref:1; outro:1; valor_monetario:1,Rol; CodPro; SeqPro; CodCor; DesCor,critica
+ordem_servico_rol,OrcItemDef,Lav\FILIAL\OrcItemDef.DB,2048,5,id_codigo:2; outro:2; ordem_rol_ref:1,Rol; CodPro; SeqPro; CodDef; DesDef,critica
+ordem_servico_rol,OrcItemPro,Lav\FILIAL\OrcItemPro.DB,2048,5,outro:2; ordem_rol_ref:1; id_codigo:1; texto_observacao:1,Rol; CodPro; SeqPro; Qde; Obs,critica
+ordem_servico_rol,OrcItemSer,Lav\FILIAL\OrcItemSer.DB,2048,11,id_codigo:3; outro:3; quantidade:2; ordem_rol_ref:1; texto_observacao:1; valor_monetario:1,Rol; CodPro; SeqPro; CodSerLav; Quantidade; Peso; PreUniSer; PreFinalSer; CodSerTer; Obs; ValorTerc,critica
+ordem_servico_rol,MovRoupa,PEC\FILIAL\MovRoupa.DB,2048,13,id_codigo:7; outro:4; data_hora:1; ordem_rol_ref:1,CodRoupa; DatLan; HorLan; CodUsuario; LotRoupa; PosRoupa; CodCli; CodFun; Lote; CenCusCli; CodPra; CodTipEnt; CodTipSer,critica
+ordem_servico_rol,MovRoupaConf,PEC\FILIAL\MovRoupaConf.DB,2048,13,id_codigo:7; outro:4; data_hora:1; ordem_rol_ref:1,CodRoupa; DatLan; HorLan; CodUsuario; LotRoupa; PosRoupa; CodCli; CodFun; Lote; CenCusCli; CodPra; CodTipEnt; CodTipSer,critica
+ordem_servico_rol,MovRoupaLot,PEC\FILIAL\MovRoupaLot.DB,2048,25,id_codigo:7; data_hora:5; outro:4; status_situacao:2; ordem_rol_ref:2; texto_observacao:2; usuario_auditoria:1; cliente_ref:1,Lote; DatLot; HorLot; CodUsuario; SitLot; DatFecLot; HorFecLot; CodUsuarioFec; PosRoupa; LoteOrigem; CodCli; NumOS; DatPrevEnt; SitEnt; UsuEnt; DatRealEnt; Obs; Rol,critica
+ordem_servico_rol,MovRoupaRol,PEC\FILIAL\MovRoupaRol.DB,2048,4,outro:2; ordem_rol_ref:1; data_hora:1,Lote; Rol; DatBai; HorBai,critica
+ordem_servico_rol,MovProcAnexo,SAT\FILIAL\MovProcAnexo.DB,2048,6,outro:3; id_codigo:1; data_hora:1; valor_monetario:1,CodProces; SeqProcCad; Seq; Anexo; DescAnexo; Rotina,critica
+ordem_servico_rol,MovProces,SAT\FILIAL\MovProces.DB,2048,13,outro:5; id_codigo:2; fiscal_documento:2; status_situacao:1; texto_observacao:1; produto_ref:1; data_hora:1,CodProces; SeqProces; CodCad; TipSat; SeqSat; SeqOcor; Situacao; Obs; Versao; Prazo; DesProces; DatIni; Resp,critica
+ordem_servico_rol,MovProcesIt,SAT\FILIAL\MovProcesIt.DB,2048,16,outro:7; data_hora:3; texto_observacao:2; id_codigo:1; status_situacao:1; produto_ref:1; usuario_auditoria:1,CodProces; SeqProcCad; Seq; Ordem; Situacao; Obs; DesOpera; TipProces; DatFim; DatConc; RespConc; Resp; ObsOpera; Marca; Obrigatorio; Responsavel,critica
+ordem_servico_rol,MovTriCab,TRI\FILIAL\MovTriCab.DB,2048,16,id_codigo:5; data_hora:4; outro:3; texto_observacao:2; cliente_ref:1; status_situacao:1,SeqLan; DatLan; CodVen; CodCli; CodTab; HorLan; Cancelado; DatCan; MotivoCan; SitLot; DatFecLot; HorFecLot; CodUsuarioFec; DatEnt; CodInt; Obs,critica
+ordem_servico_rol,MovTriItem,TRI\FILIAL\MovTriItem.DB,2048,6,outro:2; data_hora:1; id_codigo:1; quantidade:1; texto_observacao:1,SeqLan; Seq; Data; CodPro; Quantidade; Obs,critica
+ordem_servico_rol,MovTriRolCab,TRI\FILIAL\MovTriRolCab.DB,2048,14,id_codigo:5; data_hora:3; ordem_rol_ref:2; texto_observacao:2; outro:1; cliente_ref:1,SeqLotRol; SeqRol; DatLan; NumOS; CodCli; CodTab; DatFecLot; HorFecLot; CodUsuarioFec; CodIntTri; Cancelado; DatCan; MotivoCan; Obs,critica
+ordem_servico_rol,MovTriRolItem,TRI\FILIAL\MovTriRolItem.DB,2048,7,ordem_rol_ref:2; outro:1; data_hora:1; id_codigo:1; quantidade:1; texto_observacao:1,SeqLotRol; SeqRol; Seq; Data; CodPro; Quantidade; Obs,critica
+ordem_servico_rol,MovTriRolLot,TRI\FILIAL\MovTriRolLot.DB,2048,13,outro:4; data_hora:3; id_codigo:2; ordem_rol_ref:1; cliente_ref:1; texto_observacao:1; status_situacao:1,SeqLotRol; DatChe; CodCondut; Disponivel1; Disponivel2; Disponivel3; Cancelado; DatCan; MotivoCan; SitLot; DatFecLot; HorFecLot; CodUsuarioFec,critica
+outro,CadClaEst,EST\DADOS\CadClaEst.DB,2048,7,id_codigo:2; texto_observacao:2; valor_monetario:1; cliente_ref:1; data_hora:1,CodClaEst; DesClaEst; ObsClaEst; Cancelado; DatCan; MotivoCan; CodEst,media
+outro,CadClasFis,EST\DADOS\CadClasFis.DB,2048,6,id_codigo:1; outro:1; valor_monetario:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodClasFis; Tipo; DesClasFis; Cancelado; DatCan; MotivoCan,media
+outro,CadEst,EST\DADOS\CadEst.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodEst; DesEst; LocEst; Cancelado; DatCan; MotivoCan,media
+outro,CadFunEst,EST\DADOS\CadFunEst.DB,2048,7,id_codigo:2; outro:1; data_hora:1; texto_observacao:1; ordem_rol_ref:1; cliente_ref:1,CodFun; NomFun; Chave; DatCan; MotivoCan; HorCan; Cancelado,media
+outro,CadGruEst1,EST\DADOS\CadGruEst1.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodGruEst1; DesGruEst1; GruGruEst1; Cancelado; MotivoCan; DatCan,media
+outro,CadGruEst2,EST\DADOS\CadGruEst2.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodGruEst2; DesGruEst2; GruGruEst2; Cancelado; MotivoCan; DatCan,media
+outro,CadGruEst3,EST\DADOS\CadGruEst3.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodGruEst3; DesGruEst3; GruGruEst3; Cancelado; MotivoCan; DatCan,media
+outro,CadGruEst4,EST\DADOS\CadGruEst4.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodGruEst4; DesGruEst4; GruGruEst4; Cancelado; MotivoCan; DatCan,media
+outro,CadKit,EST\DADOS\CadKit.DB,2048,3,id_codigo:1; outro:1; data_hora:1,CodKit; DesKit; CadEst,media
+outro,CadLocEst,EST\DADOS\CadLocEst.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodLocEst; DesLocEst; ComLocEst; Cancelado; DatCan; MotivoCan,media
+outro,CadUniPro,EST\DADOS\CadUniPro.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodUniPro; DesUniPro; ObsUniPro; Cancelado; DatCan; MotivoCan,media
+outro,EstMinMax,EST\DADOS\EstMinMax.DB,2048,6,id_codigo:3; outro:3,CodEst; CodProEst; QdeMin; QdeMax; CodLocEst; ComLocEst,media
+outro,GruProEst,EST\DADOS\GruProEst.DB,2048,6,outro:2; texto_observacao:2; cliente_ref:1; data_hora:1,GruProEst; DesGruPro; Cancelado; DatCan; MotivoCan; Obs,media
+outro,Legislacao,EST\DADOS\Legislacao.DB,2048,10,texto_observacao:2; status_situacao:2; id_codigo:1; valor_monetario:1; outro:1; cliente_ref:1; data_hora:1; fiscal_documento:1,CodigoL; DescL; Percentual; ObsL; Cancelado; MotivoCan; DatCan; SitTribA; SitTribB; RedIcms,media
+outro,ProEstKit,EST\DADOS\ProEstKit.DB,2048,3,id_codigo:3,CodPro; CodEst; CodKit,media
+outro,TabPrecoEst,EST\DADOS\TabPrecoEst.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodTabEst; DesTabEst; Moeda; Cancelado; DatCan; MotivoCan,media
+outro,TpVendas,EST\DADOS\TpVendas.DB,2048,8,texto_observacao:2; id_codigo:1; valor_monetario:1; cliente_ref:1; data_hora:1; outro:1; fiscal_documento:1,CodigoTPV; DescTPV; OBS; Cancelado; MotivoCan; DatCan; EntSai; LocalNota,media
+outro,ArqLavSoft,Estruturas\ArqLavSoft.DB,67584,9,outro:7; texto_observacao:1; data_hora:1,NomeArquivo; Tipo; Caminho1; Caminho2; Pagina; Encerram; DatEnc; TipLoc; SincCP,media
+outro,CamLavSoft,Estruturas\CamLavSoft.DB,360448,7,outro:4; texto_observacao:1; id_codigo:1; data_hora:1,NomeArquivo; Seq; Campo; Tipo; Tamanho; Chave; DataCriado,media
+outro,Familia,Estruturas\Familia.DB,4096,2,outro:1; texto_observacao:1,Familia; Obs,media
+outro,GruOp,Estruturas\GruOp.DB,10240,5,outro:2; id_codigo:1; data_hora:1; usuario_auditoria:1,CodSistema; Janela; GruOp; DatCad; Tecnico,media
+outro,IndLavSoft,Estruturas\IndLavSoft.DB,163840,12,outro:9; texto_observacao:2; data_hora:1,NomeArquivo; NomedoIndice; Campo1; Campo2; Campo3; Campo4; Campo6; Campo5; Campo7; Campo8; Campo9; DataCriado,media
+outro,Janela,Estruturas\Janela.DB,65536,5,outro:2; id_codigo:1; data_hora:1; usuario_auditoria:1,CodSistema; Janela; DesJanela; DatCad; Tecnico,media
+outro,MigraNuvem,Estruturas\MigraNuvem.DB,77824,9,outro:7; texto_observacao:1; id_codigo:1,NomeArquivo; IndiceMigra; ChaveMigra; LinkArquivo; LinkIndice; LinkArqKey1; LinkArqKey2; LinkArqKey3; LinkArqKey4,media
+outro,Municipios,Estruturas\Municipios.DB,817152,4,outro:2; id_codigo:1; cliente_ref:1,CodMun; NomMun; EstMun; UF,media
+outro,Op,Estruturas\Op.DB,221184,7,outro:6; id_codigo:1,CodSistema; Janela; GruOp; Op; DesOp; Familia; Tipo,media
+outro,Op_teste,Estruturas\Op_teste.db,26624,8,outro:6; id_codigo:2,CodChave; CodSistema; Janela; GruOp; Op; DesOp; Familia; Tipo,media
+outro,Op1,Estruturas\Op1.DB,321536,7,outro:6; id_codigo:1,CodSistema; Janela; GruOp; Op; DesOp; Familia; Tipo,media
+outro,resttemp,Estruturas\resttemp.DB,3368960,13,outro:8; fiscal_documento:4; texto_observacao:1,Form; Objeto; Conteudo; LinguaEng; ConfEng; LinguaFra; ConfFra; LinguaIta; ConfIta; LinguaEsp; ConfEsp; Obs; LinguaBel,media
+outro,TipAdv,Estruturas\TipAdv.db,6144,2,outro:2,TipAdv; DesTipAdv,media
+outro,Traducao,Estruturas\Traducao.DB,3438592,13,outro:8; fiscal_documento:5,Form; Objeto; Conteudo; LinguaEng; ConfEng; LinguaFra; ConfFra; LinguaIta; ConfIta; LinguaEsp; ConfEsp; LinguaHair; ConfHair,media
+outro,VERIFY,Exe\VERIFY.DB,34816,9,outro:7; id_codigo:1; data_hora:1,Drive; Directory; Table Name; Extension; Error Code; Error Level; Error Message; Date; Time,media
+outro,CadClaAlt,Filiais\MOVANTIGA\GER\DADOS\CadClaAlt.DB,2048,6,data_hora:2; id_codigo:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,CodClaAlt; DesClaAlt; ObsClaAlt; Cancelado; MotivoCan; DatCan,media
+outro,AjustaCad,Ger\Dados\AjustaCad.DB,2048,7,outro:7,Campo; Seq; Arquivo; Trocar; TrocarPor; TipTroca; EspTrocar,media
+outro,AutoPecas,Ger\Dados\AutoPecas.DB,4096,3,id_codigo:1; ordem_rol_ref:1; outro:1,CodPecas; DesPecas; KilomTroca,media
+outro,Backup,Ger\Dados\Backup.DB,30541824,11,outro:4; id_codigo:4; valor_monetario:2; data_hora:1,Sequencia; CodUsuario; Sistema; Data; Tipo; Descricao1; Descricao2; SeqExporta; Chave; NomeChave; CodVen,media
+outro,BlackList,Ger\Dados\BlackList.DB,2048,3,id_codigo:2; valor_monetario:1,Codigo; CodCli; DescRotina,media
+outro,CadArea,Ger\Dados\CadArea.DB,2048,7,outro:3; id_codigo:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodArea; DesArea; TipArea; Cancelado; DatCan; MotivoCan; Rotina,media
+outro,CadCart,Ger\Dados\CadCart.DB,2048,5,outro:3; id_codigo:1; valor_monetario:1,CodCart; DesCart; Carteira; Variacao; Licenca,media
+outro,CadCenCus,Ger\Dados\CadCenCus.DB,2048,10,outro:3; id_codigo:2; texto_observacao:2; valor_monetario:1; cliente_ref:1; data_hora:1,CodCenCus; DesCenCus; ObsCenCus; Cancelado; DatCan; MotivoCan; GruCenCus; CodSecund; Contabil; CentroNeg,media
+outro,CadCla,Ger\Dados\CadCla.DB,34816,15,outro:11; id_codigo:1; valor_monetario:1; texto_observacao:1; cliente_ref:1,CodCla; ImpRec; GruCla; Trava; DesCla; ClaVal; Obs; TipCla; GruClaRSF; RecDes; Cancelado; Contabil; Contabil2; ComFaixa; BasImpSer,media
+outro,CadClaAlt,Ger\Dados\CadClaAlt.DB,2048,6,data_hora:2; id_codigo:1; valor_monetario:1; cliente_ref:1; texto_observacao:1,CodClaAlt; DesClaAlt; ObsClaAlt; Cancelado; MotivoCan; DatCan,media
+outro,CadClaProc,Ger\Dados\CadClaProc.DB,2048,4,id_codigo:1; outro:1; valor_monetario:1; cliente_ref:1,CodClaProc; GruProces; DesClaProc; Cancelado,media
+outro,CadClaProj,Ger\Dados\CadClaProj.DB,2048,6,texto_observacao:2; id_codigo:1; valor_monetario:1; cliente_ref:1; data_hora:1,CodClaProj; DesClaProj; Obs; Cancelado; MotivoCan; DatCan,media
+outro,CadClaSub,Ger\Dados\CadClaSub.DB,34816,3,id_codigo:2; valor_monetario:1,CodCla; CodSubC; DesClaSub,media
+outro,CadCon,Ger\Dados\CadCon.DB,2048,7,texto_observacao:2; id_codigo:1; valor_monetario:1; outro:1; cliente_ref:1; data_hora:1,CodCon; DesCon; ConVal; Obs; Cancelado; MotivoCan; DatCan,media
+outro,CadCont,Ger\Dados\CadCont.DB,2048,6,id_codigo:1; valor_monetario:1; outro:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodCont; DesCont; Titulo; Cancelado; MotivoCan; DatCan,media
+outro,CadContCon,Ger\Dados\CadContCon.DB,2048,7,id_codigo:2; valor_monetario:1; texto_observacao:1; cliente_ref:1; data_hora:1; ordem_rol_ref:1,CodCont; CodContCon; DesContCon; Obs; Cancelado; DatCan; HorCan,media
+outro,CadCpg,Ger\Dados\CadCpg.DB,34816,14,outro:6; ordem_rol_ref:5; id_codigo:1; valor_monetario:1; cliente_ref:1,CodCpg; DesCpg; Porc01; Porc02; Porc03; Porc04; Porc05; Dias01; Dias02; Dias03; Dias04; Dias05; SabDomFer; PedeVenDup,media
+outro,CadDesc,Ger\Dados\CadDesc.DB,2048,13,valor_monetario:5; data_hora:3; outro:3; id_codigo:1; cliente_ref:1,CodDesc; DesDesc; Desconto; TipDesc; Cancelado; ACadaPc; LeveFree; DatInicio; DatFinal; DesabDesc; LevePerc; Promocao; DescNaHora,media
+outro,CadDescDia,Ger\Dados\CadDescDia.DB,2048,9,outro:8; id_codigo:1,CodDesc; Domingo; Segunda; Terca; Quarta; Quinta; Sexta; Sabado; Ativa,media
+outro,CadDescGru,Ger\Dados\CadDescGru.DB,2048,3,id_codigo:1; outro:1; texto_observacao:1,CodDesc; GruPro; Obs,media
+outro,CadDescProd,Ger\Dados\CadDescProd.DB,2048,3,id_codigo:2; quantidade:1,CodDesc; CodPro; Quantidade,media
+outro,CadDescTipEnt,Ger\Dados\CadDescTipEnt.DB,2048,3,id_codigo:2; texto_observacao:1,CodDesc; CodTipEnt; Obs,media
+outro,CadFaiCom,Ger\Dados\CadFaiCom.DB,2048,4,outro:3; id_codigo:1,CodFaiCom; DesFaiCom; ValCom; TipFaiCom,media
+outro,CadFaixa,Ger\Dados\CadFaixa.DB,2048,5,outro:3; id_codigo:1; fiscal_documento:1,CodFaixa; DesFaixa; InFaixa; FimFaixa; ValFaixa,media
+outro,CadFpg,Ger\Dados\CadFpg.DB,34816,32,outro:12; id_codigo:7; valor_monetario:4; data_hora:3; status_situacao:1; cliente_ref:1; texto_observacao:1; ordem_rol_ref:1,CodFpg; DesFpg; TipFpg; EmiBol; CodCon; TipLan; Taxa; PraPag; BaixaAutomatica; Desconto; DesCalculo; RecDes; Cancelado; MotivoCan; DatCan; CodClas; CodSubC; CodCenCus,media
+outro,CadGruSerLav,Ger\Dados\CadGruSerLav.DB,2048,6,outro:2; texto_observacao:2; cliente_ref:1; data_hora:1,GruSerLav; DesGruSerLav; Obs; Cancelado; DatCan; MotivoCan,media
+outro,CadInd,Ger\Dados\CadInd.DB,2048,3,outro:2; id_codigo:1,CodInd; DesInd; Tipo,media
+outro,CadMelhor,Ger\Dados\CadMelhor.DB,2048,8,id_codigo:2; texto_observacao:2; outro:1; cliente_ref:1; data_hora:1; ordem_rol_ref:1,CodCont; CodMelhor; DesMelhor; Obs; Cancelado; DatCan; HorCan; MotivoCan,media
+outro,CadPacot,Ger\Dados\CadPacot.DB,2048,11,outro:5; ordem_rol_ref:2; id_codigo:1; valor_monetario:1; status_situacao:1; cliente_ref:1,CodPacote; DesPacote; DescCli; TipPacote; PrazoVal; AtivaAut; Ativo; Cancelado; ForCalculo; LimitePeca; LimiteDias,media
+outro,CadPacotGru,Ger\Dados\CadPacotGru.DB,2048,5,outro:3; id_codigo:1; data_hora:1,CodPacote; GruPro; MedPec; QdeTotPec; ValTotPac,media
+outro,CadPdv,Ger\Dados\CadPdv.DB,34816,6,outro:4; id_codigo:1; texto_observacao:1,CodPdv; DesPdv; GruPdv; ObsPdv; UltLan; ValPdv,media
+outro,CadRam,Ger\Dados\CadRam.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1,CodRam; DesRam; GruRam; Cancelado; MotivoCan; DatCan,media
+outro,CadSit,Ger\Dados\CadSit.DB,2048,6,status_situacao:2; id_codigo:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodSit; DesSit; GruSit; Cancelado; DatCan; MotivoCan,media
+outro,CadSubC,Ger\Dados\CadSubC.DB,34816,7,outro:3; id_codigo:1; usuario_auditoria:1; texto_observacao:1; cliente_ref:1,CodSubC; DesSubC; GruSubC; Obs; Cancelado; Contabil; Contabil2,media
+outro,CadTipCon,Ger\Dados\CadTipCon.DB,2048,7,id_codigo:2; outro:1; texto_observacao:1; cliente_ref:1; data_hora:1; ordem_rol_ref:1,CodCont; CodTipCon; DesTipCon; Obs; Cancelado; DatCan; HorCan,media
+outro,CadTipProc,Ger\Dados\CadTipProc.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodTipProc; DesTipProc; Cancelado; DatCan; MotivoCan; Obs,media
+outro,CadUnid,Ger\Dados\CadUnid.DB,2048,7,id_codigo:2; produto_ref:2; cliente_ref:1; texto_observacao:1; data_hora:1,CodUnid; DesUnid; ObsUnid; Cancelado; MotivoCanc; DatCan; CodResp,media
+outro,CadVen,Ger\Dados\CadVen.DB,34816,24,id_codigo:6; outro:6; cliente_ref:5; data_hora:2; ordem_rol_ref:2; valor_monetario:2; texto_observacao:1,CodVen; NomVen; EndVen; CidVen; EstVen; CepVen; TelVen; DddVen; DatNas; PorcVen; GruVen; Senha; Cancelado; DatCan; MotivoCan; HorCan; CodVenCan; AutDesc,media
+outro,CadVenPro,Ger\Dados\CadVenPro.DB,2048,3,id_codigo:3,CodPro; CodVen; CodFaiCom,media
+outro,CaminhosFlex,Ger\Dados\CaminhosFlex.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; usuario_auditoria:1; data_hora:1,CodFil; NomeTab; CaminhoFlex; Obs; Usuario; Data,media
+outro,CenCus,Ger\Dados\CenCus.DB,2048,4,valor_monetario:2; id_codigo:1; cliente_ref:1,CodCenCus; DesCenCus; DesCenCusA; Cancelado,media
+outro,CenCusCli,Ger\Dados\CenCusCli.DB,2048,17,outro:6; id_codigo:3; cliente_ref:3; data_hora:3; valor_monetario:1; texto_observacao:1,CodCli; CenCus; DesCenCus; Cancelado; MotivoCan; DatCan; CodTab; EMail; Disp2; EnviaEmail; CodCliCont; DatIniCont; DatFimCont; DiaFimCont; LimiteCont; TipoCont; CenCusInt,media
+outro,Cep,Ger\Dados\Cep.DB,2048,7,cliente_ref:5; outro:2,CepFacil; Endereco; Cidade; Bairro; Cep; Estado; Tipo,media
+outro,Cheque1,Ger\Dados\Cheque1.DB,4096,14,outro:7; data_hora:3; id_codigo:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1,Banco; NumChe; TipChe; ValChe; SeqLan; ChePre; DatChe; Cancelado; MotivoCanc; DatCanc; SeqLanPar; Nominal; DatChePre; UsuarioChe,media
+outro,ClaManut,Ger\Dados\ClaManut.DB,2048,7,valor_monetario:2; texto_observacao:2; id_codigo:1; cliente_ref:1; data_hora:1,CodClaMan; DesClaMan; ObsClaMan; Cancelado; DatCan; MotivoCan; ValCusto,media
+outro,ClaPerda,Ger\Dados\ClaPerda.DB,2048,6,texto_observacao:2; id_codigo:1; valor_monetario:1; cliente_ref:1; data_hora:1,CodClaPer; DesClaPer; ObsClaPer; Cancelado; DatCan; MotivoCan,media
+outro,CliComissao,Ger\Dados\CliComissao.DB,2048,14,id_codigo:8; outro:4; texto_observacao:1; status_situacao:1,CodCli; CodFor; Modulo; CodClaRec; TipCom; Conta; Obs; CodCla; CodSubC; CodCenCus; CodClaProj; CodUnid; Status; ValCom,media
+outro,ClienMar,Ger\Dados\ClienMar.DB,2048,6,produto_ref:2; texto_observacao:2; cliente_ref:1; data_hora:1,Marcacao; DesMarca; Cancelado; DatCan; MotivoCan; Obs,media
+outro,CliPecLav,Ger\Dados\CliPecLav.DB,2048,4,id_codigo:2; usuario_auditoria:1; cliente_ref:1,CodUsuario; CodCli; NomUsuario; NomCli,media
+outro,CompAutoPecas,Ger\Dados\CompAutoPecas.DB,2048,4,outro:2; status_situacao:1; id_codigo:1,Situacao; Placa; CodPeca; ProximaTroca,media
+outro,David,Ger\Dados\David.DB,6144,7,cliente_ref:4; outro:2; id_codigo:1,Codigo; Endereco; Cidade; Bairro; Cep; Estado; Tipo,media
+outro,EncProg,Ger\Dados\EncProg.DB,67584,5,data_hora:2; outro:1; id_codigo:1; status_situacao:1,DatReg; Seq; CodFil; DatEnc; Situacao,media
+outro,Equipe,Ger\Dados\Equipe.DB,34816,5,outro:4; ordem_rol_ref:1,Formulario; Campo; Posicao; CaminhoTable; Mensagem,media
+outro,Erros,Ger\Dados\Erros.DB,2048,7,id_codigo:4; outro:3,CodErro; DesErro; DesErroCom; Solucao; CodSatCla; CodSatSubC; CodSatGru,media
+outro,Especie,Ger\Dados\Especie.DB,34816,2,id_codigo:1; outro:1,CodEsp; DesEsp,media
+outro,Feriados,Ger\Dados\Feriados.DB,34816,3,id_codigo:1; ordem_rol_ref:1; outro:1,CodFeriados; DesFeriados; Semana,media
+outro,Filiais,Ger\Dados\Filiais.DB,34816,32,outro:18; id_codigo:6; cliente_ref:6; fiscal_documento:2,CodFil; NomFil; EndFil; CidFil; EstFil; CepFil; TelFil; Contato; CgcFil; DigFil; GruFil; CodTab; InsEstFil; InsMunFil; Grupo1; Grupo2; Grupo3; Grupo4,media
+outro,ForCont,Ger\Dados\ForCont.DB,2048,4,id_codigo:2; outro:1; data_hora:1,CodFor; NParc; VencCont; CodInd,media
+outro,Forneced,Ger\Dados\Forneced.DB,67584,44,outro:15; cliente_ref:12; id_codigo:5; texto_observacao:3; data_hora:3; produto_ref:2; status_situacao:1; fiscal_documento:1,CodFor; NomFor; EndFor; CidFor; EstFor; CepFor; TelFor; Contato; CgcFor; DigFor; GruFor; ArqLogFor; CodCla; BaiFor; TelFor2; Celular; email; Obs,media
+outro,FornecMar,Ger\Dados\FornecMar.DB,2048,6,produto_ref:2; texto_observacao:2; cliente_ref:1; data_hora:1,Marcacao; DesMarca; Cancelado; DatCan; MotivoCan; Obs,media
+outro,FunAfastam,Ger\Dados\FunAfastam.DB,2048,8,data_hora:3; id_codigo:2; texto_observacao:2; cliente_ref:1,CodCli; CodFun; DatInicio; DatFinal; Motivo; Cancelado; DatCanc; MotivoCanc,media
+outro,GerDadCam,Ger\Dados\GerDadCam.DB,34816,5,outro:4; id_codigo:1,Arquivo; Campo; Chave1; Conteudo; Memo,media
+outro,GerDadFlex,Ger\Dados\GerDadFlex.DB,2048,10,outro:6; id_codigo:2; cliente_ref:1; valor_monetario:1,Arquivo; Campo; Tipo; Tamanho; Cancelado; AbreAuto; Obrigatorio; CodGruGer; CodOrigem; DesCampo,media
+outro,GerDadGru,Ger\Dados\GerDadGru.DB,2048,7,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1; ordem_rol_ref:1,CodGruGer; DesGruGer; Cancelado; DatCan; HorCan; MotivoCan; ObsGruGer,media
+outro,GruFil,Ger\Dados\GruFil.DB,2048,6,cliente_ref:3; texto_observacao:2; data_hora:1,GruFil; DesGruFil; ObsFil; Cancelado; DatCan; MotivoCan,media
+outro,GruFil2,Ger\Dados\GruFil2.DB,2048,6,cliente_ref:3; texto_observacao:2; data_hora:1,GruFil; DesGruFil; ObsFil; Cancelado; DatCan; MotivoCan,media
+outro,GruFil3,Ger\Dados\GruFil3.DB,2048,6,cliente_ref:3; texto_observacao:2; data_hora:1,GruFil; DesGruFil; ObsFil; Cancelado; DatCan; MotivoCan,media
+outro,GruFor,Ger\Dados\GruFor.DB,34816,7,cliente_ref:4; texto_observacao:1; data_hora:1; outro:1,GruFor; DesGruFor; ObsGruFor; Cancelado; MotivoCan; DatCan; Grupo,media
+outro,GruFor2,Ger\Dados\GruFor2.DB,2048,7,cliente_ref:3; texto_observacao:2; data_hora:1; outro:1,GruFor; DesGruFor; Obs; Cancelado; DatCan; MotivoCan; Grupo,media
+outro,GruFor3,Ger\Dados\GruFor3.DB,2048,6,cliente_ref:3; texto_observacao:2; data_hora:1,GruFor; DesGruFor; Obs; Cancelado; DatCan; MotivoCan,media
+outro,GruFor4,Ger\Dados\GruFor4.DB,2048,6,cliente_ref:3; texto_observacao:2; data_hora:1,GruFor; DesGruFor; Obs; Cancelado; DatCan; MotivoCan,media
+outro,GruPro,Ger\Dados\GruPro.DB,34816,17,outro:9; texto_observacao:2; id_codigo:2; cliente_ref:2; data_hora:2,GruPro; DesGruPro; obs; Principais; LimQdeCon; CodPra; RegCodLoc; Cancelado; DatCan; MotivoCan; AgrGruPro; ContTing; GruProTer; PedeTodCad; PedeTec; PedeFator; Sujidade,media
+outro,GruProces,Ger\Dados\GruProces.DB,2048,6,outro:2; texto_observacao:2; cliente_ref:1; data_hora:1,GruProces; DesGruProc; Cancelado; MotivoCan; DatCan; Obs,media
+outro,GruProSub,Ger\Dados\GruProSub.DB,2048,3,ordem_rol_ref:2; produto_ref:1,GruProSub; DesProSub; ObsProSub,media
+outro,GruVen,Ger\Dados\GruVen.DB,34816,6,outro:2; texto_observacao:2; cliente_ref:1; data_hora:1,GruVen; DesGruVen; Obs; Cancelado; DatCan; MotivoCan,media
+outro,InteresCan,Ger\Dados\InteresCan.DB,2048,6,id_codigo:2; texto_observacao:1; data_hora:1; ordem_rol_ref:1; fiscal_documento:1,CodInt; MotivoCan; DatCan; Horcan; CodUsuario; ExportaSAT,media
+outro,InteresMar,Ger\Dados\InteresMar.DB,2048,6,produto_ref:2; texto_observacao:2; cliente_ref:1; data_hora:1,Marcacao; DesMarca; Cancelado; DatCan; MotivoCan; Obs,media
+outro,Interessad,Ger\Dados\Interessad.DB,2048,42,outro:16; cliente_ref:9; id_codigo:8; produto_ref:3; usuario_auditoria:2; texto_observacao:2; status_situacao:1; data_hora:1,CodInt; NomInt; RazSocInt; EndInt; Unidade; CidInt; BaiInt; EstInt; CepInt; TelInt; TelInt2; CelInt; Contato; SiteInt; emailInt; GruCli; GruCli2; GruCli3,media
+outro,LigTel,Ger\Dados\LigTel.DB,2048,10,outro:4; data_hora:2; cliente_ref:1; id_codigo:1; texto_observacao:1; status_situacao:1,Linha; Telefone; Codigo; TipCli; Obs; DatLig; HorLig; Status; HorTerLig; DatTerLig,media
+outro,MotAltDup,Ger\Dados\MotAltDup.DB,2048,6,data_hora:3; texto_observacao:2; cliente_ref:1,MotAltDup; DesAltDup; Obs; Cancelado; DatCan; MotivoCan,media
+outro,Motorista,Ger\Dados\Motorista.DB,4096,6,outro:3; id_codigo:1; data_hora:1; cliente_ref:1,CodMotorista; NomMotorista; DatNas; EndMotorista; CidMotorista; EstMotorista,media
+outro,PadLctoFin,Ger\Dados\PadLctoFin.DB,34816,12,id_codigo:5; outro:3; texto_observacao:2; cliente_ref:1; data_hora:1,SeqFin; Histor; TipLan; CodCla; CodSubC; CodCenCus; CodUsuario; Cancelado; DatCan; MotivoCan; CodFor; EmiRecibo,media
+outro,ResCli,Ger\Dados\ResCli.DB,2048,5,outro:3; id_codigo:2,CodCli; CodPro; SeqResCli; DesResPro; OrdemImp,media
+outro,Roteiros,Ger\Dados\Roteiros.DB,2048,7,outro:2; valor_monetario:1; cliente_ref:1; data_hora:1; texto_observacao:1; id_codigo:1,Roteiro; DesRoteiro; Valor; Cancelado; DatCan; MotivoCan; CodAp,media
+outro,TelCont,Ger\Dados\TelCont.DB,2048,5,id_codigo:2; fiscal_documento:1; outro:1; texto_observacao:1,NumTel; TipSat; CodCad; Contato; Obs,media
+outro,TipFil,Ger\Dados\TipFil.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodTipFil; DesTipFil; ObsTipFil; Cancelado; DatCan; MotivoCan,media
+outro,TipoExped,Ger\Dados\TipoExped.DB,2048,2,id_codigo:1; outro:1,CodExped; DesExped,media
+outro,Transp,Ger\Dados\Transp.DB,2048,13,outro:9; cliente_ref:2; id_codigo:1; data_hora:1,CodTransp; NomTransp; EndTransp; CidTransp; EstTransp; TelTransp; Contato; Placa; Grupo; FreteConta; CGC; DIG; INSCEST,media
+outro,Veiculo,Ger\Dados\Veiculo.DB,4096,4,outro:2; produto_ref:1; id_codigo:1,Placa; Modelo; CodMotorista; Kilometragem,media
+outro,CadEst,Importa\EST\DADOS\CadEst.DB,2048,6,outro:2; id_codigo:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodEst; DesEst; LocEst; Cancelado; DatCan; MotivoCan,media
+outro,CadAdv,Lav\Dados\CadAdv.DB,2048,8,outro:3; data_hora:3; cliente_ref:1; texto_observacao:1,SeqAdv; Mensg; DatIni; DatFim; Cancelado; DatCan; MotivoCan; TamFont,media
+outro,CadAdvTip,Lav\Dados\CadAdvTip.DB,2048,3,outro:2; texto_observacao:1,SeqAdv; TipAdv; Obs,media
+outro,CadAgrPro,Lav\Dados\CadAgrPro.DB,2048,5,cliente_ref:3; outro:1; texto_observacao:1,AgrGruPro; DesAgrGruPro; TipAgr; Cancelado; MotivoCanc,media
+outro,CadFatorGru,Lav\Dados\CadFatorGru.DB,2048,4,outro:3; id_codigo:1,CodFatPre; GruPro; Fator; Promocao,media
+outro,CadFitas,Lav\Dados\CadFitas.DB,34816,6,outro:5; id_codigo:1,DiaSem; DesSem; Limite; Atual; CodPra; IntDiaSem,media
+outro,CadPas,Lav\Dados\CadPas.DB,34816,11,outro:4; id_codigo:2; cliente_ref:2; ordem_rol_ref:1; data_hora:1; texto_observacao:1,CodPas; NomPas; EndPas; CidPas; EstPas; PorCom; Cancelado; DatCan; MotivoCan; Senha; CodUsuPonto,media
+outro,CadQuinFat,Lav\Dados\CadQuinFat.DB,2048,3,id_codigo:1; valor_monetario:1; status_situacao:1,Codigo; Descricao; Status,media
+outro,CadSerTing,Lav\Dados\CadSerTing.DB,2048,6,id_codigo:2; outro:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodSerTin; DesSerTin; CodInteg; Cancelado; DatCan; MotivoCan,media
+outro,CadTipTing,Lav\Dados\CadTipTing.DB,2048,6,id_codigo:2; outro:1; cliente_ref:1; data_hora:1; texto_observacao:1,CodTipTin; DesTipTin; Cancelado; DatCan; MotivoCan; CodInteg,media
+outro,Caract,Lav\Dados\Caract.DB,34816,5,valor_monetario:2; id_codigo:1; cliente_ref:1; texto_observacao:1,CodCar; DesCar; DesCarAbr; Cancelado; MotivoCan,media
+outro,Empree,Lav\Dados\Empree.DB,2048,2,id_codigo:1; outro:1,CodEmpree; DesEmpree,media
+outro,FatPre_C,Lav\Dados\FatPre_C.DB,34816,11,outro:7; id_codigo:2; data_hora:2,CodFatPre; DesFatPre; DiaEnt; Fator; DesFatPreAbr; Disp; CodProm; ConPonCF; TipFat; DatIniFat; DatFimFat,media
+outro,GruEnt,Lav\Dados\GruEnt.DB,34816,6,outro:2; texto_observacao:2; cliente_ref:1; data_hora:1,GruEnt; DesGruEnt; Obs; Cancelado; MotivoCan; DatCan,media
+outro,GruProTer,Lav\Dados\GruProTer.DB,2048,2,outro:1; id_codigo:1,GruPro; CodSerTin,media
+outro,Prazos,Lav\Dados\Prazos.DB,34816,7,outro:6; id_codigo:1,CodPra; DesPra; Fator; DiaEnt; FitaGru; FitaLim; FitaAtual,media
+outro,PromCad,Lav\Dados\PromCad.DB,2048,16,outro:6; data_hora:4; id_codigo:2; produto_ref:1; cliente_ref:1; texto_observacao:1; ordem_rol_ref:1,CodProm; DesProm; FormaCred; TipCred; FatPreAbat; Limite; Aviso; CodProEnt; GruProEnt; DatIniProm; DatFimProm; Cancelado; DatCan; MotivoCan; MultImpRol; DatFimAba,media
+outro,ProTipTec,Lav\Dados\ProTipTec.DB,2048,3,id_codigo:2; outro:1,CodPro; CodTipTec; Fator,media
+outro,SerLav,Lav\Dados\SerLav.DB,100352,21,outro:10; id_codigo:4; ordem_rol_ref:4; fiscal_documento:2; cliente_ref:1,CodSerLav; DesSerLav; GruSerLav; TipoControle; ValCom; Pontos; TipCom; ValComL; PontosL; TipComL; PontosProd; CalcNF; CodFor; ComForTer; TipForTer; Imprimir; CodSerLav2; CodSerTer,media
+outro,TabFat,Lav\Dados\TabFat.DB,34816,7,outro:5; id_codigo:2,CodTab; CodFatPre; DiaEnt; Fator; DesFatPre; TipCalculo; Promocao,media
+outro,TabPra,Lav\Dados\TabPra.DB,34816,5,outro:3; id_codigo:2,CodTab; CodPra; DiaEnt; Fator; DesPra,media
+outro,TabPreco,Lav\Dados\TabPreco.DB,34816,33,outro:17; id_codigo:5; data_hora:3; ordem_rol_ref:3; valor_monetario:2; texto_observacao:2; cliente_ref:1,CodTab; DesTab; CodTipTab; GruCli; DatValTab; DescontoFat; DescontoAdi; Senha; ExiVlrRol; PreKg; TipAluProp; Cancelado; DatCan; MotivoCan; TipFat; CodPra; HorCan; CodVenCan,media
+outro,TabPro,Lav\Dados\TabPro.DB,34816,19,outro:6; id_codigo:4; produto_ref:2; quantidade:2; valor_monetario:2; data_hora:1; ordem_rol_ref:1; fiscal_documento:1,CodTab; CodPro; PreUniVen; QdeEtiqueta; QdeFitas; DesPro; DesProTab; PesoProdut; DatVen; MarTabRes; PreServico; DescFat; CodProces; DescFatTip; PesoPacote; TipPacote; ControleLim; CFOP,media
+outro,TabProDesc,Lav\Dados\TabProDesc.DB,2048,4,id_codigo:3; texto_observacao:1,CodTab; CodPro; CodDesc; Obs,media
+outro,TabProPrEn,Lav\Dados\TabProPrEn.DB,2048,4,id_codigo:3; texto_observacao:1,CodTab; CodPro; CodProm; Obs,media
+outro,TabProProm,Lav\Dados\TabProProm.DB,2048,4,id_codigo:3; texto_observacao:1,CodTab; CodPro; CodProm; Obs,media
+outro,TabProSer,Lav\Dados\TabProSer.DB,165888,6,id_codigo:3; outro:3,CodTab; CodPro; CodSerLav; PreUniSer; TipCom; ValCom,media
+outro,TipEnt,Lav\Dados\TipEnt.DB,34816,11,outro:5; id_codigo:2; cliente_ref:1; data_hora:1; texto_observacao:1; ordem_rol_ref:1,CodTipEnt; DesTipEnt; Fator; GruEnt; Tipo; QdeVias; Cancelado; DatCan; MotivoCan; HorCan; CodVenCan,media
+outro,TipSer,Lav\Dados\TipSer.DB,34816,7,id_codigo:2; outro:1; cliente_ref:1; data_hora:1; texto_observacao:1; ordem_rol_ref:1,CodTipSer; DesTipSer; Cancelado; DatCan; MotivoCan; HorCan; CodVenCan,media
+outro,TipTab,Lav\Dados\TipTab.DB,34816,6,outro:3; id_codigo:2; fiscal_documento:1,CodTipTab; DesTipTab; DesNota; CodNota; PedeCorDef; PedeTipEntrada,media
+outro,TipTec,Lav\Dados\TipTec.DB,34816,7,outro:4; id_codigo:3,CodTipTec; DesTipTec; Fator; DesTipTecAbr; CodTipTec2; CodTecTer; TipFat,media
+outro,AutoPecas,MAN\DADOS\AutoPecas.DB,2048,10,outro:3; ordem_rol_ref:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1; valor_monetario:1,CodPecas; DesPecas; KilomTroca; Tipo; GruPecas; DiasTroca; Cancelado; MotivoCan; DatCan; Valor,media
+outro,CompAutoPecas,MAN\DADOS\CompAutoPecas.DB,2048,7,id_codigo:2; outro:2; status_situacao:1; data_hora:1; valor_monetario:1,Situacao; CodEquipam; CodPeca; ProximaTro; DatPrxTroc; QdeUltLim; Valor,media
+outro,Condutor,MAN\DADOS\Condutor.DB,2048,10,outro:3; data_hora:2; cliente_ref:2; texto_observacao:2; id_codigo:1,CodCondut; NomCondut; DatNas; EndCondut; CidCondut; EstCondut; Cancelado; MotivoCan; DatCan; ObsCondut,media
+outro,Equipam,MAN\DADOS\Equipam.DB,2048,11,outro:5; id_codigo:2; data_hora:2; cliente_ref:1; texto_observacao:1,CodEquipam; DesEquipam; CodCondut; Kilometrag; LimKilom; QdeUltLim; Cancelado; MotivoCan; DatCan; ValCompra; DatCompra,media
+outro,MovEquip,MAN\DADOS\MovEquip.DB,2048,17,outro:6; data_hora:3; texto_observacao:3; id_codigo:2; ordem_rol_ref:1; cliente_ref:1; status_situacao:1,SeqMovEqu; CodEquipam; DatIni; QdeIni; HorIni; QdeFim; HorFim; CodCondut; Obs1; Obs2; Cancelado; DatCan; MotivoCan; DatFim; Status; QdeLimIni; QdeLimFim,media
+outro,MovTrocas,MAN\DADOS\MovTrocas.DB,2048,11,id_codigo:2; data_hora:2; texto_observacao:2; ordem_rol_ref:1; quantidade:1; cliente_ref:1; valor_monetario:1; outro:1,SeqMovTroc; CodEquipam; CodPecas; DatLan; Qtde; Cancelado; MotivoCan; DatCan; Valor; Obs; QdeLim,media
+outro,ClaManut,PEC\DADOS\ClaManut.DB,2048,7,valor_monetario:2; texto_observacao:2; id_codigo:1; cliente_ref:1; data_hora:1,CodClaMan; DesClaMan; ObsClaMan; Cancelado; DatCan; MotivoCan; ValCusto,media
+outro,ClaPerda,PEC\DADOS\ClaPerda.DB,2048,6,texto_observacao:2; id_codigo:1; valor_monetario:1; cliente_ref:1; data_hora:1,CodClaPer; DesClaPer; ObsClaPer; Cancelado; DatCan; MotivoCan,media
+outro,FunAfastam,PEC\DADOS\FunAfastam.DB,2048,8,data_hora:3; id_codigo:2; texto_observacao:2; cliente_ref:1,CodCli; CodFun; DatInicio; DatFinal; Motivo; Cancelado; DatCanc; MotivoCanc,media
+permissao_auth,GruUsuarios,Ger\Dados\GruUsuarios.DB,2048,6,usuario_auditoria:3; cliente_ref:1; texto_observacao:1; data_hora:1,GruUsuario; DesGruUsu; ObsGruUsu; Cancelado; MotivoCan; DatCan,alta
+permissao_auth,Nivel,Ger\Dados\Nivel.DB,67584,13,outro:7; id_codigo:3; data_hora:1; ordem_rol_ref:1; usuario_auditoria:1,Tipo; CodUsuario; CodFil; CodSistema; Rotina; Op; NivelI; NivelA; NivelE; NivelT; DatCad; HorCad; ResUsuario,alta
+permissao_auth,Senhas,Ger\Dados\Senhas.DB,2048,3,outro:2; id_codigo:1,CodUsuario; Sistema; OpcMenu,alta
+permissao_auth,UsuaFil,Ger\Dados\UsuaFil.DB,2048,3,id_codigo:2; status_situacao:1,CodUsuario; CodFil; Status,alta
+permissao_auth,UsuaGru,Ger\Dados\UsuaGru.DB,2048,6,texto_observacao:2; id_codigo:1; usuario_auditoria:1; cliente_ref:1; data_hora:1,CodUsuaGru; DesUsuaGru; Obs; Cancelado; DatCan; MotivoCan,alta
+permissao_auth,UsuaGruInt,Ger\Dados\UsuaGruInt.DB,2048,4,id_codigo:2; data_hora:1; status_situacao:1,CodUsuaGru; CodUsuario; DatCad; Sit,alta
+permissao_auth,Usuarios,Ger\Dados\Usuarios.DB,34816,14,usuario_auditoria:5; id_codigo:2; data_hora:2; cliente_ref:2; outro:1; texto_observacao:1; ordem_rol_ref:1,CodUsuario; NomUsuario; GruUsuario; TipUsuario; Senha; DatCad; Cancelado; DatCan; UsuarioCan; MotivoCan; HorCan; CopUsuario; email; CodSubC,alta
+permissao_auth,UsuaSis,Ger\Dados\UsuaSis.DB,34816,3,id_codigo:2; status_situacao:1,CodUsuario; CodSistema; Status,alta
+produto_servico,CadPro,ESC\DADOS\CadPro.DB,2048,13,data_hora:5; outro:4; cliente_ref:3; id_codigo:1,CodPro; NomPro; EndPro; CidPro; EstPro; CepPro; TelPro; DddPro; DatNas; HorAul0; HorAul; HorAul2; HorAul3,critica
+produto_servico,MarcasEst,EST\DADOS\MarcasEst.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodMarEst; DesMarEst; Obs; Cancelado; MotivoCan; DatCan,critica
+produto_servico,ParamGrupo,Estruturas\ParamGrupo.db,4096,2,outro:2,Sistema; GrupoExibido,critica
+produto_servico,CadMarca,Ger\Dados\CadMarca.DB,2048,3,id_codigo:1; outro:1; texto_observacao:1,CodMar; DesMar; Obs,critica
+produto_servico,CadProcAnexo,Ger\Dados\CadProcAnexo.DB,2048,5,outro:3; id_codigo:1; valor_monetario:1,CodProces; Seq; Anexo; DescAnexo; Rotina,critica
+produto_servico,CadProces,Ger\Dados\CadProces.DB,2048,13,outro:4; id_codigo:2; data_hora:2; produto_ref:1; cliente_ref:1; texto_observacao:1; usuario_auditoria:1; status_situacao:1,CodProces; DesProces; GruProces; Cancelado; MotivoCan; DatCan; Prazo; Versao; Responsavel; TipProc; CodClaProc; Status; TipCad,critica
+produto_servico,CadProcesAlt,Ger\Dados\CadProcesAlt.DB,2048,6,id_codigo:2; outro:1; valor_monetario:1; texto_observacao:1; data_hora:1,CodProces; Seq; DescAlt; Obs; DatAlt; CodUsuario,critica
+produto_servico,CadProcItem,Ger\Dados\CadProcItem.DB,2048,11,outro:4; id_codigo:2; texto_observacao:2; cliente_ref:1; data_hora:1; usuario_auditoria:1,CodProces; Seq; Ordem; DesOpera; Cancelado; DatCan; MotivoCan; CodProcInt; ObsOpera; Obrigatorio; Responsavel,critica
+produto_servico,CadProducao,Ger\Dados\CadProducao.DB,2048,7,outro:2; data_hora:2; id_codigo:1; ordem_rol_ref:1; quantidade:1,Tipo; Codigo; DiaSemana; QdeHoras; PecaHora; PesoHora; PontoHora,critica
+produto_servico,Cores,Ger\Dados\Cores.DB,34816,7,id_codigo:3; valor_monetario:2; cliente_ref:1; texto_observacao:1,CodCor; DesCor; NumCor; DesCorAbr; Cancelado; MotivoCan; CodCorTer,critica
+produto_servico,ContaCor1,Ger\Filial\ContaCor1.DB,4687872,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor2,Ger\Filial\ContaCor2.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor3,Ger\Filial\ContaCor3.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor4,Ger\Filial\ContaCor4.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor5,Ger\Filial\ContaCor5.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor6,Ger\Filial\ContaCor6.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor7,Ger\Filial\ContaCor7.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor8,Ger\Filial\ContaCor8.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,ContaCor9,Ger\Filial\ContaCor9.DB,2048,13,id_codigo:6; outro:5; texto_observacao:1; data_hora:1,SeqBan; Histor; DatLan; ValBan; TipLan; CodCla; CodUsuario; SeqCai; CodSubC; TipOpe; CodCenCus; CodClaProj; CodUnid,critica
+produto_servico,Produt,Ger\Filial\Produt.DB,67584,48,outro:23; ordem_rol_ref:7; id_codigo:6; produto_ref:3; fiscal_documento:3; quantidade:2; data_hora:2; cliente_ref:1,CodPro; DesPro; GruPro; Quant_Est; Quant_Cli; PrePro; ArqImagem; PesoProduto; TipoControle; Unidade; QdePecas; ValCom; Pontos; TipCom; ValComL; PontosL; TipComL; CodFor,critica
+produto_servico,CadPro,Importa\ESC\DADOS\CadPro.DB,2048,13,data_hora:5; outro:4; cliente_ref:3; id_codigo:1,CodPro; NomPro; EndPro; CidPro; EstPro; CepPro; TelPro; DddPro; DatNas; HorAul0; HorAul; HorAul2; HorAul3,critica
+produto_servico,CadCorTer,Lav\Dados\CadCorTer.DB,2048,3,id_codigo:2; valor_monetario:1,CodTipTing; CodCorTer; DesCorTer,critica
+produto_servico,CadDefeitoGru,Lav\Dados\CadDefeitoGru.DB,2048,2,id_codigo:1; outro:1,CodDef; GruPro,critica
+produto_servico,CadMarca,Lav\Dados\CadMarca.DB,67584,7,outro:2; texto_observacao:2; id_codigo:1; cliente_ref:1; data_hora:1,CodMar; DesMar; Obs; Cancelado; MotivoCan; DatCan; DesMarAbr,critica
+produto_servico,CadMarcaGru,Lav\Dados\CadMarcaGru.DB,34816,2,id_codigo:1; outro:1,CodMar; GruPro,critica
+produto_servico,Cores,Lav\Dados\Cores.DB,6144,7,id_codigo:3; valor_monetario:2; cliente_ref:1; texto_observacao:1,CodCor; DesCor; NumCor; DesCorAbr; Cancelado; MotivoCan; CodCorTer,critica
+produto_servico,Defeitos,Lav\Dados\Defeitos.DB,34816,5,outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1,CodDef; DesDef; DesDefAbr; Cancelado; MotivoCan,critica
+produto_servico,MovItemCor,Lav\FILIAL\MovItemCor.DB,34816,5,id_codigo:2; ordem_rol_ref:1; outro:1; valor_monetario:1,Rol; CodPro; SeqPro; CodCor; DesCor,critica
+produto_servico,DupCorrCab,REC\FILIAL\DupCorrCab.DB,2048,8,id_codigo:3; data_hora:2; ordem_rol_ref:1; cliente_ref:1; texto_observacao:1,NumFat; NumDup; DatCorr; HorCorr; CodUsuario; Cancelado; DatCan; MotivoCan,critica
+produto_servico,DupCorrItem,REC\FILIAL\DupCorrItem.DB,2048,5,id_codigo:3; data_hora:1; outro:1,NumFat; NumDup; DatCorr; CodCorr; CompCorr,critica
+produto_servico,CadOcorCla,SAT\DADOS\CadOcorCla.DB,2048,11,ordem_rol_ref:2; fiscal_documento:2; outro:2; id_codigo:1; cliente_ref:1; texto_observacao:1; data_hora:1; valor_monetario:1,CodOcorCla; DesOcorCla; ObsOcorCla; Cancelado; MotivoCan; DatCan; Desconto; CorSatCla; CorSatClaF; PrioridCor; Priorid,critica
+produto_servico,CadOcorSubC,SAT\DADOS\CadOcorSubC.DB,2048,6,texto_observacao:2; id_codigo:1; outro:1; cliente_ref:1; data_hora:1,CodOcorSubC; DesOcorSubC; ObsOcorSubC; Cancelado; MotivoCan; DatCan,critica
+produto_servico,CadProjSat,SAT\FILIAL\CadProjSat.DB,2048,9,data_hora:3; id_codigo:2; produto_ref:1; outro:1; fiscal_documento:1; status_situacao:1,CodProjSat; DesProjSat; TipProj; CodCli; DatIni; DatPrevFin; DatFin; SatPara; SitProj,critica
+produto_servico,MovSatCliOcor,SAT\FILIAL\MovSatCliOcor.DB,4229120,21,data_hora:7; id_codigo:5; outro:5; status_situacao:2; texto_observacao:1; fiscal_documento:1,CodCli; SeqOcor; SitOcor; CodUsuario; Obs; DatLan; HorLan; DatPrevSol; DatSol; HorSol; SatPara; DatAlerta; HorAlerta; DatPrevOri; CodOcorCla; CodOcorSubC; Importante; BloqVisual,critica
+produto_servico,MovSatForOcor,SAT\FILIAL\MovSatForOcor.DB,2048,21,data_hora:7; id_codigo:5; outro:5; status_situacao:2; texto_observacao:1; fiscal_documento:1,CodFor; SeqOcor; SitOcor; CodUsuario; Obs; DatLan; HorLan; DatPrevSol; DatSol; HorSol; SatPara; DatAlerta; HorAlerta; DatPrevOri; CodOcorCla; CodOcorSubC; Importante; BloqVisual,critica
+produto_servico,MovSatIntOcor,SAT\FILIAL\MovSatIntOcor.DB,2048,21,data_hora:7; id_codigo:5; outro:5; status_situacao:2; texto_observacao:1; fiscal_documento:1,CodInt; SeqOcor; SitOcor; CodUsuario; Obs; DatLan; HorLan; DatPrevSol; DatSol; HorSol; SatPara; DatAlerta; HorAlerta; DatPrevOri; CodOcorCla; CodOcorSubC; Importante; BloqVisual,critica

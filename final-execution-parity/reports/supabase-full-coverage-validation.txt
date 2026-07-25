@@ -1,0 +1,19 @@
+  check_name   | count 
+---------------+-------
+ public_tables |    65
+(1 linha)
+
+ check_name  | count 
+-------------+-------
+ rls_enabled |    65
+(1 linha)
+
+ tablename 
+-----------
+(0 linha)
+
+      check_name       | count 
+-----------------------+-------
+ expected_extra_tables |    32
+(1 linha)
+

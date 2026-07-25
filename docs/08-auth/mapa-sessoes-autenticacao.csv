@@ -1,0 +1,4 @@
+﻿Area,Evidencia,Estado,Risco,ValidacaoPendente
+Persistencia de usuario,"Tabelas Usuarios, Senhas, Nivel, GruUsuarios no dicionario Paradox e amostras mascaradas",confirmado como persistencia local de autenticacao/permissao,senhas e permissoes acopladas ao banco legado,mapear telas e acoes de Senhas.exe com captura dinamica
+Sessao em memoria,"Sinais estaticos de usuario/permissao em LavSoft, Financeiro, SAT e Senhas","provavel sessao local por usuario logado, sem token moderno identificado",baixa observabilidade e ausencia de trilha centralizada,tracing de login/logout e ProcMon para arquivos alterados durante login
+Autenticacao remota,Gerenciador.exe contem AutenticaGerenciador e TestaAutentica,forte candidato a validacao remota/admin,HTTP sem TLS aparente e dependencia de dominio externo,captura de payload HTTP em ambiente MOD

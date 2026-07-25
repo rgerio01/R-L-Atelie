@@ -1,0 +1,22 @@
+{
+  "gate": "github-validation",
+  "status": "LIMITED-NOGO",
+  "validated": false,
+  "critical_divergences": null,
+  "evidence_files": [],
+  "operator": "automated-safe-validator",
+  "validated_at": "2026-05-24T15:05:57.552572+00:00",
+  "notes": [
+    "Repositorio foi testado sem token. Validacao completa exige GITHUB_TOKEN novo em secret e protecoes configuradas.",
+    "Token antigo deve permanecer revogado/rotacionado."
+  ],
+  "extra": {
+    "probe": {
+      "returncode": 0,
+      "stdout_present": false,
+      "stderr_present": false,
+      "stdout_masked": "",
+      "stderr_masked": ""
+    }
+  }
+}

@@ -1,0 +1,53 @@
+﻿Perfil,Modulo,Permissao,PodeCancelar,PodeDarDesconto,PodeEditar,PodeExportarRelatorio,Criticidade
+Administrador Geral,*,*.*,sim,sim,sim,sim,administrativa
+Administrador Geral,usuarios,usuarios.gerenciar,sim,sim,sim,sim,administrativa
+Administrador Geral,licencas,licencas.gerenciar,sim,sim,sim,sim,administrativa
+Administrador Geral,devices,devices.gerenciar,sim,sim,sim,sim,administrativa
+Administrador Geral,pagamentos,pagamentos.configurar,sim,sim,nao,sim,administrativa
+Administrador Geral,auditoria,auditoria.visualizar,sim,sim,nao,sim,administrativa
+Administrador da Loja,clientes,clientes.*,sim,sim,sim,sim,alta
+Administrador da Loja,ordens,ordens.*,sim,sim,sim,sim,alta
+Administrador da Loja,vendas,vendas.*,sim,sim,sim,sim,alta
+Administrador da Loja,caixa,caixa.*,sim,sim,sim,sim,alta
+Administrador da Loja,estoque,estoque.visualizar,sim,sim,nao,sim,alta
+Administrador da Loja,relatorios,relatorios.*,sim,sim,sim,sim,alta
+Administrador da Loja,usuarios,usuarios.loja,sim,sim,nao,sim,alta
+Operador,clientes,clientes.visualizar,nao,nao,nao,nao,media
+Operador,clientes,clientes.criar,nao,nao,nao,nao,media
+Operador,ordens,ordens.criar,nao,nao,nao,nao,media
+Operador,ordens,ordens.editar,nao,nao,sim,nao,media
+Operador,ordens,ordens.entregar,nao,nao,nao,nao,media
+Operador,produtos,produtos.visualizar,nao,nao,nao,nao,media
+Caixa,vendas,vendas.criar,nao,sim,nao,nao,alta
+Caixa,vendas,vendas.receber,nao,sim,nao,nao,alta
+Caixa,caixa,caixa.abrir,nao,sim,nao,nao,alta
+Caixa,caixa,caixa.fechar,nao,sim,nao,nao,alta
+Caixa,pagamentos,pagamentos.pix,nao,sim,nao,nao,alta
+Caixa,pagamentos,pagamentos.cartao,nao,sim,nao,nao,alta
+Caixa,pagamentos,pagamentos.dinheiro,nao,sim,nao,nao,alta
+Financeiro,financeiro,financeiro.visualizar,nao,sim,nao,sim,alta
+Financeiro,financeiro,financeiro.editar,nao,sim,sim,sim,alta
+Financeiro,financeiro,financeiro.baixar_pagamento,nao,sim,nao,sim,alta
+Financeiro,financeiro,financeiro.estornar,nao,sim,nao,sim,alta
+Financeiro,relatorios,relatorios.financeiro,nao,sim,nao,sim,alta
+Estoque,produtos,produtos.visualizar,nao,nao,nao,nao,media
+Estoque,produtos,produtos.editar,nao,nao,sim,nao,media
+Estoque,estoque,estoque.visualizar,nao,nao,nao,nao,media
+Estoque,estoque,estoque.ajustar,nao,nao,sim,nao,media
+Estoque,estoque,estoque.movimentar,nao,nao,nao,nao,media
+Atendimento,clientes,clientes.visualizar,nao,nao,nao,nao,media
+Atendimento,clientes,clientes.criar,nao,nao,nao,nao,media
+Atendimento,ordens,ordens.criar,nao,nao,nao,nao,media
+Atendimento,ordens,ordens.consultar,nao,nao,nao,nao,media
+Atendimento,relatorios,relatorios.operacionais,nao,nao,nao,nao,media
+Técnico,ordens,ordens.visualizar,nao,nao,nao,nao,media
+Técnico,ordens,ordens.status,nao,nao,nao,nao,media
+Técnico,ordens,ordens.observacao,nao,nao,nao,nao,media
+Técnico,produtos,produtos.visualizar,nao,nao,nao,nao,media
+Auditor,*,*.visualizar,nao,nao,sim,sim,media
+Auditor,auditoria,auditoria.visualizar,nao,nao,nao,sim,media
+Auditor,relatorios,relatorios.exportar,nao,nao,nao,sim,media
+Somente leitura,clientes,clientes.visualizar,nao,nao,nao,nao,media
+Somente leitura,ordens,ordens.visualizar,nao,nao,nao,nao,media
+Somente leitura,produtos,produtos.visualizar,nao,nao,nao,nao,media
+Somente leitura,relatorios,relatorios.visualizar,nao,nao,nao,nao,media

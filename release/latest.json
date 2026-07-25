@@ -1,0 +1,10 @@
+{
+  "stable": null,
+  "beta": null,
+  "homolog": {
+    "version": "v0.1.0",
+    "manifest": "update-manifest.json",
+    "status": "NO-GO_UNTIL_RELEASE_PIPELINE_EVIDENCE"
+  },
+  "appliance": null
+}

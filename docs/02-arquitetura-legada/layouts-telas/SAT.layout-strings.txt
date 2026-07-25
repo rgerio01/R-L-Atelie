@@ -1,0 +1,673 @@
+    {GotoPage(GPageNo - 1);}
+    {GotoPage(GPageNo + 1);}
+ HEIGHT=
+ Left Outer Join "
+ Left Outer Join ":
+ Qry_AlertaCodSatTip.DisplayWidth
+ Qry_AlertaSitAlerta.DisplayWidth
+_QApplication_desktop
+_QApplication_setDesktopSettingsAware
+_QApplication_topLevelWidgets
+_QFrame_frameWidth
+_QFrame_lineWidth
+_QFrame_midLineWidth
+_QFrame_setLineWidth
+_QFrame_setMidLineWidth
+_QImage_height
+_QImage_width
+_QImageIO_setFormat
+_QPen_setWidth
+_QPen_width
+_QPixmap_height
+_QPixmap_width
+_QTimer_stop
+_QWidget_caption
+_QWidget_height
+_QWidget_isTopLevel
+_QWidget_setCaption
+_QWidget_setMaximumHeight
+_QWidget_setMaximumWidth
+_QWidget_setMinimumHeight
+_QWidget_setMinimumWidth
+_QWidget_width
+;top:
+!Qry_AlertaCodUsuario.DisplayWidth
+!Qry_AlertaImportante.DisplayWidth
+!Qry_AlertaUsuarioReu.DisplayWidth
+" width=
+"Qry_AlertaResponsavel.DisplayWidth
+/AvgWidth %d
+/AvgWidth 1000
+/AvgWidth 702
+/CapHeight %d
+/CapHeight 666
+/CapHeight 718
+/CapHeight 800
+/CapHeight 880
+/Height 
+/MaxWidth %d
+/MaxWidth 1000
+/MissingWidth %d
+/MissingWidth 500
+/Pagelayout /TwoColumnLeft
+/Width 
+/Width %d /Height %d 
+/Widths [
+/XHeight %d
+/XHeight 500
+/XHeight 616
+#Nested dataset must inherit from %s(Filter expression incorrectly terminated
++3D effect percent must be between %d and %d+Circular Series dependences are not allowed+Bar Width Percent must be between 1 and 1001Bar Offset Percent must be between -100% and 100%
+<DIV style="COLOR: #000000; FONT: 10pt 'Arial'; LEFT: 0px; TOP: {%MaxY%}px">
+<DIV STYLE="left:
+<TABLE WIDTH=100% CELLPADDING=2 BORDER=0>
+=;Qtdb
+Active Caption
+actnPage_GotoPageExecute
+actnZoom_PageWidth
+actnZoom_PageWidth8
+actnZoom_PageWidthExecute
+actnZoom_PageWidthUpdate
+ActOpen
+ActOpenExecute
+ActOpenx
+AddButtonClick
+akLeft
+akTop
+aLeftAxis
+alLeft
+alTop
+angleleft
+arrowdblleft
+arrowleft
+aTopAxis
+AutoPopup
+AutoPopup4
+AutoPreviewCheckbox
+AutoPreviewCheckboxClick
+AutoStopAction|
+AvailableDatasets
+AvailableDatasetsClick
+BarHeight
+BarTop
+BarWidth
+BarWidthPercent
+BDE error $%.4x3Unable to use duplicate DataSource and LookupSource2LookupSource must be connected to TTable component*%s must be the lookup table's active index
+bdLeftToRight
+bdRightToLeft
+bdRightToLeftNoAlign
+bdRightToLeftReadingOnly
+beLeft
+beTop
+BevelWidth
+BevelWidth4
+blGlyphLeft
+blGlyphTop
+BorderWidth
+BorderWidth 5G
+BorderWidth4
+BorderWidthT
+BorderWidthType 5G
+BotOpen
+BotOpen4
+BotZoomWidth
+BotZoomWidthClick
+braceleft
+braceleftbt
+braceleftmid
+bracelefttp
+bracketleft
+bracketleftbt
+bracketleftex
+bracketlefttp
+bsLeftLine
+bsTopLine
+ButtonHeight
+ButtonHeightT
+ButtonWidth
+CancelButtonClick
+Caption
+Caption =G
+Caption 5G
+Caption Text
+Caption4;G
+Caption8
+CaptionT
+ChangedTableName
+clActiveCaption
+clCaptionText
+clGradientActiveCaption
+clGradientInactiveCaption
+ClientDataSet1
+ClientDataSet1p
+ClientHeight
+ClientHeightT
+ClientWidth
+clInactiveCaption
+clInactiveCaptionText
+ColorButtonClick
+ColorWidthTba
+ColWidths
+ConnectOptions
+Constraints.MaxHeight
+Constraints.MaxWidth
+Constraints.MinHeight
+Constraints.MinWidth
+ctOpenForwardOnly
+CustomBarHeight
+CustomBarWidth
+D@D$DDDDDDDDtDB
+daLeft
+DatabaseName
+DatabaseName 
+DatabaseName<
+DataResultSetOpen
+DataSet
+DataSet 
+Dataset closed
+Dataset open
+DataSet<
+DataSetField
+DataSetField$4K
+DataSetS
+DataSource cannot be changed*Nested datasets cannot have a MasterSource0Cannot perform this operation on an open dataset"Dataset not in edit or insert mode1Cannot perform this operation on a closed dataset1Cannot perform this operation on an empty dataset!Cannot modify a read-only dataset
+DBG_CadTipConKeyPress
+DBG_SatDblClick
+DefaultRowHeight
+DisplayWidth
+dmDesktop
+DrawLeft
+DrawTop
+DropDownWidth
+DS_CPagtop
+dtaLeft
+ebLeft
+ebTop
+Ed_CodCadTipConKeyPress
+EditFormat
+EditLabel
+EditLabel.Caption
+EditLabel.Font.Charset
+EditLabel.Font.Color
+EditLabel.Font.Height
+EditLabel.Font.Name
+EditLabel.Font.Style
+EditLabel.Height
+EditLabel.ParentFont
+EditLabel.Width
+epaLeft
+Error creating cursor handle/ReferenceTableName not specified for field '%s'8Cannot use array of Field values with Expression Indices
+Error loading MIDAS.DLL)No fields defined.  Cannot create dataset+Connection not allowed to TConnectionBroker ParentConnection is not assigned"Record or field constraint failed.
+Execute not supported: %sfField '%s' is not the correct type of calculated field to be used in an aggregate, use an internalcalc1Operation not allowed on a unidirectional dataset
+ExitButton
+ExitButtonH
+Failed to clear tab control Failed to delete tab at index %d"Failed to retrieve tab at index %d Failed to get object at index %d"Failed to set tab "%s" at index %d Failed to set object at index %d<MultiLine must be True when TabPosition is tpLeft or tpRight
+Field '%s' has no dataset1Field '%s' cannot be a calculated or lookup field
+FieldName
+FieldName 
+Fieldname %s exceeds %d chars
+FieldName8
+First Legend Value must be > 0.Legend Color Width must be between 0 and 100 %%No ParentChart to validate DataSource
+Fit to Page &Width
+FixedWidth<
+Font.Height
+Foot.Font.Height
+FormHeight(
+FormWidthT
+Frame width
+Frame.DrawLeft
+Frame.DrawTop
+Frame.Width
+fsStayOnTop
+ftDataSet
+ftDBaseOle
+function GotoPage(APageNo) {
+gdBottomTop
+gdFromBottomLeft
+gdFromTopLeft
+gdLeftRight
+gdRightLeft
+gdTopBottom
+GetCharABCWidthsA
+GetDesktopWindow
+GetMenuItemCount
+GetMenuItemID
+GetMenuItemInfoA
+GetOpenFileNameA
+GetTopWindow
+GotoPage1
+GotoPage1\
+GotoPageT
+guillemotleft
+guilsinglleft
+Height
+Height 
+Height 5G
+height:
+Height<}l
+Height$
+HeightT
+HeightX
+htop
+iaLeft
+iaTop
+IBCustomDataSet
+IBCustomDataSet+
+IBCustomDataSet|
+Im_MarcaPontoP
+ImmSetOpenStatus
+Inactive Caption
+Inactive Caption Text
+IndexFieldNames
+IndexFieldNames 
+IndexFieldNames<
+InsertMenuItemA
+IntegralHeightT
+Invalid Enum Value&Missing Connection or ConnectionString0Filter property cannot be used for detail tablesUDataset does not support bookmarks, which are required for multi-record data controls
+Invalid ImageList Index!Image width and heigth must match
+ItemHeight
+ItemHeight<
+ItemHeightT
+javascript:GotoPage(1);
+KeyViolTableName<
+laLeft
+LanctoPesquisa1
+LanctoPesquisa1Click
+LanctoPesquisa1d
+laTop
+Lb_Contatop
+Left
+Left =G
+Left Outer Join 
+Left outer Join "
+Left outer Join ":
+LeftAxis
+LeftAxis.ExactDateTime
+LeftAxis.LabelStyle
+LeftFont8
+LeftGap<
+LeftL
+Leftlong
+LeftMargin
+leftOutsetlong
+LeftT
+LeftWallT
+Legend.ColorWidth
+Legend.Font.Height
+Legend.TopPos
+LegendWidth
+LineHeight
+LineHeightMethodT
+LineWidth
+LineWidth<
+LineWidthType
+ListButton
+LookupDataSet 
+lpLeft
+ltOptimistic
+ltsLeftPercent
+ltsLeftValue
+maBottomToTop
+MainMenu1
+MainMenu1 
+MainMenu1,
+MainMenu1(
+MainMenu1|
+MainMenu1$
+MainMenu14
+MainMenu18
+MainMenu1D
+MainMenu1L
+MainMenu1T
+maLeftToRight
+MarginLeft
+MarginLeftT
+MarginTop
+MarginTop|
+maRightToLeft
+maTopToBottom
+MaxHeight
+MaxPosLeftT
+MaxPosTopT
+MaxSizeHeightT
+MaxSizeWidthT
+MaxTrackHeightT
+MaxTrackWidthT
+MaxWidth
+mbLeft
+MinHeight
+MinHeightLeft
+MinTrackHeightT
+MinTrackWidth
+MinWidth
+MinWidthT
+Missing DataSetField property
+Missing TableName property
+MsgWaitForMultipleObjects
+msHeight
+msWidth
+NewHeight
+NewWidth
+No help found for %s#No context-sensitive help installed$No topic-based help system installed
+Not enough timers available/Top Legend Position must be between 0 and 100 %
+Not in edit mode-Cannot insert into dataset. (No insert query)%Cannot post. (No update/insert query) Cannot update. (No update query)-Cannot delete from dataset. (No delete query)&Cannot refresh row. (No refresh query)
+ObjectMenuItem
+OKButtonClick
+OnButtonClick|
+OnClick
+OnClick|
+OnClick4
+OnClickAxis
+OnClickBackground
+OnClickCheck85G
+OnClickLegend
+OnClickPointerl4c
+OnClickSeries
+OnClickxCG
+OnDocumentOpen
+OnEditButtonClickp@G
+OnKeyPress
+OnSetEditText
+OnStop|
+OnStopU
+PageFrameLeft
+PageFramePenWidth
+PageFrameTop
+PageHeight
+PageWidth
+PageWidth1
+PageWidth1p
+PageWidthEnter
+PageWidthExit
+paLeft
+PanelTop
+parenleft
+parenleftbt
+parenleftex
+parenleftinferior
+parenleftsuperior
+parenlefttp
+Pen.Width
+PercentFormat
+pjLeft
+plTwoColumnLeft
+Pn_CalendarioLeft
+Pn_Top
+Pn_Topo
+Pn_TopP
+Pn_Topt
+poDesktopCenter
+PreviewButtonClick
+PrintTop
+ProblemTableNameT
+QRALLEFTBITMAP
+QREnvironmentEditor
+QRFRAMELEFTBITMAP
+QRFRAMETOPBITMAP
+QRLEFTRIGHTBITMAP
+qrsRightAndLeft
+qrsTopAndBottom
+QRTOPBOTTOMBITMAP
+Qry_AlertaCodSat.DisplayWidth
+Qry_AlertaLido.DisplayWidth
+Qry_AlertaMensagem.DisplayWidth
+Qry_AlertaNome.DisplayWidth
+Qry_AlertaReuniao.DisplayWidth
+Qry_AlertaTipSat.DisplayWidth
+Qry_MovimentoContatoP
+QRZOOMTOWIDTHBITMAP
+quotedblleft
+quoteleft
+ReferenceTableNameT
+RemoveAllButtonClick
+RemoveButtonClick
+Required Param value not set!No Stored Procedure Name assigned<use ExecProc for Procedure; use TQuery for Select procedures
+RoundFirstLabelT
+RowHeights
+RvDataSetConnection1
+SB_Pontop
+SB_ProcClientesConClick
+ScrollWidth
+sdLeft
+Select dataset
+SetMenuItemInfoA
+ShowCaptions
+ssLeft
+Stop
+Sub-menu is not in menu+TMenu.SetForm: argument must be TCustomForm@GroupIndex cannot be less than a previous menu item's GroupIndex5Cannot create form. No MDI forms are currently active
+TabHeightT
+TableName
+TableName4
+TabStop
+TabStop 
+TabStop<
+TabStop4
+TabStop8
+TabStop85G
+TabStopT
+TabWidth
+TADODataSet
+TADODataSet 8R
+taLeftJustify
+taTop
+TAutoStopAction
+TAxisOnGetLabel
+TAxisOnGetNextLabel
+Tb_EncPontop
+Tb_PontoPontoClas
+Tb_PontoPontoClasT
+TBDEDataSet
+TBevelWidth
+TBitBtn
+TBitBtnKind
+tbLeftButton
+TBorderWidth
+tbRightButton
+TButton
+TButtonActionLink
+TButtonControl
+TButtonControl\
+TButtonGlyph
+TButtonLayout
+TButtonStyle
+TCaption
+TClientDataSet
+TConnectOption
+TCustomADODataSet
+TCustomClientDataSet
+TDataSet
+TDataSetErrorEvent
+TDataSetField
+TDataSetField,%K
+TDataSetNotifyEvent
+TDataSetUpdateObject
+TDataSource
+TDataSource(4K
+TDataSourceLink
+TDataSourceLink(
+TDBChart
+TDBChartDataSource
+TDBDataSet
+TDBError
+TDBGrid
+TDBGridClickEvent
+TDBGridColumns
+TDBGridInplaceEdit
+TDBGridInplaceEditT
+TDBGridOption
+TDBGridOptions
+TDBLookupCombo
+TDBLookupComboStyle
+TDBLookupComboT
+TDBLookupControl
+TDBLookupControlhlL
+TDBLookupList
+TDBLookupListBox
+TDBLookupListBoxLnL
+TDBLookupListOption
+TDBLookupListOptions
+TDBMemo
+TDBText
+TDefaultDBScreenApplication
+TEdit
+TEDITATXT_MC
+TEditButton
+TEditCharCase
+TEditMask
+TextHeight
+TextWidth
+TF_FILIAL
+TF_SENHA
+TFC_CadCont
+TFC_CadCont\
+TFC_CadMelhoria
+TFC_CADMOD
+TFC_CadMod8j[
+TFC_CadModCor
+TFC_CadModCorx!Z
+TFC_CadTipCon
+TFC_CadTipCon`
+TFC_DIGSENHA
+TFC_Ponto
+TFC_ProcCadPadrao
+TFC_ProcCadPadraoD
+TFC_SolAltSist
+TForm
+TForm(
+TForm4
+TFormBorderStyle
+TFormErro
+TFormMFPreview
+TFormPlacement
+TFormStorage
+TFormStorage,
+TFormStyle
+TIBCustomDataSet
+TIBCustomDataSet|
+TIBDataSet
+TIBDataSetUpdateObject
+TIBDataSetUpdateObjectx
+Title.Caption
+Title.Font.Height
+TitleFont.Height
+TLabel
+TLabeledEdit
+TLabelPosition
+TLeftRight
+TLineHeightMethod
+TLineWidthType
+tlTop
+TMainMenu
+TMainMenul#t
+TMenuItem
+TMenuItem"AtivaSolicitacaodeCartoFidelidade1
+TMenuItem#RCDRelatrioControleDesenvolvimento1
+TMenuItemAutoFlag
+TMenuItemh
+TMenuItemStack
+Top long
+ToPage
+ToPageS
+TopAxis
+TOpenDialog
+TOpenOption
+TOpenOptionEx
+TOpenOptions
+TOpenOptionsEx
+TopFont8
+TopGap<
+TOpID
+TopMargin
+topOutsetlong
+TopPanelDblClick
+TopPosT
+TopT
+TPF0
+TPlacementOption
+TPlacementOptions
+tpLeft
+tpTop
+TQREnvironmentEditor
+TQREvElementOperator
+TQuery
+TQueryd
+TQueryDataLink
+TQuickReportOption
+TQuickReportOptions
+TRAVEBAND.GETMINHEIGHTLEFT
+TRAVEBAND.SETMINHEIGHTLEFT
+TRAVEBASEBARCODE.GETBARHEIGHT
+TRAVEBASEBARCODE.GETBARTOP
+TRAVEBASEBARCODE.GETBARWIDTH
+TRAVEBASEBARCODE.GETPRINTTOP
+TRAVEBASEBARCODE.SETBARHEIGHT
+TRAVEBASEBARCODE.SETBARTOP
+TRAVEBASEBARCODE.SETBARWIDTH
+TRAVEBASEBARCODE.SETPRINTTOP
+TRAVECALCOP.GETOPERATOR
+TRAVECALCOP.SETOPERATOR
+TRAVECODE128BARCODE.GETOPTIMIZE
+TRAVECODE128BARCODE.SETOPTIMIZE
+TRAVECOMPONENT.PAGELEFT
+TRAVECOMPONENT.PAGETOP
+TRAVECONTROL.ADJHEIGHT
+TRAVECONTROL.ADJLEFT
+TRAVECONTROL.ADJTOP
+TRAVECONTROL.ADJWIDTH
+TRAVECONTROL.GETHEIGHT
+TRAVECONTROL.GETLEFT
+TRAVECONTROL.GETLINEWIDTH
+TRAVECONTROL.GETLINEWIDTHTYPE
+TRAVECONTROL.GETTOP
+TRAVECONTROL.GETWIDTH
+TRAVECONTROL.SETHEIGHT
+TRAVECONTROL.SETLEFT
+TRAVECONTROL.SETLINEWIDTH
+TRAVECONTROL.SETLINEWIDTHTYPE
+TRAVECONTROL.SETTOP
+TRAVECONTROL.SETWIDTH
+TRAVEDATAFIELD.GETFIELDNAME
+TRAVEDATAFIELD.SETFIELDNAME
+TRAVEDATAVIEW.CHECKROWSLEFT
+TRaveFieldName
+TRAVELINE.GETLINEWIDTH
+TRAVELINE.GETLINEWIDTHTYPE
+TRAVELINE.SETLINEWIDTH
+TRAVELINE.SETLINEWIDTHTYPE
+TRAVEPAGE.GETGOTOPAGE
+TRAVEPAGE.GETPAGEHEIGHT
+TRAVEPAGE.GETPAGEWIDTH
+TRAVEPAGE.SETGOTOPAGE
+TRAVEPAGE.SETPAGEHEIGHT
+TRAVEPAGE.SETPAGEWIDTH
+TRAVESURFACE.GETLINEWIDTH
+TRAVESURFACE.SETLINEWIDTH
+TRIMLEFT
+TRvCustomDataSetConnection
+TRvCustomDataSetConnection4
+TRvDataSetConnection
+TRvDataSetConnectionD
+tsFlatButtons
+TTable
+TTableType
+TTableX
+ttDBase
+TWidth
+TWordApplicationDocumentOpen
+UDFGridSetEditText
+VisitLabel
+WaitForMultipleObjects
+WallWidth<
+Width
+Width 
+width:
+Width(
+Width|
+WidthPWG
+WidthT
+WidthType
+WSAWaitForMultipleEvents
+Zoom to fit page width
+Zoom to width
+ZoomToWidth
+ZoomToWidthClick

@@ -1,0 +1,16 @@
+{
+  "component": "EquipeExe MOD",
+  "automaticUpdatesEnabled": false,
+  "cloudUpdateChecksEnabled": false,
+  "cloudDownloadsEnabled": false,
+  "legacyLiveUpdateExecution": "blocked",
+  "legacySynchronizerExecution": "manual-review-required",
+  "reason": "A versao MOD deve operar sem buscar ou instalar atualizacoes da nuvem.",
+  "createdAt": "2026-05-23",
+  "appliesTo": [
+    "LiveUpdate.exe",
+    "Gerenciador.exe",
+    "Sincronizar.exe",
+    "Sincroniza/Nuvem"
+  ]
+}

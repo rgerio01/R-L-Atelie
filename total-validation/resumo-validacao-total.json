@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-05-24T14:41:48.559249+00:00",
+  "legacy_path": "D:\\AtelieProd\\Equipexe",
+  "files": 53179,
+  "by_kind": {
+    "config_or_text": 46784,
+    "unknown": 1314,
+    "binary_runtime": 110,
+    "paradox_table_candidate": 965,
+    "paradox_index_or_metadata": 2413,
+    "visual_asset": 1593
+  },
+  "status": "NO-GO",
+  "reason": "Inventario read-only criado; replay/runtime/report/permission/physical gates ainda pendentes."
+}

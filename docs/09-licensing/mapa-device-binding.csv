@@ -1,0 +1,4 @@
+﻿Sinal,Tipo,Campos,PapelProvavel,Criticidade,ValidacaoPendente
+Registrar.xml,arquivo local,MacAddress; Nome; Usuario; VersaoWindows; CodLojaOriginal,identidade local da estacao,alta,verificar leitura/envio em RegistraEstacao
+EquNet.ini,configuracao local,CampoCC; EquipeZ; TesteW1; Tested*; COMPUTADOR.NOME,parametros codificados e associacao loja/equipe/estacao,alta,ProcMon para leitura/escrita durante inicializacao
+RegistraEstacao/ListarDispositivosPorFilial,endpoint remoto,payload ainda nao capturado,registro/listagem de dispositivos autorizados,critica,captura HTTP controlada

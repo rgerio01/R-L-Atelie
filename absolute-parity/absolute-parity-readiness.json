@@ -1,0 +1,98 @@
+{
+  "timestamp": "2026-05-24T13:50:57.677213+00:00",
+  "overall": "NO-GO",
+  "policy": "Absolute Legacy Parity blocks ownership until every gate is evidence-backed.",
+  "gates": {
+    "domain_parity": "NO-GO",
+    "runtime_parity": "NO-GO",
+    "print_parity": "NO-GO",
+    "ui_parity": "NO-GO",
+    "report_parity": "NO-GO",
+    "permission_parity": "NO-GO",
+    "operation_replay": "NO-GO",
+    "shadow_execution": "NO-GO",
+    "chaos_validation": "NO-GO",
+    "appliance_parity": "NO-GO",
+    "digital_forensics": "NO-GO",
+    "divergence_detector": "NO-GO",
+    "hidden_behavior_detector": "NO-GO",
+    "implicit_rule_detector": "NO-GO",
+    "legacy_knowledge_extraction": "NO-GO",
+    "physical_readiness": "NO-GO"
+  },
+  "scores": {
+    "domain_parity": 0,
+    "runtime_parity": 0,
+    "print_parity": 0,
+    "ui_parity": 0,
+    "report_parity": 0,
+    "permission_parity": 0,
+    "operation_replay": 0,
+    "shadow_execution": 0,
+    "chaos_validation": 0,
+    "appliance_parity": 0,
+    "digital_forensics": 0,
+    "divergence_detector": 0,
+    "hidden_behavior_detector": 0,
+    "implicit_rule_detector": 0,
+    "legacy_knowledge_extraction": 0,
+    "physical_readiness": 0
+  },
+  "blockers": [
+    "absolute_replay_not_executed",
+    "runtime_parity_not_traced",
+    "print_parity_not_physically_validated",
+    "ui_parity_not_replayed",
+    "report_parity_not_diffed",
+    "permission_parity_not_replayed",
+    "critical_divergence_gate_active",
+    "hardware_gates_pending",
+    "physical_readiness_no_go"
+  ],
+  "required_evidence": {
+    "domain": [
+      "full Paradox schema rerun",
+      "field-to-field SQLite mapping",
+      "implicit relation validation",
+      "critical orphan behavior zero"
+    ],
+    "runtime": [
+      "ProcMon/ETW/API Monitor traces",
+      "startup order replay",
+      "timer/thread map",
+      "runtime failure replay"
+    ],
+    "print": [
+      "physical printer test",
+      "spool capture",
+      "ESC/POS capture",
+      "visual diff",
+      "QRCode/cut validation"
+    ],
+    "ui": [
+      "UI replay",
+      "keyboard workflow validation",
+      "operator productivity timing"
+    ],
+    "reports": [
+      "legacy export",
+      "NextGen export",
+      "line/total/rounding diff"
+    ],
+    "permissions": [
+      "permission graph",
+      "permission replay",
+      "hidden permission diff"
+    ],
+    "physical": [
+      "Dell hardware inventory",
+      "printer physical test",
+      "Bluetooth physical test",
+      "VM appliance boot",
+      "Dell appliance boot",
+      "restore execution",
+      "rollback execution",
+      "recovery execution"
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "timestamp": "2026-05-24T02:28:16.902694+00:00",
+  "status": "NO-GO",
+  "blockers": [
+    "restore_not_validated",
+    "rollback_not_tested",
+    "recovery_not_tested",
+    "critical_divergence_gate_active",
+    "hardware_gates_pending"
+  ],
+  "scores": {
+    "backup": 10,
+    "restore": 0,
+    "rollback": 0,
+    "recovery": 0,
+    "audit": 10,
+    "appliance": 0
+  }
+}

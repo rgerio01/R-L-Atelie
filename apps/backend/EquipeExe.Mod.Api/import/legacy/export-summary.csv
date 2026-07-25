@@ -1,0 +1,9 @@
+table,status,rows,path
+Usuarios,ok,9,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\Usuarios.csv
+Clientes,ok,5064,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\Clientes.csv
+MovCab,ok,31972,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\MovCab.csv
+MovItem,ok,84918,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\MovItem.csv
+MovItemSer,ok,89640,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\MovItemSer.csv
+Notas,ok,21679,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\Notas.csv
+Duplicat,ok,19717,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\Duplicat.csv
+CliCredito,ok,106,D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import\legacy\CliCredito.csv

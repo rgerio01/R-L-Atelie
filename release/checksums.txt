@@ -1,0 +1,3 @@
+# Gerado pelo pipeline de release.
+# Formato: <sha256>  <asset>
+PENDING_PIPELINE_GENERATION  atelie-nextgen-windows-v0.1.0.zip

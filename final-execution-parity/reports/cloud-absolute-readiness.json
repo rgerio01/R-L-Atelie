@@ -1,0 +1,413 @@
+{
+  "timestamp": "2026-05-24T15:59:03.962720+00:00",
+  "status": "NO-GO",
+  "remote_tables": 0,
+  "remote_live_validated": false,
+  "remote_columns": 0,
+  "remote_rls_enabled": 0,
+  "migration_tables": 70,
+  "sqlite_tables": {
+    "windows": 6,
+    "linux": 7
+  },
+  "legacy_sources": {
+    "legacy_fields": {
+      "exists": true,
+      "rows": 4996,
+      "sha256": "271f600c9aeff3d67c25034e4b9449b1d688bae058c350d44459df4cafc97ad4",
+      "columns": [
+        "Tabela",
+        "Caminho",
+        "Campo",
+        "Tipo",
+        "Tamanho",
+        "Precisao",
+        "Obrigatoriedade",
+        "IndiceParadoxDetectado",
+        "PossivelChavePrimaria",
+        "PossivelChaveEstrangeira",
+        "NomeVisualCorrespondente",
+        "ModuloRelacionado",
+        "TelaRelacionada",
+        "EntidadeDominio",
+        "ClassificacaoCampo",
+        "Evidencia",
+        "NivelConfianca",
+        "Status"
+      ]
+    },
+    "legacy_domain_entities": {
+      "exists": true,
+      "rows": 478,
+      "sha256": "fc1918ca5bb1393ae889a6e2c2d850220d738a4394512c40bb836529560cb9cb",
+      "columns": [
+        "Dominio",
+        "Tabela",
+        "Caminho",
+        "TamanhoArquivo",
+        "QtdColunas",
+        "ClassesCampo",
+        "CamposPrincipais",
+        "Criticidade"
+      ]
+    },
+    "legacy_relationships": {
+      "exists": true,
+      "rows": 12,
+      "sha256": "13ac39d2b66a380b01e9271ec3d7ce1ae98f88a3b345a8311be966148ec4dd6b",
+      "columns": [
+        "Origem",
+        "Destino",
+        "CampoOrigem",
+        "CampoDestino",
+        "TipoRelacionamento",
+        "Evidencia",
+        "NivelConfianca",
+        "Status",
+        "ComoValidarDinamicamente"
+      ]
+    },
+    "ui_database_bindings": {
+      "exists": true,
+      "rows": 757,
+      "sha256": "88c92f6d4787b3fe4a1602044824d6de3dadf1d493e519b9c3af353f8cca3e51",
+      "columns": [
+        "Tela",
+        "Modulo",
+        "EntidadePrincipal",
+        "EntidadesSecundarias",
+        "TabelasLidas",
+        "TabelasAlteradas",
+        "Botoes",
+        "Acoes",
+        "Permissoes",
+        "Relatorios",
+        "FluxoAnterior",
+        "FluxoPosterior",
+        "Evidencia",
+        "Pendencias"
+      ]
+    },
+    "screen_action_table": {
+      "exists": true,
+      "rows": 1936,
+      "sha256": "bc04c5a7c79b4d4c77149d4bb28923f1540b2bd0980b94d94460201299609bb0",
+      "columns": [
+        "TelaOuMenu",
+        "Modulo",
+        "Acao",
+        "EntidadeInferida",
+        "TabelaConsulta",
+        "TabelaInsere",
+        "TabelaAltera",
+        "TabelaExclui",
+        "CampoMuda",
+        "LogGerado",
+        "RegraNegocio",
+        "PermissaoExigida",
+        "Evidencia",
+        "Status"
+      ]
+    },
+    "reports": {
+      "exists": true,
+      "rows": 1362,
+      "sha256": "70896f33c42b25a52f4f63472e8e0917a17122bf8f72f95628679be67c1dfbfc",
+      "columns": [
+        "Executavel",
+        "RelatorioOuImpressao",
+        "Dominio",
+        "Fonte",
+        "TabelasCandidatas",
+        "FiltrosProvaveis",
+        "ValidacaoPendente"
+      ]
+    },
+    "status_fields": {
+      "exists": true,
+      "rows": 97,
+      "sha256": "14aa5b49ed93f8730cfc1067706e84fd19590806534ab8dc057e9b2d500c39de",
+      "columns": [
+        "Tabela",
+        "Caminho",
+        "Campo",
+        "Tipo",
+        "Tamanho",
+        "Precisao",
+        "Obrigatoriedade",
+        "IndiceParadoxDetectado",
+        "PossivelChavePrimaria",
+        "PossivelChaveEstrangeira",
+        "NomeVisualCorrespondente",
+        "ModuloRelacionado",
+        "TelaRelacionada",
+        "EntidadeDominio",
+        "ClassificacaoCampo",
+        "Evidencia",
+        "NivelConfianca",
+        "Status"
+      ]
+    },
+    "financial_values": {
+      "exists": true,
+      "rows": 147,
+      "sha256": "61d8d33078093c320f46aced1796440bf425eb3bc58f379015511bfa1d7f213e",
+      "columns": [
+        "Tabela",
+        "Caminho",
+        "Campo",
+        "Tipo",
+        "Tamanho",
+        "Precisao",
+        "Obrigatoriedade",
+        "IndiceParadoxDetectado",
+        "PossivelChavePrimaria",
+        "PossivelChaveEstrangeira",
+        "NomeVisualCorrespondente",
+        "ModuloRelacionado",
+        "TelaRelacionada",
+        "EntidadeDominio",
+        "ClassificacaoCampo",
+        "Evidencia",
+        "NivelConfianca",
+        "Status"
+      ]
+    },
+    "operational_dates": {
+      "exists": true,
+      "rows": 856,
+      "sha256": "b3e3838fd91ab577a8bbd37bb8000b63cafa68d18a9ed85bb9539e63cf866b95",
+      "columns": [
+        "Tabela",
+        "Caminho",
+        "Campo",
+        "Tipo",
+        "Tamanho",
+        "Precisao",
+        "Obrigatoriedade",
+        "IndiceParadoxDetectado",
+        "PossivelChavePrimaria",
+        "PossivelChaveEstrangeira",
+        "NomeVisualCorrespondente",
+        "ModuloRelacionado",
+        "TelaRelacionada",
+        "EntidadeDominio",
+        "ClassificacaoCampo",
+        "Evidencia",
+        "NivelConfianca",
+        "Status"
+      ]
+    }
+  },
+  "legacy_catalog_counts": {},
+  "import_result": {
+    "attempted": true,
+    "sources": {
+      "legacy_fields": {
+        "status": "failed",
+        "exists": true,
+        "rows": 4996,
+        "sha256": "271f600c9aeff3d67c25034e4b9449b1d688bae058c350d44459df4cafc97ad4",
+        "columns": [
+          "Tabela",
+          "Caminho",
+          "Campo",
+          "Tipo",
+          "Tamanho",
+          "Precisao",
+          "Obrigatoriedade",
+          "IndiceParadoxDetectado",
+          "PossivelChavePrimaria",
+          "PossivelChaveEstrangeira",
+          "NomeVisualCorrespondente",
+          "ModuloRelacionado",
+          "TelaRelacionada",
+          "EntidadeDominio",
+          "ClassificacaoCampo",
+          "Evidencia",
+          "NivelConfianca",
+          "Status"
+        ]
+      },
+      "legacy_domain_entities": {
+        "status": "failed",
+        "exists": true,
+        "rows": 478,
+        "sha256": "fc1918ca5bb1393ae889a6e2c2d850220d738a4394512c40bb836529560cb9cb",
+        "columns": [
+          "Dominio",
+          "Tabela",
+          "Caminho",
+          "TamanhoArquivo",
+          "QtdColunas",
+          "ClassesCampo",
+          "CamposPrincipais",
+          "Criticidade"
+        ]
+      },
+      "legacy_relationships": {
+        "status": "failed",
+        "exists": true,
+        "rows": 12,
+        "sha256": "13ac39d2b66a380b01e9271ec3d7ce1ae98f88a3b345a8311be966148ec4dd6b",
+        "columns": [
+          "Origem",
+          "Destino",
+          "CampoOrigem",
+          "CampoDestino",
+          "TipoRelacionamento",
+          "Evidencia",
+          "NivelConfianca",
+          "Status",
+          "ComoValidarDinamicamente"
+        ]
+      },
+      "ui_database_bindings": {
+        "status": "failed",
+        "exists": true,
+        "rows": 757,
+        "sha256": "88c92f6d4787b3fe4a1602044824d6de3dadf1d493e519b9c3af353f8cca3e51",
+        "columns": [
+          "Tela",
+          "Modulo",
+          "EntidadePrincipal",
+          "EntidadesSecundarias",
+          "TabelasLidas",
+          "TabelasAlteradas",
+          "Botoes",
+          "Acoes",
+          "Permissoes",
+          "Relatorios",
+          "FluxoAnterior",
+          "FluxoPosterior",
+          "Evidencia",
+          "Pendencias"
+        ]
+      },
+      "screen_action_table": {
+        "status": "failed",
+        "exists": true,
+        "rows": 1936,
+        "sha256": "bc04c5a7c79b4d4c77149d4bb28923f1540b2bd0980b94d94460201299609bb0",
+        "columns": [
+          "TelaOuMenu",
+          "Modulo",
+          "Acao",
+          "EntidadeInferida",
+          "TabelaConsulta",
+          "TabelaInsere",
+          "TabelaAltera",
+          "TabelaExclui",
+          "CampoMuda",
+          "LogGerado",
+          "RegraNegocio",
+          "PermissaoExigida",
+          "Evidencia",
+          "Status"
+        ]
+      },
+      "reports": {
+        "status": "failed",
+        "exists": true,
+        "rows": 1362,
+        "sha256": "70896f33c42b25a52f4f63472e8e0917a17122bf8f72f95628679be67c1dfbfc",
+        "columns": [
+          "Executavel",
+          "RelatorioOuImpressao",
+          "Dominio",
+          "Fonte",
+          "TabelasCandidatas",
+          "FiltrosProvaveis",
+          "ValidacaoPendente"
+        ]
+      },
+      "status_fields": {
+        "status": "failed",
+        "exists": true,
+        "rows": 97,
+        "sha256": "14aa5b49ed93f8730cfc1067706e84fd19590806534ab8dc057e9b2d500c39de",
+        "columns": [
+          "Tabela",
+          "Caminho",
+          "Campo",
+          "Tipo",
+          "Tamanho",
+          "Precisao",
+          "Obrigatoriedade",
+          "IndiceParadoxDetectado",
+          "PossivelChavePrimaria",
+          "PossivelChaveEstrangeira",
+          "NomeVisualCorrespondente",
+          "ModuloRelacionado",
+          "TelaRelacionada",
+          "EntidadeDominio",
+          "ClassificacaoCampo",
+          "Evidencia",
+          "NivelConfianca",
+          "Status"
+        ]
+      },
+      "financial_values": {
+        "status": "failed",
+        "exists": true,
+        "rows": 147,
+        "sha256": "61d8d33078093c320f46aced1796440bf425eb3bc58f379015511bfa1d7f213e",
+        "columns": [
+          "Tabela",
+          "Caminho",
+          "Campo",
+          "Tipo",
+          "Tamanho",
+          "Precisao",
+          "Obrigatoriedade",
+          "IndiceParadoxDetectado",
+          "PossivelChavePrimaria",
+          "PossivelChaveEstrangeira",
+          "NomeVisualCorrespondente",
+          "ModuloRelacionado",
+          "TelaRelacionada",
+          "EntidadeDominio",
+          "ClassificacaoCampo",
+          "Evidencia",
+          "NivelConfianca",
+          "Status"
+        ]
+      },
+      "operational_dates": {
+        "status": "failed",
+        "exists": true,
+        "rows": 856,
+        "sha256": "b3e3838fd91ab577a8bbd37bb8000b63cafa68d18a9ed85bb9539e63cf866b95",
+        "columns": [
+          "Tabela",
+          "Caminho",
+          "Campo",
+          "Tipo",
+          "Tamanho",
+          "Precisao",
+          "Obrigatoriedade",
+          "IndiceParadoxDetectado",
+          "PossivelChavePrimaria",
+          "PossivelChaveEstrangeira",
+          "NomeVisualCorrespondente",
+          "ModuloRelacionado",
+          "TelaRelacionada",
+          "EntidadeDominio",
+          "ClassificacaoCampo",
+          "Evidencia",
+          "NivelConfianca",
+          "Status"
+        ]
+      }
+    }
+  },
+  "findings_total": 81,
+  "severity_counts": {
+    "critica": 25,
+    "alta": 56
+  },
+  "ownership_allowed": false,
+  "shadow_go_allowed": false,
+  "cloud_official_allowed": false,
+  "rule": "NADA PODE FICAR PARA TRAS"
+}
