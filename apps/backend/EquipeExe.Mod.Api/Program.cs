@@ -960,7 +960,9 @@ app.MapPost("/minha-licenca/simular-pagamento", (MinhaLicencaPixRequest body, Ht
 // ── Controle de energia (reboot / desligar) ───────────────────────────────────
 app.MapPost("/admin/reboot", (HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.ConfigWrite);
+    // Reiniciar/desligar o equipamento físico é permitido a qualquer usuário logado
+    // (é a própria máquina em que ele está sentado, não uma ação administrativa remota).
+    auth.RequireSession(http);
     Task.Delay(1500).ContinueWith(_ =>
         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
         {
@@ -974,7 +976,7 @@ app.MapPost("/admin/reboot", (HttpRequest http) =>
 
 app.MapPost("/admin/desligar", (HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.ConfigWrite);
+    auth.RequireSession(http);
     Task.Delay(1500).ContinueWith(_ =>
         System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
         {

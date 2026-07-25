@@ -395,9 +395,9 @@ function renderNav(){
   $('nav').innerHTML=visible.map(([v,i,l])=>
     `<button class="nb${S.view===v?' on':''}" data-v="${v}" onclick="go('${v}')">
       <span class="ico">${i}</span>${esc(l)}</button>`).join('');
-  // Mostra botões de energia apenas para quem tem config.write
+  // Reiniciar/Desligar liberado para qualquer usuário logado (é a máquina física dele).
   const pwr=$('pwr');
-  if(pwr){ hasPerm('config.write')?pwr.classList.remove('hide'):pwr.classList.add('hide'); }
+  if(pwr){ pwr.classList.remove('hide'); }
 }
 
 function go(v,editRolId){
