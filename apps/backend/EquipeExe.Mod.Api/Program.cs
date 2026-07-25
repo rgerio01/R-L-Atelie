@@ -445,10 +445,10 @@ app.MapGet("/caixa/{id}/movimentos", (int id, HttpRequest req) =>
 });
 
 // ── Financeiro / Cobrança ─────────────────────────────────────────────────────
-app.MapGet("/financeiro", (HttpRequest req, string? status, int? clienteId, string? de, string? ate, int pg = 1, int tam = 50) =>
+app.MapGet("/financeiro", (HttpRequest req, string? status, int? clienteId, string? de, string? ate, int pg = 1, int tam = 50, string? ordenar = null, string? dir = null) =>
 {
     auth.RequirePermission(req, Perm.FinanceiroRead);
-    return Results.Ok(db.ListarFinanceiro(status, clienteId, de, ate, pg, tam));
+    return Results.Ok(db.ListarFinanceiro(status, clienteId, de, ate, pg, tam, ordenar, dir));
 });
 
 app.MapGet("/financeiro/resumo", (HttpRequest req) =>
@@ -3821,7 +3821,13 @@ FROM ordens_servico os JOIN clientes c ON c.id=os.cliente_id WHERE os.id=$id";
     }
 
     // ── Financeiro ─────────────────────────────────────────────────────────────
-    public object ListarFinanceiro(string? status, int? clienteId, string? de, string? ate, int pg, int tam)
+    private static readonly Dictionary<string, string> FinanceiroOrdenarColunas = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["cliente"] = "c.nome", ["venda"] = "os.numero", ["valor"] = "f.valor",
+        ["vencimento"] = "f.vencimento", ["status"] = "f.status",
+    };
+
+    public object ListarFinanceiro(string? status, int? clienteId, string? de, string? ate, int pg, int tam, string? ordenar = null, string? dir = null)
     {
         using var con = Open();
         var conds = new List<string>();
@@ -3836,11 +3842,15 @@ FROM ordens_servico os JOIN clientes c ON c.id=os.cliente_id WHERE os.id=$id";
         SetFinFilterParams(total, status, clienteId, de, ate);
         var tot = (long)(total.ExecuteScalar() ?? 0L);
 
+        // Whitelist de coluna/direção — nunca interpola input do usuário direto no SQL.
+        var coluna = FinanceiroOrdenarColunas.GetValueOrDefault(ordenar ?? "", "f.vencimento");
+        var direcao = string.Equals(dir, "desc", StringComparison.OrdinalIgnoreCase) ? "DESC" : "ASC";
+
         using var cmd = con.CreateCommand();
         cmd.CommandText = $@"SELECT f.*, c.nome as cliente_nome, os.numero as os_numero
 FROM financeiro f JOIN clientes c ON c.id=f.cliente_id
 LEFT JOIN ordens_servico os ON os.id=f.os_id {where}
-ORDER BY f.vencimento LIMIT $lim OFFSET $off";
+ORDER BY {coluna} {direcao} LIMIT $lim OFFSET $off";
         SetFinFilterParams(cmd, status, clienteId, de, ate);
         cmd.Parameters.AddWithValue("$lim", tam);
         cmd.Parameters.AddWithValue("$off", (pg - 1) * tam);

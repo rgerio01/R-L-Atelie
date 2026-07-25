@@ -1427,11 +1427,21 @@ async function movsCaixa(id){
 /* ════════════════════════════════════════════════════════════════════
    FINANCEIRO
 ═══════════════════════════════════════════════════════════════════ */
-let _finFilter={status:'aberto',q:''};
+let _finFilter={status:'aberto',q:'',ordenar:'vencimento',dir:'asc'};
+function finOrdenarPor(col){
+  if(_finFilter.ordenar===col) _finFilter.dir=_finFilter.dir==='asc'?'desc':'asc';
+  else { _finFilter.ordenar=col; _finFilter.dir='asc'; }
+  S.pg.fin=1; vFinanceiro();
+}
+function finThOrdenavel(col,label){
+  const ativo=_finFilter.ordenar===col;
+  const seta=ativo?(_finFilter.dir==='asc'?' ▲':' ▼'):'';
+  return `<th style="cursor:pointer;user-select:none" onclick="finOrdenarPor('${col}')" title="Ordenar">${label}${seta}</th>`;
+}
 async function vFinanceiro(){
   const f=_finFilter;
   const res=await api('/financeiro/resumo');
-  const r=await api(`/financeiro?pg=${S.pg.fin}&tam=30`+(f.status?'&status='+f.status:''));
+  const r=await api(`/financeiro?pg=${S.pg.fin}&tam=30&ordenar=${f.ordenar}&dir=${f.dir}`+(f.status?'&status='+f.status:''));
   const rows=r.items||[]; const tot=r.total||0; const pages=Math.ceil(tot/30)||1;
   pg().innerHTML=`
   <div class="g4">
@@ -1445,7 +1455,7 @@ async function vFinanceiro(){
       `<button class="tab${f.status===s?' on':''}" onclick="_finFilter.status='${s}';S.pg.fin=1;vFinanceiro()">${l}</button>`).join('')}
   </div>
   <table>
-    <thead><tr><th>Cliente</th><th>Venda</th><th>Valor</th><th>Vencimento</th><th>Status</th><th>Ações</th></tr></thead>
+    <thead><tr>${finThOrdenavel('cliente','Cliente')}${finThOrdenavel('venda','Venda')}${finThOrdenavel('valor','Valor')}${finThOrdenavel('vencimento','Vencimento')}${finThOrdenavel('status','Status')}<th>Ações</th></tr></thead>
     <tbody>${rows.map(f2=>`<tr>
       <td>${esc(f2.clienteNome)}</td><td>${esc(f2.osNumero||'—')}</td>
       <td>${money(f2.valor)}</td><td>${fdate(f2.vencimento)}</td>
