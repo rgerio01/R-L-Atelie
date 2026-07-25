@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(o => o.AddDefaultPolicy(p =>
     p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
-var modRoot        = builder.Configuration["EquipeExe:ModRoot"]       ?? @"D:\AtelieProd\MOD";
+var modRoot        = builder.Configuration["EquipeExe:ModRoot"]       ?? @"E:\Projeto Luci\MOD";
 var dataDirectory  = builder.Configuration["EquipeExe:DataDirectory"]  ?? Path.Combine(modRoot, "data", "sandbox");
 var auditDirectory = builder.Configuration["EquipeExe:AuditDirectory"] ?? Path.Combine(modRoot, "logs", "audit");
 
@@ -2703,7 +2703,7 @@ SELECT last_insert_rowid();";
             Path.Combine(AppContext.BaseDirectory, "import", name),
             Path.Combine(Directory.GetCurrentDirectory(), "import", name),
             Path.Combine(@"D:\Projetos Dev", name),
-            Path.Combine(@"D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import", name)
+            Path.Combine(@"E:\Projeto Luci\MOD\apps\backend\EquipeExe.Mod.Api\import", name)
         };
         return candidates.FirstOrDefault(File.Exists);
     }
@@ -5519,7 +5519,7 @@ sealed class AuthStore
         {
             Path.Combine(AppContext.BaseDirectory, "import", name),
             Path.Combine(Directory.GetCurrentDirectory(), "import", name),
-            Path.Combine(@"D:\AtelieProd\MOD\apps\backend\EquipeExe.Mod.Api\import", name)
+            Path.Combine(@"E:\Projeto Luci\MOD\apps\backend\EquipeExe.Mod.Api\import", name)
         };
         return candidates.FirstOrDefault(File.Exists);
     }
