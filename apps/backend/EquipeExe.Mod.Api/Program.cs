@@ -247,28 +247,28 @@ app.MapGet("/servicos/categorias", (HttpRequest req) =>
 
 app.MapPost("/servicos", (ServicoRequest req, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.PrecosWrite);
     var id = db.CriarServico(req);
     return Results.Created($"/servicos/{id}", db.ObterServico(id));
 });
 
 app.MapPut("/servicos/{id}", (int id, ServicoRequest req, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.PrecosWrite);
     db.AtualizarServico(id, req);
     return Results.Ok(db.ObterServico(id));
 });
 
 app.MapDelete("/servicos/{id}", (int id, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.PrecosWrite);
     db.InativarServico(id);
     return Results.Ok(new { ok = true });
 });
 
 app.MapPost("/servicos/ajustar-precos", (AjustarPrecosRequest req, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.PrecosWrite);
     var afetados = db.AjustarPrecos(req);
     return Results.Ok(new { ok = true, afetados });
 });
@@ -610,21 +610,21 @@ app.MapGet("/catalogos", (HttpRequest req, string? tipo, string? q) =>
 
 app.MapPost("/catalogos", (CatalogoRequest req, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.CatalogosWrite);
     var id = db.CriarCatalogo(req);
     return Results.Created($"/catalogos/{id}", new { id });
 });
 
 app.MapPut("/catalogos/{id}", (int id, CatalogoRequest req, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.CatalogosWrite);
     db.AtualizarCatalogo(id, req);
     return Results.Ok(new { ok = true });
 });
 
 app.MapDelete("/catalogos/{id}", (int id, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.CadastroWrite);
+    auth.RequirePermission(http, Perm.CatalogosWrite);
     db.InativarCatalogo(id);
     return Results.Ok(new { ok = true });
 });
@@ -701,9 +701,23 @@ app.MapGet("/clientes/{id}/fidelidade", (int id, HttpRequest req) =>
 
 app.MapPost("/clientes/{id}/fidelidade/pontos", (int id, PontosRequest req, HttpRequest http) =>
 {
-    var s = auth.RequireSession(http);
+    var s = auth.RequirePermission(http, Perm.FidelidadeManage);
     db.LancarPontos(id, req.Pontos, req.Tipo, req.Referencia, req.Observacao, s.Username);
     return Results.Ok(db.GetFidelidade(id));
+});
+
+// ── Regras de pontos por categoria (quantos pontos cada venda vale) ───────────
+app.MapGet("/fidelidade/regras", (HttpRequest req) =>
+{
+    auth.RequireSession(req);
+    return Results.Ok(db.GetFidelidadeRegras());
+});
+
+app.MapPut("/fidelidade/regras/{categoria}", (string categoria, RegraFidelidadeRequest req, HttpRequest http) =>
+{
+    var s = auth.RequirePermission(http, Perm.FidelidadeManage);
+    db.SetFidelidadeRegra(categoria, req.PontosPorVenda, s.Username);
+    return Results.Ok(db.GetFidelidadeRegras());
 });
 
 // ── Doações (peças não retiradas) ─────────────────────────────────────────────
@@ -1393,6 +1407,13 @@ CREATE TABLE IF NOT EXISTS fidelidade (
   updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS fidelidade_regras (
+  categoria TEXT PRIMARY KEY,
+  pontos_por_venda INTEGER NOT NULL DEFAULT 0,
+  updated_by TEXT,
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 CREATE TABLE IF NOT EXISTS fidelidade_movimentos (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   cliente_id INTEGER NOT NULL REFERENCES clientes(id),
@@ -1428,6 +1449,19 @@ CREATE INDEX IF NOT EXISTS ix_doacoes_status ON doacoes(status);
         {
             ImportLegacyParams(con);
             ImportLegacyCoverage(con);
+
+            // Zera os pontos de fidelidade herdados do legado, uma única vez —
+            // ponto passa a contar só a partir de novas vendas com regra por
+            // categoria configurada (fidelidade_regras). Marcador em
+            // 'configuracoes' evita repetir a zeragem em reinicializações
+            // futuras (não pode ficar zerando pontos ganhos depois disso).
+            using var chkZerado = con.CreateCommand();
+            chkZerado.CommandText = "SELECT COUNT(*) FROM configuracoes WHERE chave='fidelidade_zerada_legado'";
+            if ((long)(chkZerado.ExecuteScalar() ?? 0L) == 0)
+            {
+                con.Execute("UPDATE fidelidade SET pontos=0, updated_at=datetime('now')");
+                con.Execute(@"INSERT OR IGNORE INTO configuracoes(chave,valor) VALUES('fidelidade_zerada_legado', datetime('now'))");
+            }
 
             // Migração: instalações antigas guardavam o token de vendas em 'mp_access_token'.
             // Copia uma única vez para a chave nova (mp_luci_access_token), antes do seed abaixo
@@ -3447,6 +3481,7 @@ VALUES($os,$srv,$desc,$tec,$cor,$mar,$def,$qty,$vu,$vt,$obs,$obs2,$peso,$ident,$
         }
 
         RegistrarHistoricoOs(con, id, "paga", status, "paga", metodoResumo, usuario);
+        CreditarPontosPorVenda(con, id, usuario);
         return ObterRol(id)!;
     }
 
@@ -4560,6 +4595,55 @@ GROUP BY c.id ORDER BY total_rols DESC LIMIT 100";
         cmd.ExecuteNonQuery();
     }
 
+    public List<object> GetFidelidadeRegras()
+    {
+        using var con = Open();
+        using var cmd = con.CreateCommand();
+        cmd.CommandText = "SELECT categoria, pontos_por_venda FROM fidelidade_regras ORDER BY categoria";
+        using var r = cmd.ExecuteReader();
+        var list = new List<object>();
+        while (r.Read()) list.Add(new { categoria = r.GetString(0), pontosPorVenda = r.GetInt32(1) });
+        return list;
+    }
+
+    public void SetFidelidadeRegra(string categoria, int pontosPorVenda, string usuario)
+    {
+        using var con = Open();
+        con.Execute(@"INSERT INTO fidelidade_regras(categoria,pontos_por_venda,updated_by,updated_at) VALUES($c,$p,$u,datetime('now'))
+ON CONFLICT(categoria) DO UPDATE SET pontos_por_venda=$p, updated_by=$u, updated_at=datetime('now')",
+            ("$c", categoria), ("$p", pontosPorVenda), ("$u", usuario));
+    }
+
+    /// Pontos de fidelidade ganhos automaticamente ao pagar uma venda: soma,
+    /// por item, os pontos configurados para a categoria do serviço vendido
+    /// (fidelidade_regras). Categorias sem regra configurada valem 0.
+    private void CreditarPontosPorVenda(SqliteConnection con, int osId, string usuario)
+    {
+        using var cli = con.CreateCommand();
+        cli.CommandText = "SELECT cliente_id FROM ordens_servico WHERE id=$id";
+        cli.Parameters.AddWithValue("$id", osId);
+        var clienteIdObj = cli.ExecuteScalar();
+        if (clienteIdObj is null) return;
+        var clienteId = (int)(long)clienteIdObj;
+
+        using var cmd = con.CreateCommand();
+        cmd.CommandText = @"
+SELECT COALESCE(SUM(fr.pontos_por_venda), 0)
+FROM os_itens oi
+JOIN servicos s ON s.id = oi.servico_id
+JOIN fidelidade_regras fr ON fr.categoria = s.categoria
+WHERE oi.os_id = $id";
+        cmd.Parameters.AddWithValue("$id", osId);
+        var pontos = (int)(long)(cmd.ExecuteScalar() ?? 0L);
+        if (pontos <= 0) return;
+
+        con.Execute("INSERT OR IGNORE INTO fidelidade(cliente_id,pontos) VALUES($id,0)", ("$id", clienteId));
+        con.Execute("UPDATE fidelidade SET pontos=pontos+$d,updated_at=datetime('now') WHERE cliente_id=$id",
+            ("$d", pontos), ("$id", clienteId));
+        con.Execute("INSERT INTO fidelidade_movimentos(cliente_id,pontos,tipo,referencia,observacao,usuario) VALUES($cid,$p,'ganho',$ref,'Pontos automáticos da venda',$u)",
+            ("$cid", clienteId), ("$p", pontos), ("$ref", osId.ToString()), ("$u", usuario));
+    }
+
     private static IEnumerable<object> ReadAgenda(SqliteDataReader r)
     {
         while (r.Read()) yield return new
@@ -4973,6 +5057,9 @@ static class Perm
     public const string FinanceiroRead  = "financeiro.read";
     public const string LegadoRead      = "legado.read";
     public const string LicencasManage  = "licencas.manage";
+    public const string PrecosWrite     = "precos.write";
+    public const string CatalogosWrite  = "catalogos.write";
+    public const string FidelidadeManage = "fidelidade.manage";
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -5215,7 +5302,7 @@ sealed class AuthStore
         // administrador acessa as telas de Usuários e Configurações (tokens
         // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
         // não administrativo.
-        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead]),
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage]),
         ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
         ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
     ];
@@ -5693,6 +5780,7 @@ record IndenizacaoUpdateRequest(string Status, string? Motivo, string? Observaca
 record GuardaroupaRequest(int ClienteId, string Descricao, string? Categoria, string? Cor, string? Marca, int Quantidade, string? Localizacao, string? Observacao);
 record TerceirizacaoRequest(int? OsId, string Fornecedor, string Descricao, double Valor, string? DataRetornoPrevista, string? Observacao);
 record PontosRequest(int Pontos, string Tipo, string? Referencia, string? Observacao);
+record RegraFidelidadeRequest(int PontosPorVenda);
 record DoacaoRequest(int ClienteId, int? OsId, string Descricao, double Valor, string? Observacao);
 record PixCriarRequest(int? RolId, double Valor, string? Contexto, string? Descricao);
 record MinhaLicencaPixRequest(string? Plano);

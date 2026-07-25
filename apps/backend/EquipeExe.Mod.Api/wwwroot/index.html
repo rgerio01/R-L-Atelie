@@ -1238,8 +1238,8 @@ async function vServicos(){
     <div class="f"><label>Busca</label><input id="srvBuscaInput" value="${esc(S._srvBusca||'')}" placeholder="Código ou descrição…" oninput="S._srvBusca=this.value;vServicosManterFoco()"></div>
     <div class="grow"></div>
     <span class="muted" style="font-size:12px" id="srvSelCount"></span>
-    <button class="btn" onclick="dlgAjustarPrecos()">💲 Ajustar preços</button>
-    <button class="btn primary" onclick="servicoModal()">+ Novo serviço</button>
+    ${hasPerm('precos.write')?`<button class="btn" onclick="dlgAjustarPrecos()">💲 Ajustar preços</button>
+    <button class="btn primary" onclick="servicoModal()">+ Novo serviço</button>`:''}
   </div>
   <div class="mt">${cats.map(cat=>renderCatCardServico(cat,busca)).join('')}</div>`;
   atualizaSrvSelCount();
@@ -1256,7 +1256,7 @@ function renderCatCardServico(cat,busca){
     <div class="row" style="padding:12px 14px;cursor:pointer;justify-content:space-between" onclick="toggleCategoriaServico('${esc(cat)}')">
       <b>${esc(cat)} <span class="muted" style="font-weight:400">(${itens.length})</span></b>
       <span class="row" style="gap:8px">
-        <button class="btn sm" onclick="event.stopPropagation();dlgAjustarPrecos('${esc(cat)}')">💲 Ajustar categoria</button>
+        ${hasPerm('precos.write')?`<button class="btn sm" onclick="event.stopPropagation();dlgAjustarPrecos('${esc(cat)}')">💲 Ajustar categoria</button>`:''}
         <span class="muted">${aberta?'▲':'▼'}</span>
       </span>
     </div>
@@ -2188,17 +2188,17 @@ async function vCatalogos(){
   </div>
   <div class="card mt">
     <h2>${tipoLabel[_catTipo]||_catTipo}</h2>
-    <div class="g3 mt">
+    ${hasPerm('catalogos.write')?`<div class="g3 mt">
       <div class="fld"><label>Código</label><input id="catCod" placeholder="Ex: D10"></div>
       <div class="fld"><label>Descrição</label><input id="catDesc" placeholder="Descrição…"></div>
       <button class="btn primary" style="align-self:flex-end" onclick="addCatalogo()">+ Adicionar</button>
-    </div>
+    </div>`:''}
     <table class="mt">
-      <thead><tr><th>Código</th><th>Descrição</th><th></th></tr></thead>
+      <thead><tr><th>Código</th><th>Descrição</th>${hasPerm('catalogos.write')?'<th></th>':''}</tr></thead>
       <tbody>${items.map(c=>`<tr>
         <td>${esc(c.codigo)}</td><td>${esc(c.descricao)}</td>
-        <td><button class="btn sm danger" onclick="delCatalogo(${c.id})">✕</button></td>
-      </tr>`).join('')||'<tr><td colspan="3" class="muted">Nenhum item.</td></tr>'}</tbody>
+        ${hasPerm('catalogos.write')?`<td><button class="btn sm danger" onclick="delCatalogo(${c.id})">✕</button></td>`:''}
+      </tr>`).join('')||`<tr><td colspan="${hasPerm('catalogos.write')?3:2}" class="muted">Nenhum item.</td></tr>`}</tbody>
     </table>
   </div>`;
 }
@@ -2402,7 +2402,29 @@ async function vFidelidade(){
       <div class="grow"></div>
     </div>
     <div id="fidInfo"></div>
-  </div>`;
+  </div>
+  ${hasPerm('fidelidade.manage')?'<div class="card mt" id="fidRegrasBox"><h2>Pontos por categoria (por venda)</h2><div id="fidRegras" class="mt">Carregando…</div></div>':''}`;
+  if(hasPerm('fidelidade.manage')) renderFidelidadeRegras();
+}
+
+async function renderFidelidadeRegras(){
+  const [regras, servicos] = await Promise.all([api('/fidelidade/regras'), ensureServicos().then(()=>S.servicos)]);
+  const cats=[...new Set(servicos.map(s=>s.categoria||'Geral'))].sort();
+  const porCat=Object.fromEntries(regras.map(r=>[r.categoria, r.pontosPorVenda]));
+  $('fidRegras').innerHTML=`<table>
+    <thead><tr><th>Categoria</th><th>Pontos por venda</th><th></th></tr></thead>
+    <tbody>${cats.map(c=>`<tr>
+      <td>${esc(c)}</td>
+      <td><input type="number" min="0" step="1" id="fidRegra_${esc(c)}" value="${porCat[c]||0}" style="width:100px"></td>
+      <td><button class="btn sm" onclick="salvarFidelidadeRegra('${esc(c)}')">Salvar</button></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+async function salvarFidelidadeRegra(categoria){
+  const el=$('fidRegra_'+categoria);
+  await api(`/fidelidade/regras/${encodeURIComponent(categoria)}`,{method:'PUT',body:JSON.stringify({pontosPorVenda:Number(el.value||0)})});
+  toast('Regra salva — vale para novas vendas dessa categoria');
 }
 
 async function consultarFidelidade(cliId){
@@ -2410,7 +2432,7 @@ async function consultarFidelidade(cliId){
   const r=await api(`/clientes/${cliId}/fidelidade`);
   $('fidInfo').innerHTML=`
   <div class="stat mt"><small>Pontos acumulados</small><b>${r.pontos||0} pts</b></div>
-  <div class="g3 mt">
+  ${hasPerm('fidelidade.manage')?`<div class="g3 mt">
     <div class="fld"><label>Pontos</label><input id="fidPts" type="number" step="1" value="10" min="1"></div>
     <div class="fld"><label>Tipo</label><select id="fidTipo">
       <option value="ganho">Ganho (acréscimo)</option>
@@ -2421,7 +2443,7 @@ async function consultarFidelidade(cliId){
     <div class="fld"><label>Referência / Venda</label><input id="fidRef" placeholder="Ex: ROL000123"></div>
   </div>
   <div class="fld"><label>Observação</label><input id="fidObs"></div>
-  <button class="btn primary" onclick="lancarPontos(${cliId})">Lançar pontos</button>
+  <button class="btn primary" onclick="lancarPontos(${cliId})">Lançar pontos</button>`:''}
   <div class="card mt">
     <h2>Histórico de pontos</h2>
     <table>
