@@ -170,8 +170,17 @@ app.MapPost("/admin/usuarios/{id:guid}/licenca/renovar", (Guid id, RenovarLicenc
 // ── Configurações ─────────────────────────────────────────────────────────────
 app.MapGet("/configuracoes", (HttpRequest req) =>
 {
-    auth.RequireSession(req);
-    return Results.Ok(db.GetConfiguracoes());
+    var s = auth.RequireSession(req);
+    var cfg = db.GetConfiguracoes();
+    var podeVerMp = s.Permissions.Contains("*") || s.Permissions.Contains(Perm.ConfigWrite);
+    if (!podeVerMp)
+    {
+        // Tokens do Mercado Pago só para quem tem config.write (administrador) —
+        // supervisor enxerga a tela de Configurações, mas não esses campos.
+        foreach (var chave in cfg.Keys.Where(k => k.StartsWith("mp_", StringComparison.OrdinalIgnoreCase)).ToList())
+            cfg[chave] = "";
+    }
+    return Results.Ok(cfg);
 });
 
 app.MapPut("/configuracoes/{chave}", (string chave, ConfigRequest req, HttpRequest http) =>
@@ -5083,6 +5092,7 @@ static class Perm
     public const string FidelidadeManage = "fidelidade.manage";
     public const string DashboardRead    = "dashboard.read";
     public const string SenhaResetOutros = "senha.reset-outros";
+    public const string ConfigRead        = "config.read";
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -5325,7 +5335,7 @@ sealed class AuthStore
         // administrador acessa as telas de Usuários e Configurações (tokens
         // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
         // não administrativo.
-        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros]),
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead]),
         ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
         ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
     ];

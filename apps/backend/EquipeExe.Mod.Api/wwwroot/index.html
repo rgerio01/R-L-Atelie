@@ -389,7 +389,7 @@ function hasAnyPerm(...ps){return ps.some(hasPerm)}
 // usuário logado (telas de operação: vendas/ROL/clientes/estoque/orçamentos/agenda etc).
 // 'usuarios' aceita usuarios.read (administrador, acesso completo) OU senha.reset-outros
 // (supervisor, só enxerga a tela para redefinir senha de terceiros).
-const MENU_PERM={caixa:'caixa.access',financeiro:'financeiro.read',relatorios:'relatorios.read',usuarios:['usuarios.read','senha.reset-outros'],config:'config.write',legado:'legado.read'};
+const MENU_PERM={caixa:'caixa.access',financeiro:'financeiro.read',relatorios:'relatorios.read',usuarios:['usuarios.read','senha.reset-outros'],config:['config.write','config.read'],legado:'legado.read'};
 function renderNav(){
   const visible=MENUS.filter(([v])=>{const p=MENU_PERM[v]; if(!p) return true; return Array.isArray(p)?hasAnyPerm(...p):hasPerm(p)});
   $('nav').innerHTML=visible.map(([v,i,l])=>
@@ -1806,16 +1806,17 @@ async function vConfig(){
     </div>
     <p style="font-size:12px;color:var(--muted);margin-top:6px">${desc}</p>
   </div>`;
+  const podeEditar=hasPerm('config.write');
   pg().innerHTML=`
   <div class="card">
     <h2>Dados da empresa</h2>
     <div class="g3">
-      ${empresaKeys.map(k=>`<div class="fld"><label>${esc(labels[k]||k)}</label><input data-cfg="${esc(k)}" value="${esc(c[k]||'')}"></div>`).join('')}
+      ${empresaKeys.map(k=>`<div class="fld"><label>${esc(labels[k]||k)}</label><input data-cfg="${esc(k)}" value="${esc(c[k]||'')}" ${podeEditar?'':'disabled'}></div>`).join('')}
     </div>
-    <button class="btn primary mt" onclick="saveConfig()">Salvar configurações</button>
+    ${podeEditar?`<button class="btn primary mt" onclick="saveConfig()">Salvar configurações</button>`:''}
   </div>
-  ${mpCard('mp_luci_access_token','Mercado Pago — Luci (vendas do PDV)','Usado para cobrar PIX dos clientes na hora do pagamento. Obtenha em: mercadopago.com.br → Seu negócio → Credenciais → Produção → Access Token (conta da Luci).')}
-  ${mpCard('mp_rogerio_access_token','Mercado Pago — Rogerio (fornecedor / licenciamento)','Conta do fornecedor, usada para cobrar a licença de uso do sistema dos usuários (tela Usuários → Licença). Não é usada nas vendas do PDV.')}
+  ${podeEditar?mpCard('mp_luci_access_token','Mercado Pago — Luci (vendas do PDV)','Usado para cobrar PIX dos clientes na hora do pagamento. Obtenha em: mercadopago.com.br → Seu negócio → Credenciais → Produção → Access Token (conta da Luci).'):''}
+  ${podeEditar?mpCard('mp_rogerio_access_token','Mercado Pago — Rogerio (fornecedor / licenciamento)','Conta do fornecedor, usada para cobrar a licença de uso do sistema dos usuários (tela Usuários → Licença). Não é usada nas vendas do PDV.'):''}
   <div class="card mt">
     <h2>Minha conta</h2>
     <div class="g3">
