@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
+import urllib.error
 import urllib.request
 import zipfile
 from datetime import datetime, timezone
@@ -69,9 +70,20 @@ def _http_get_json(url: str, headers: dict[str, str]) -> object:
 
 
 def _http_download(url: str, headers: dict[str, str], dest: Path) -> None:
-    req = urllib.request.Request(url, headers=headers)
-    with urllib.request.urlopen(req, timeout=120) as response, dest.open("wb") as handle:
-        shutil.copyfileobj(response, handle)
+    try:
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=120) as response, dest.open("wb") as handle:
+            shutil.copyfileobj(response, handle)
+    except urllib.error.HTTPError as exc:
+        # Repositorio publico + token expirado/revogado: tenta de novo sem
+        # autenticacao antes de desistir (mesma logica de fetch_private_release).
+        if exc.code in (401, 403) and "Authorization" in headers:
+            fallback = {k: v for k, v in headers.items() if k != "Authorization"}
+            req = urllib.request.Request(url, headers=fallback)
+            with urllib.request.urlopen(req, timeout=120) as response, dest.open("wb") as handle:
+                shutil.copyfileobj(response, handle)
+        else:
+            raise
 
 
 def read_json(path_or_url: str) -> dict:
@@ -105,7 +117,17 @@ def fetch_private_release(repo: str, channel: str) -> tuple[dict, dict]:
     Token de leitura (só desse repositório) injetado via variável de ambiente
     ATELIE_UPDATE_TOKEN — nunca fica no código nem em texto puro no disco.
     """
-    releases = _http_get_json(f"https://api.github.com/repos/{repo}/releases", _api_headers())
+    try:
+        releases = _http_get_json(f"https://api.github.com/repos/{repo}/releases", _api_headers())
+    except urllib.error.HTTPError as exc:
+        # Repositorio publico + token expirado/revogado: em vez de travar a
+        # checagem inteira, tenta de novo sem autenticacao antes de desistir.
+        if exc.code in (401, 403) and _token():
+            releases = _http_get_json(f"https://api.github.com/repos/{repo}/releases", {
+                "User-Agent": "AtelieNextGenUpdater/0.1", "Accept": "application/vnd.github+json"
+            })
+        else:
+            raise
     if not isinstance(releases, list):
         raise ManifestNotFound(f"Resposta inesperada da API para {repo}")
 
