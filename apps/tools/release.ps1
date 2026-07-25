@@ -51,17 +51,28 @@ $headers = @{
 }
 
 # ── Calcula a proxima versao automaticamente, se nao informada ───────────────
+# Nao usamos /releases/latest: nossas releases sao todas marcadas "prerelease"
+# (canais homolog/appliance/beta), e esse endpoint do GitHub ignora prerelease/draft
+# e devolve 404 mesmo com releases existentes. Em vez disso listamos todas e achamos
+# o maior semver manualmente.
 if (-not $Version) {
-    Step "Consultando ultima release publicada..."
+    Step "Consultando releases existentes..."
+    $maxMajor = -1; $maxMinor = 0; $maxPatch = 0
     try {
-        $latest = Invoke-RestMethod -Uri "https://api.github.com/repos/$Repo/releases/latest" -Headers $headers
-        if ($latest.tag_name -match '^v?(\d+)\.(\d+)\.(\d+)') {
-            $Version = "v{0}.{1}.{2}" -f [int]$Matches[1], [int]$Matches[2], ([int]$Matches[3] + 1)
-        } else {
-            $Version = "v1.0.0"
+        $all = Invoke-RestMethod -Uri "https://api.github.com/repos/$Repo/releases?per_page=100" -Headers $headers
+        foreach ($r in $all) {
+            if ($r.tag_name -match '^v(\d+)\.(\d+)\.(\d+)$') {
+                $maj = [int]$Matches[1]; $min = [int]$Matches[2]; $pat = [int]$Matches[3]
+                if (($maj -gt $maxMajor) -or ($maj -eq $maxMajor -and $min -gt $maxMinor) -or ($maj -eq $maxMajor -and $min -eq $maxMinor -and $pat -gt $maxPatch)) {
+                    $maxMajor = $maj; $maxMinor = $min; $maxPatch = $pat
+                }
+            }
         }
-    } catch {
+    } catch { }
+    if ($maxMajor -lt 0) {
         $Version = "v1.0.0"
+    } else {
+        $Version = "v{0}.{1}.{2}" -f $maxMajor, $maxMinor, ($maxPatch + 1)
     }
     Ok "Proxima versao: $Version"
 }
