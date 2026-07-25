@@ -384,11 +384,14 @@ const MENUS=[
 ];
 
 function hasPerm(p){const perms=S.user?.permissions||[];return perms.includes('*')||perms.includes(p)}
+function hasAnyPerm(...ps){return ps.some(hasPerm)}
 // Item de menu -> permissão exigida para aparecer. Sem entrada aqui = liberado para qualquer
 // usuário logado (telas de operação: vendas/ROL/clientes/estoque/orçamentos/agenda etc).
-const MENU_PERM={caixa:'caixa.access',financeiro:'financeiro.read',relatorios:'relatorios.read',usuarios:'usuarios.read',config:'config.write',legado:'legado.read'};
+// 'usuarios' aceita usuarios.read (administrador, acesso completo) OU senha.reset-outros
+// (supervisor, só enxerga a tela para redefinir senha de terceiros).
+const MENU_PERM={caixa:'caixa.access',financeiro:'financeiro.read',relatorios:'relatorios.read',usuarios:['usuarios.read','senha.reset-outros'],config:'config.write',legado:'legado.read'};
 function renderNav(){
-  const visible=MENUS.filter(([v])=>!MENU_PERM[v]||hasPerm(MENU_PERM[v]));
+  const visible=MENUS.filter(([v])=>{const p=MENU_PERM[v]; if(!p) return true; return Array.isArray(p)?hasAnyPerm(...p):hasPerm(p)});
   $('nav').innerHTML=visible.map(([v,i,l])=>
     `<button class="nb${S.view===v?' on':''}" data-v="${v}" onclick="go('${v}')">
       <span class="ico">${i}</span>${esc(l)}</button>`).join('');
@@ -1273,7 +1276,7 @@ function srvRow(s){
   return `<tr id="sr${s.id}">
     <td><input type="checkbox" ${S._srvSel.has(s.id)?'checked':''} onchange="toggleSelecaoServico(${s.id},this.checked)"></td>
     <td>${esc(s.codigo)}</td><td>${esc(s.descricao)}</td><td>${money(s.preco)}</td>
-    <td class="row"><button class="btn sm" onclick='servicoModal(${JSON.stringify(s)})'>Editar</button></td>
+    <td class="row">${hasPerm('precos.write')?`<button class="btn sm" onclick='servicoModal(${JSON.stringify(s)})'>Editar</button>`:''}</td>
   </tr>`;
 }
 
@@ -1603,6 +1606,23 @@ async function relFrequencia(){
 ═══════════════════════════════════════════════════════════════════ */
 async function vUsuarios(){
   const u=await api('/admin/usuarios');
+  const full=hasPerm('usuarios.read');
+  if(!full){
+    // Supervisor: só enxerga a lista pra redefinir senha de terceiros — não pode
+    // criar/editar/desativar usuários, nem mexer na senha do administrador.
+    pg().innerHTML=`
+    <table>
+      <thead><tr><th>Usuário</th><th>Nome</th><th>Perfis</th><th>Ativo</th><th>Ações</th></tr></thead>
+      <tbody>${u.map(x=>{const ehAdmin=(x.roles||[]).includes('administrador');return `<tr>
+        <td><b>${esc(x.username)}</b></td>
+        <td>${esc(x.displayName)}</td>
+        <td>${(x.roles||[]).map(r=>`<span class="badge">${esc(r)}</span>`).join(' ')}</td>
+        <td style="color:${x.isActive?'var(--ok)':'var(--bad)'}">${x.isActive?'Sim':'Não'}</td>
+        <td class="row">${ehAdmin?'<span class="muted" style="font-size:12px">—</span>':`<button class="btn sm warn" onclick='resetSenha(${JSON.stringify(x)})'>Reset senha</button>`}</td>
+      </tr>`}).join('')}</tbody>
+    </table>`;
+    return;
+  }
   const perfis=await api('/admin/perfis');
   pg().innerHTML=`
   <div class="tb">
@@ -1759,8 +1779,8 @@ function resetSenha(u){
   <div class="fld mt"><label>Confirmar nova senha</label><input id="rSenha2" type="password"></div>`,
   [{txt:'Redefinir senha',cls:'warn',fn:async()=>{
     if($('rSenha').value!==$('rSenha2').value) return toast('Senhas não conferem');
-    await api(`/admin/usuarios/${u.id}`,{method:'PUT',body:JSON.stringify({displayName:u.displayName,temporaryPassword:$('rSenha').value})});
-    closeDlg(); toast('Senha redefinida. Usuário deve trocar no próximo login.');
+    await api(`/admin/usuarios/${u.id}/reset-senha`,{method:'POST',body:JSON.stringify({novaSenha:$('rSenha').value})});
+    closeDlg(); toast('Senha redefinida. Usuário deve trocar no próximo login.'); vUsuarios();
   }}]);
 }
 

@@ -95,7 +95,7 @@ app.MapPost("/auth/trocar-senha", (TrocarSenhaRequest req, HttpRequest http) =>
 // ── Usuários (admin) ──────────────────────────────────────────────────────────
 app.MapGet("/admin/usuarios", (HttpRequest req) =>
 {
-    auth.RequirePermission(req, Perm.UsuariosRead);
+    auth.RequireAnyPermission(req, Perm.UsuariosRead, Perm.SenhaResetOutros);
     return Results.Ok(auth.ListUsers());
 });
 
@@ -132,6 +132,14 @@ app.MapDelete("/admin/usuarios/{id:guid}/permanente", (Guid id, HttpRequest http
     var session = auth.RequirePermission(http, Perm.UsuariosWrite);
     auth.DeleteUserPermanently(id, session.Username);
     return Results.Ok(new { ok = true });
+});
+
+app.MapPost("/admin/usuarios/{id:guid}/reset-senha", (Guid id, ResetSenhaRequest req, HttpRequest http) =>
+{
+    var session = auth.RequireAnyPermission(http, Perm.UsuariosWrite, Perm.SenhaResetOutros);
+    var podeTudo = session.Permissions.Contains("*") || session.Permissions.Contains(Perm.UsuariosWrite);
+    var user = auth.ResetSenha(id, req.NovaSenha, podeTudo, session.Username);
+    return Results.Ok(user);
 });
 
 app.MapPost("/admin/usuarios/{id:guid}/perfis", (Guid id, AssignRolesRequest req, HttpRequest http) =>
@@ -450,8 +458,10 @@ app.MapPost("/financeiro/{id}/receber", (int id, ReceberRequest req, HttpRequest
 // ── Relatórios ────────────────────────────────────────────────────────────────
 app.MapGet("/relatorios/movimento-dia", (HttpRequest req, string? data) =>
 {
-    auth.RequirePermission(req, Perm.RelatoriosRead);
-    var dia = data ?? DateTime.Today.ToString("yyyy-MM-dd");
+    var s = auth.RequireAnyPermission(req, Perm.RelatoriosRead, Perm.DashboardRead);
+    var podeVerQualquerDia = s.Permissions.Contains("*") || s.Permissions.Contains(Perm.RelatoriosRead);
+    var hoje = TrustedClock.UtcNow.ToString("yyyy-MM-dd");
+    var dia = podeVerQualquerDia ? (data ?? hoje) : hoje;
     return Results.Ok(db.RelMovimentoDia(dia));
 });
 
@@ -469,8 +479,10 @@ app.MapGet("/relatorios/rol-abertos", (HttpRequest req) =>
 
 app.MapGet("/relatorios/rol-entrega", (HttpRequest req, string? data) =>
 {
-    auth.RequirePermission(req, Perm.RelatoriosRead);
-    return Results.Ok(db.RelRolEntrega(data));
+    var s = auth.RequireAnyPermission(req, Perm.RelatoriosRead, Perm.DashboardRead);
+    var podeVerQualquerDia = s.Permissions.Contains("*") || s.Permissions.Contains(Perm.RelatoriosRead);
+    var dia = podeVerQualquerDia ? data : TrustedClock.UtcNow.ToString("yyyy-MM-dd");
+    return Results.Ok(db.RelRolEntrega(dia));
 });
 
 app.MapGet("/relatorios/caixa-dia", (HttpRequest req, string? data) =>
@@ -5067,6 +5079,8 @@ static class Perm
     public const string PrecosWrite     = "precos.write";
     public const string CatalogosWrite  = "catalogos.write";
     public const string FidelidadeManage = "fidelidade.manage";
+    public const string DashboardRead    = "dashboard.read";
+    public const string SenhaResetOutros = "senha.reset-outros";
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -5304,12 +5318,12 @@ sealed class AuthStore
     private static readonly (string Name, string DisplayName, string[] Permissions)[] RolesCanonicos =
     [
         ("administrador", "Administrador", ["*"]),
-        ("operacional",   "Operacional",   [Perm.CadastroWrite]),
+        ("operacional",   "Operacional",   [Perm.CadastroWrite, Perm.DashboardRead]),
         // usuarios.read e config.write ficam fora de propósito: só o
         // administrador acessa as telas de Usuários e Configurações (tokens
         // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
         // não administrativo.
-        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage]),
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros]),
         ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
         ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
     ];
@@ -5500,6 +5514,14 @@ sealed class AuthStore
         return s;
     }
 
+    public Session RequireAnyPermission(HttpRequest request, params string[] perms)
+    {
+        var s = RequireSession(request);
+        if (!s.Permissions.Contains("*") && !perms.Any(s.Permissions.Contains))
+            throw new UnauthorizedAccessException($"Permissão necessária: {string.Join(" ou ", perms)}");
+        return s;
+    }
+
     public object DescribeSession(Session s) => new { s.UserId, s.Username, s.DisplayName, s.Roles, s.Permissions };
 
     public IEnumerable<object> ListUsers()
@@ -5565,6 +5587,23 @@ sealed class AuthStore
         user.IsActive = true;
         Save(state);
         Audit(by, "users.reactivate", user.Username);
+    }
+
+    /// Reset de senha por terceiros. Quem só tem senha.reset-outros (supervisor)
+    /// nunca pode mexer numa conta com o perfil administrador.
+    public UserSummary ResetSenha(Guid id, string novaSenha, bool podeTudo, string by)
+    {
+        var state = Load();
+        var user = state.Users.FirstOrDefault(x => x.Id == id) ?? throw new KeyNotFoundException("Usuário não encontrado.");
+        if (!podeTudo && user.Roles.Contains("administrador", StringComparer.OrdinalIgnoreCase))
+            throw new UnauthorizedAccessException("Sem permissão para redefinir a senha do administrador.");
+        if (string.IsNullOrWhiteSpace(novaSenha)) throw new InvalidOperationException("Nova senha é obrigatória.");
+        user.PasswordSalt = Rnd64();
+        user.PasswordHash = HashPwd(novaSenha, user.PasswordSalt);
+        user.MustChangePassword = true;
+        Save(state);
+        Audit(by, "users.reset-senha", user.Username);
+        return Describe(user, state);
     }
 
     /// Remove o registro do usuário definitivamente. Só permitido para contas já
@@ -5751,6 +5790,7 @@ record TrocarSenhaRequest(string SenhaAtual, string SenhaNova);
 record CreateUserRequest(string Username, string DisplayName, string TemporaryPassword, List<string> Roles);
 record RenovarLicencaRequest(string Plano);
 record UpdateUserRequest(string DisplayName, string? TemporaryPassword);
+record ResetSenhaRequest(string NovaSenha);
 record AssignRolesRequest(List<string> Roles);
 record TokenPayload(Guid UserId, DateTimeOffset ExpiresAt, string Nonce);
 record RoleDefinition(string Name, string DisplayName, List<string> Permissions);
