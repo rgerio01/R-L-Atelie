@@ -272,13 +272,17 @@ def sync_usuarios_licenca(auth_store_path: Path, pg_con, log: logging.Logger) ->
     lic_vence = state.get("LicenseVenceEm") or state.get("license_vence_em")
     lic_inicio = state.get("LicenseInicioEm") or state.get("license_inicio_em")
 
+    # Conflito por lower(username) (nao por id): usuarios podem ser recriados
+    # localmente com um id novo (ex: exclusao permanente + recriacao) mantendo
+    # o mesmo username -- upsert por id sozinho batia na constraint unica de
+    # username e falhava a tabela inteira.
     sql = """
 INSERT INTO usuarios_licenca
   (id, username, display_name, roles, is_active, must_change_password,
    license_plano, license_vence_em, license_inicio_em, last_login_at)
 VALUES %s
-ON CONFLICT (id) DO UPDATE SET
-  username = EXCLUDED.username,
+ON CONFLICT (lower(username)) DO UPDATE SET
+  id = EXCLUDED.id,
   display_name = EXCLUDED.display_name,
   roles = EXCLUDED.roles,
   is_active = EXCLUDED.is_active,
