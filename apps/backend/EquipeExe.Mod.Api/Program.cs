@@ -5357,22 +5357,30 @@ static class SystemCommands
         if (p is null) return (false, "Não foi possível iniciar o cloudflared.");
         _tunnelProcess = p;
 
-        var url = "";
-        var deadline = DateTime.UtcNow.AddSeconds(20);
-        while (DateTime.UtcNow < deadline && url == "")
+        // Um único leitor dedicado do stderr (é lá que o cloudflared loga a URL)
+        // pela vida inteira do processo — nunca mais nada toca em p.StandardError
+        // depois disso, evitando "stream in use by a previous operation" de duas
+        // leituras concorrentes no mesmo stream.
+        var urlAchada = new TaskCompletionSource<string>();
+        _ = Task.Run(async () =>
         {
-            var readTask = p.StandardError.ReadLineAsync();
-            var winner = await Task.WhenAny(readTask, Task.Delay(500));
-            if (winner != readTask) continue;
-            var line = await readTask;
-            if (line is null) break;
-            var m = System.Text.RegularExpressions.Regex.Match(line, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
-            if (m.Success) url = m.Value;
-        }
-
-        // drena a saída pro resto da vida do processo, senão o pipe enche e trava o cloudflared
+            try
+            {
+                string? line;
+                while ((line = await p.StandardError.ReadLineAsync()) is not null)
+                {
+                    var m = System.Text.RegularExpressions.Regex.Match(line, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
+                    if (m.Success) urlAchada.TrySetResult(m.Value); // TrySetResult so "pega" na primeira vez; segue drenando depois
+                }
+            }
+            catch { /* processo encerrado/túnel derrubado — sem problema */ }
+            finally { urlAchada.TrySetResult(""); }
+        });
+        // drena o stdout pro resto da vida do processo, senão o pipe enche e trava o cloudflared
         _ = Task.Run(async () => { try { while (await p.StandardOutput.ReadLineAsync() is not null) { } } catch { } });
-        _ = Task.Run(async () => { try { while (await p.StandardError.ReadLineAsync() is not null) { } } catch { } });
+
+        var vencedor = await Task.WhenAny(urlAchada.Task, Task.Delay(TimeSpan.FromSeconds(20)));
+        var url = vencedor == urlAchada.Task ? await urlAchada.Task : "";
 
         return url != ""
             ? (true, url)
