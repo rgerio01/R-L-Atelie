@@ -1835,6 +1835,7 @@ async function vConfig(){
   pg().innerHTML=`
   <div class="card">
     <h2>Dados da empresa</h2>
+    <p class="muted" style="font-size:12px;margin-top:-6px">Versão do sistema instalada: <b>${esc(versaoInfo.versao||'?')}</b>${versaoInfo.canal?' ('+esc(versaoInfo.canal)+')':''}</p>
     <div class="g3">
       ${empresaKeys.map(k=>`<div class="fld"><label>${esc(labels[k]||k)}</label><input data-cfg="${esc(k)}" value="${esc(c[k]||'')}" ${podeEditarEmpresa?'':'disabled'}></div>`).join('')}
     </div>
