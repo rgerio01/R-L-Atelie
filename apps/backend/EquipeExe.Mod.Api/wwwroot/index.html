@@ -777,10 +777,11 @@ async function renderRolWork(id){
       </div>
     </div>
     <input type="hidden" id="iSrv">
-    <div class="g3">
+    <div class="g4">
       <div><label>Descrição *</label><input id="iDesc"></div>
-      <div><label>Qtd</label><input id="iQtd" type="number" step="0.01" value="1" min="0.01"></div>
-      <div><label>Valor unit. (R$)</label><input id="iVu" type="number" step="0.01" value="0"></div>
+      <div><label>Qtd</label><input id="iQtd" type="number" step="0.01" value="1" min="0.01" oninput="_atualizaItemTotal()"></div>
+      <div><label>Valor unit. (R$)</label><input id="iVu" type="number" step="0.01" value="0" oninput="_atualizaItemTotal()"></div>
+      <div><label>Total (qtd × unit.)</label><input id="iVtPreview" value="R$ 0,00" disabled></div>
     </div>
     <div class="g4 mt">
       <div><label>Tipo tecido</label><input id="iTec" list="dlTec"><datalist id="dlTec">${(S._cats?.tipo_tecido||[]).map(c=>`<option value="${esc(c.descricao)}">`).join('')}</datalist></div>
@@ -846,12 +847,22 @@ function pickSrvPanel(id){
   $('srvSelected').style.display='block';
   $('srvClrBtn').style.display='';
   _renderSrvItems();
+  _atualizaItemTotal();
   $('iDesc').focus();
 }
 function clearSrvSel(){
   $('iSrv').value=''; $('iDesc').value=''; $('iVu').value='0';
   $('srvSelected').style.display='none'; $('srvClrBtn').style.display='none';
   $('srvQ').value=''; _renderSrvItems();
+  _atualizaItemTotal();
+}
+// Preview do total (qtd x valor unitario) na hora de adicionar a peca — o
+// calculo real ja e feito certo no backend (AdicionarItemRol), isso e so
+// pra deixar visivel na hora que, por ex., vende 2 unidades o valor dobra.
+function _atualizaItemTotal(){
+  const el=$('iVtPreview'); if(!el) return;
+  const qtd=Number($('iQtd')?.value||0), vu=Number($('iVu')?.value||0);
+  el.value=money(qtd*vu);
 }
 
 async function addItemRol(osId){
@@ -1816,14 +1827,15 @@ async function vConfig(){
     </div>
     <p style="font-size:12px;color:var(--muted);margin-top:6px">${desc}</p>
   </div>`;
-  const podeEditar=hasPerm('config.write');
+  const podeEditarEmpresa=hasAnyPerm('config.write','empresa.write');
+  const podeEditar=hasPerm('config.write'); // Mercado Pago continua so-administrador
   pg().innerHTML=`
   <div class="card">
     <h2>Dados da empresa</h2>
     <div class="g3">
-      ${empresaKeys.map(k=>`<div class="fld"><label>${esc(labels[k]||k)}</label><input data-cfg="${esc(k)}" value="${esc(c[k]||'')}" ${podeEditar?'':'disabled'}></div>`).join('')}
+      ${empresaKeys.map(k=>`<div class="fld"><label>${esc(labels[k]||k)}</label><input data-cfg="${esc(k)}" value="${esc(c[k]||'')}" ${podeEditarEmpresa?'':'disabled'}></div>`).join('')}
     </div>
-    ${podeEditar?`<button class="btn primary mt" onclick="saveConfig()">Salvar configurações</button>`:''}
+    ${podeEditarEmpresa?`<button class="btn primary mt" onclick="saveConfig()">Salvar configurações</button>`:''}
   </div>
   ${podeEditar?mpCard('mp_luci_access_token','Mercado Pago — Luci (vendas do PDV)','Usado para cobrar PIX dos clientes na hora do pagamento. Obtenha em: mercadopago.com.br → Seu negócio → Credenciais → Produção → Access Token (conta da Luci).'):''}
   ${podeEditar?mpCard('mp_rogerio_access_token','Mercado Pago — Rogerio (fornecedor / licenciamento)','Conta do fornecedor, usada para cobrar a licença de uso do sistema dos usuários (tela Usuários → Licença). Não é usada nas vendas do PDV.'):''}

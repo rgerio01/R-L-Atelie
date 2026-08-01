@@ -185,7 +185,12 @@ app.MapGet("/configuracoes", (HttpRequest req) =>
 
 app.MapPut("/configuracoes/{chave}", (string chave, ConfigRequest req, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.ConfigWrite);
+    // Tokens do Mercado Pago (mp_*) continuam só-administrador; o resto (dados
+    // da empresa) o supervisor também pode editar via empresa.write.
+    if (chave.StartsWith("mp_", StringComparison.OrdinalIgnoreCase))
+        auth.RequirePermission(http, Perm.ConfigWrite);
+    else
+        auth.RequireAnyPermission(http, Perm.ConfigWrite, Perm.EmpresaWrite);
     db.SetConfiguracao(chave, req.Valor);
     return Results.Ok(new { ok = true });
 });
@@ -5152,6 +5157,7 @@ static class Perm
     public const string ConfigRead        = "config.read";
     public const string ImpressorasConfig = "impressoras.config";
     public const string SuporteRemoto     = "suporte.remoto";
+    public const string EmpresaWrite      = "empresa.write";
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -5519,7 +5525,7 @@ sealed class AuthStore
         // administrador acessa as telas de Usuários e Configurações (tokens
         // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
         // não administrativo.
-        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead, Perm.ImpressorasConfig]),
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead, Perm.ImpressorasConfig, Perm.EmpresaWrite]),
         ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
         ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
     ];
