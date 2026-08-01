@@ -1810,10 +1810,13 @@ function resetSenha(u){
 ═══════════════════════════════════════════════════════════════════ */
 async function vConfig(){
   const c=await api('/configuracoes');
-  const labels={empresa_nome:'Nome da empresa',empresa_telefone:'Telefone',empresa_endereco:'Endereço',empresa_cidade:'Cidade/Estado',empresa_cep:'CEP',empresa_cnpj:'CNPJ',empresa_iss_percent:'Alíquota ISS (%)',prazo_entrega_dias:'Prazo padrão entrega (dias)',moeda:'Símbolo moeda',versao:'Versão'};
+  const versaoInfo=await api('/sistema/versao').catch(()=>({versao:'?'}));
+  const labels={empresa_nome:'Nome da empresa',empresa_telefone:'Telefone',empresa_endereco:'Endereço',empresa_cidade:'Cidade/Estado',empresa_cep:'CEP',empresa_cnpj:'CNPJ',empresa_iss_percent:'Alíquota ISS (%)',prazo_entrega_dias:'Prazo padrão entrega (dias)',moeda:'Símbolo moeda'};
   // Só os campos de "Dados da empresa" — outras chaves (impressoras, rede, tokens MP etc.)
-  // têm telas próprias e não devem ser despejadas aqui como texto puro.
-  const empresaKeys=['empresa_nome','empresa_telefone','empresa_endereco','empresa_cidade','empresa_cep','empresa_cnpj','empresa_iss_percent','prazo_entrega_dias','moeda','versao'];
+  // têm telas próprias e não devem ser despejadas aqui como texto puro. "versao" NÃO
+  // entra aqui: é um campo de config legado sem relação com a versão instalada de
+  // verdade (essa vem de /sistema/versao, lida do updater).
+  const empresaKeys=['empresa_nome','empresa_telefone','empresa_endereco','empresa_cidade','empresa_cep','empresa_cnpj','empresa_iss_percent','prazo_entrega_dias','moeda'];
   const mpCard=(chave,titulo,desc)=>`
   <div class="card mt">
     <h2>📱 ${esc(titulo)}</h2>

@@ -1046,6 +1046,26 @@ app.MapPost("/sistema/rede/cabo/renovar", async (HttpRequest http) =>
     return ok ? Results.Ok(new { ok = true, msg = saida }) : Results.BadRequest(new { error = saida });
 });
 
+// ── Versão instalada (lida do updater, não confundir com o campo de config
+// "versao" legado — esse é só um dado de empresa antigo, sempre "1.0.0") ──────
+app.MapGet("/sistema/versao", (HttpRequest req) =>
+{
+    auth.RequireSession(req);
+    const string path = "/opt/atelie/updater/current-version.json";
+    try
+    {
+        if (!File.Exists(path)) return Results.Ok(new { versao = "dev", canal = (string?)null });
+        using var doc = System.Text.Json.JsonDocument.Parse(File.ReadAllText(path));
+        var versao = doc.RootElement.TryGetProperty("version", out var v) ? v.GetString() : "desconhecida";
+        var canal = doc.RootElement.TryGetProperty("channel", out var c) ? c.GetString() : null;
+        return Results.Ok(new { versao, canal });
+    }
+    catch
+    {
+        return Results.Ok(new { versao = "desconhecida", canal = (string?)null });
+    }
+});
+
 // ── Impressoras (A4 / Térmica) ─────────────────────────────────────────────────
 app.MapGet("/sistema/impressoras", async (HttpRequest req) =>
 {
@@ -5323,13 +5343,14 @@ static class SystemCommands
 
     // ── Suporte remoto temporário (Cloudflare Tunnel) ──────────────────────────
     // Kiosk não tem terminal acessível pro cliente/técnico local abrir na mão —
-    // este botão (só administrador) instala o cloudflared se preciso e sobe um
-    // "quick tunnel" apontando pro sshd local, mostrando a URL na tela pra quem
-    // for prestar suporte remoto entrar via SSH. Roda como unidade systemd
-    // transiente própria (systemd-run), fora do cgroup da atelie-api — assim
-    // sobrevive a reinícios/atualizações da API e só cai com "Encerrar túnel"
-    // ou reboot da máquina.
-    private const string SuporteRemotoUnit = "atelie-suporte-remoto";
+    // este botão (só administrador/supervisor) instala o cloudflared se preciso
+    // e sobe um "quick tunnel" apontando pro sshd local, mostrando a URL na
+    // tela pra quem for prestar suporte remoto entrar via SSH.
+    // Processo filho direto da API (mais simples e comprovadamente confiável);
+    // sim, se a API reiniciar o túnel cai junto — trade-off aceito em troca de
+    // não depender de journalctl/systemd-run pra capturar a URL, que se mostrou
+    // pouco confiável na prática.
+    private static System.Diagnostics.Process? _tunnelProcess;
 
     public static async Task<(bool ok, string urlOuErro)> IniciarSuporteRemoto()
     {
@@ -5344,26 +5365,49 @@ static class SystemCommands
             if (!okInstall) return (false, "Falha ao instalar cloudflared: " + outInstall);
         }
 
-        await RunAsync("sudo", new[] { "systemctl", "stop", SuporteRemotoUnit });
+        await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
 
-        var (okStart, outStart) = await RunAsync("sudo", new[]
+        var psi = new System.Diagnostics.ProcessStartInfo
         {
-            "systemd-run", $"--unit={SuporteRemotoUnit}", "--collect",
-            "cloudflared", "tunnel", "--url", "ssh://localhost:22"
+            FileName = "cloudflared",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+        };
+        psi.ArgumentList.Add("tunnel");
+        psi.ArgumentList.Add("--url");
+        psi.ArgumentList.Add("ssh://localhost:22");
+
+        System.Diagnostics.Process? p;
+        try { p = System.Diagnostics.Process.Start(psi); }
+        catch (Exception ex) { return (false, "Não foi possível iniciar o cloudflared: " + ex.Message); }
+        if (p is null) return (false, "Não foi possível iniciar o cloudflared.");
+        _tunnelProcess = p;
+
+        // Um único leitor dedicado do stderr (é lá que o cloudflared loga a URL)
+        // pela vida inteira do processo — nunca mais nada toca em p.StandardError
+        // depois disso, evitando "stream in use by a previous operation" de duas
+        // leituras concorrentes no mesmo stream.
+        var urlAchada = new TaskCompletionSource<string>();
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                string? line;
+                while ((line = await p.StandardError.ReadLineAsync()) is not null)
+                {
+                    var m = System.Text.RegularExpressions.Regex.Match(line, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
+                    if (m.Success) urlAchada.TrySetResult(m.Value);
+                }
+            }
+            catch { /* processo encerrado/túnel derrubado — sem problema */ }
+            finally { urlAchada.TrySetResult(""); }
         });
-        if (!okStart) return (false, "Falha ao iniciar o túnel: " + outStart);
+        _ = Task.Run(async () => { try { while (await p.StandardOutput.ReadLineAsync() is not null) { } } catch { } });
 
-        // A URL sai no log da unidade (journalctl) — o processo em si roda
-        // desacoplado da API, então só dá pra ler a saída dele pelo journal.
-        var deadline = DateTime.UtcNow.AddSeconds(20);
-        var url = "";
-        while (DateTime.UtcNow < deadline && url == "")
-        {
-            await Task.Delay(1000);
-            var (_, journalOut) = await RunAsync("journalctl", new[] { "-u", SuporteRemotoUnit, "--no-pager", "-o", "cat" });
-            var m = System.Text.RegularExpressions.Regex.Match(journalOut, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
-            if (m.Success) url = m.Value;
-        }
+        var vencedor = await Task.WhenAny(urlAchada.Task, Task.Delay(TimeSpan.FromSeconds(20)));
+        var url = vencedor == urlAchada.Task ? await urlAchada.Task : "";
 
         return url != ""
             ? (true, url)
@@ -5372,7 +5416,8 @@ static class SystemCommands
 
     public static async Task<(bool ok, string msg)> PararSuporteRemoto()
     {
-        await RunAsync("sudo", new[] { "systemctl", "stop", SuporteRemotoUnit });
+        await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
+        _tunnelProcess = null;
         return (true, "Túnel encerrado.");
     }
 
@@ -5510,14 +5555,14 @@ sealed class AuthStore
     private static readonly (string Name, string DisplayName, string[] Permissions)[] RolesCanonicos =
     [
         ("administrador", "Administrador", ["*"]),
-        ("operacional",   "Operacional",   [Perm.CadastroWrite, Perm.DashboardRead]),
+        ("operacional",   "Operacional",   [Perm.CadastroWrite, Perm.DashboardRead, Perm.ImpressorasConfig]),
         // usuarios.read e config.write ficam fora de propósito: só o
         // administrador acessa as telas de Usuários e Configurações (tokens
         // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
         // não administrativo.
-        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead, Perm.ImpressorasConfig, Perm.EmpresaWrite]),
-        ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
-        ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead, Perm.ImpressorasConfig, Perm.EmpresaWrite, Perm.SuporteRemoto]),
+        ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead, Perm.ImpressorasConfig]),
+        ("leitura",       "Leitura",       [Perm.RelatoriosRead, Perm.ImpressorasConfig]),
     ];
 
     /// Sincroniza as permissões dos perfis padrão com o modelo atual, mesmo em
