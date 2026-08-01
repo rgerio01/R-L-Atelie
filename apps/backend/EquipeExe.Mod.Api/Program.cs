@@ -1059,7 +1059,7 @@ app.MapGet("/sistema/impressoras", async (HttpRequest req) =>
 
 app.MapPut("/sistema/impressoras/config", (ImpressorasConfigRequest body, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.ConfigWrite);
+    auth.RequireAnyPermission(http, Perm.ConfigWrite, Perm.ImpressorasConfig);
     db.SetConfiguracao("impressora_a4", body.ImpressoraA4 ?? "");
     db.SetConfiguracao("impressora_termica", body.ImpressoraTermica ?? "");
     if (!string.IsNullOrWhiteSpace(body.LarguraTermica))
@@ -1072,21 +1072,21 @@ app.MapPut("/sistema/impressoras/config", (ImpressorasConfigRequest body, HttpRe
 
 app.MapPost("/sistema/impressoras/{nome}/testar", async (string nome, HttpRequest http, string tipo) =>
 {
-    auth.RequirePermission(http, Perm.ConfigWrite);
+    auth.RequireAnyPermission(http, Perm.ConfigWrite, Perm.ImpressorasConfig);
     var (ok, saida) = await SystemCommands.ImpressoraTestar(nome, tipo);
     return ok ? Results.Ok(new { ok = true, msg = saida }) : Results.BadRequest(new { error = saida });
 });
 
 app.MapGet("/sistema/impressoras/detectar", async (HttpRequest req) =>
 {
-    auth.RequirePermission(req, Perm.ConfigWrite);
+    auth.RequireAnyPermission(req, Perm.ConfigWrite, Perm.ImpressorasConfig);
     var (ok, erro, candidatos) = await SystemCommands.ImpressorasDetectarUsb();
     return ok ? Results.Ok(new { candidatos }) : Results.BadRequest(new { error = erro });
 });
 
 app.MapPost("/sistema/impressoras/termica/auto-configurar", async (AutoConfigurarTermicaRequest body, HttpRequest http) =>
 {
-    auth.RequirePermission(http, Perm.ConfigWrite);
+    auth.RequireAnyPermission(http, Perm.ConfigWrite, Perm.ImpressorasConfig);
     var (ok, saida) = await SystemCommands.ImpressoraAutoConfigurarTermica(body.Uri);
     if (!ok) return Results.BadRequest(new { error = saida });
     var (testeOk, testeSaida) = await SystemCommands.ImpressoraTestar("termica", "termica");
@@ -5135,6 +5135,7 @@ static class Perm
     public const string DashboardRead    = "dashboard.read";
     public const string SenhaResetOutros = "senha.reset-outros";
     public const string ConfigRead        = "config.read";
+    public const string ImpressorasConfig = "impressoras.config";
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -5431,7 +5432,7 @@ sealed class AuthStore
         // administrador acessa as telas de Usuários e Configurações (tokens
         // do Mercado Pago, etc.) — supervisor é acesso operacional avançado,
         // não administrativo.
-        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead]),
+        ("supervisor",    "Supervisor",    [Perm.RelatoriosRead, Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.LegadoRead, Perm.PrecosWrite, Perm.CatalogosWrite, Perm.FidelidadeManage, Perm.SenhaResetOutros, Perm.ConfigRead, Perm.ImpressorasConfig]),
         ("caixa",         "Caixa",         [Perm.CadastroWrite, Perm.CaixaAccess, Perm.FinanceiroRead, Perm.RelatoriosRead]),
         ("leitura",       "Leitura",       [Perm.RelatoriosRead]),
     ];
