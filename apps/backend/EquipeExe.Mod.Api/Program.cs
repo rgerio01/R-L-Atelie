@@ -1094,6 +1094,21 @@ app.MapPost("/sistema/impressoras/termica/auto-configurar", async (AutoConfigura
     return Results.Ok(new { ok = true, msg = saida, testeImpressao = testeOk, testeDetalhe = testeSaida });
 });
 
+// ── Suporte remoto temporário (túnel SSH via Cloudflare) — só administrador ──
+app.MapPost("/sistema/suporte-remoto/iniciar", async (HttpRequest http) =>
+{
+    auth.RequirePermission(http, Perm.SuporteRemoto);
+    var (ok, urlOuErro) = await SystemCommands.IniciarSuporteRemoto();
+    return ok ? Results.Ok(new { ok = true, url = urlOuErro }) : Results.BadRequest(new { error = urlOuErro });
+});
+
+app.MapPost("/sistema/suporte-remoto/parar", async (HttpRequest http) =>
+{
+    auth.RequirePermission(http, Perm.SuporteRemoto);
+    var (ok, msg) = await SystemCommands.PararSuporteRemoto();
+    return Results.Ok(new { ok, msg });
+});
+
 // ── Navegador auxiliar (e-mail / consultas) ───────────────────────────────────
 app.MapPost("/sistema/navegador/abrir", async (NavegadorAbrirRequest body, HttpRequest http) =>
 {
@@ -5136,6 +5151,7 @@ static class Perm
     public const string SenhaResetOutros = "senha.reset-outros";
     public const string ConfigRead        = "config.read";
     public const string ImpressorasConfig = "impressoras.config";
+    public const string SuporteRemoto     = "suporte.remoto";
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
@@ -5291,6 +5307,77 @@ static class SystemCommands
             })
             .ToList();
         return (true, null, candidatos);
+    }
+
+    // ── Suporte remoto temporário (Cloudflare Tunnel) ──────────────────────────
+    // Kiosk não tem terminal acessível pro cliente/técnico local abrir na mão —
+    // este botão (só administrador) instala o cloudflared se preciso e sobe um
+    // "quick tunnel" apontando pro sshd local, mostrando a URL na tela pra quem
+    // for prestar suporte remoto entrar via SSH. É sempre temporário: o processo
+    // morre com "Encerrar túnel" ou com o reboot da máquina (nada fica persistido
+    // como serviço systemd).
+    private static System.Diagnostics.Process? _tunnelProcess;
+
+    public static async Task<(bool ok, string urlOuErro)> IniciarSuporteRemoto()
+    {
+        var (temCloudflared, _) = await RunAsync("which", new[] { "cloudflared" });
+        if (!temCloudflared)
+        {
+            var (okInstall, outInstall) = await RunAsync("bash", new[]
+            {
+                "-c",
+                "curl -fsSLo /tmp/cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && sudo dpkg -i /tmp/cloudflared.deb"
+            }, timeoutMs: 60000);
+            if (!okInstall) return (false, "Falha ao instalar cloudflared: " + outInstall);
+        }
+
+        await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
+
+        var psi = new System.Diagnostics.ProcessStartInfo
+        {
+            FileName = "cloudflared",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+        };
+        psi.ArgumentList.Add("tunnel");
+        psi.ArgumentList.Add("--url");
+        psi.ArgumentList.Add("ssh://localhost:22");
+
+        System.Diagnostics.Process? p;
+        try { p = System.Diagnostics.Process.Start(psi); }
+        catch (Exception ex) { return (false, "Não foi possível iniciar o cloudflared: " + ex.Message); }
+        if (p is null) return (false, "Não foi possível iniciar o cloudflared.");
+        _tunnelProcess = p;
+
+        var url = "";
+        var deadline = DateTime.UtcNow.AddSeconds(20);
+        while (DateTime.UtcNow < deadline && url == "")
+        {
+            var readTask = p.StandardError.ReadLineAsync();
+            var winner = await Task.WhenAny(readTask, Task.Delay(500));
+            if (winner != readTask) continue;
+            var line = await readTask;
+            if (line is null) break;
+            var m = System.Text.RegularExpressions.Regex.Match(line, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
+            if (m.Success) url = m.Value;
+        }
+
+        // drena a saída pro resto da vida do processo, senão o pipe enche e trava o cloudflared
+        _ = Task.Run(async () => { try { while (await p.StandardOutput.ReadLineAsync() is not null) { } } catch { } });
+        _ = Task.Run(async () => { try { while (await p.StandardError.ReadLineAsync() is not null) { } } catch { } });
+
+        return url != ""
+            ? (true, url)
+            : (false, "Túnel iniciado, mas não consegui capturar a URL a tempo. Tente 'Encerrar' e depois 'Iniciar' de novo.");
+    }
+
+    public static async Task<(bool ok, string msg)> PararSuporteRemoto()
+    {
+        await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
+        _tunnelProcess = null;
+        return (true, "Túnel encerrado.");
     }
 
     /// Cria (ou recria) a fila "termica" no CUPS como raw — sem driver/PPD, o app

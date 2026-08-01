@@ -1835,7 +1835,32 @@ async function vConfig(){
       <div class="fld"><label>Confirmar nova senha</label><input id="saConf" type="password"></div>
     </div>
     <button class="btn warn mt" onclick="trocarSenha()">Alterar senha</button>
-  </div>`;
+  </div>
+  ${hasPerm('suporte.remoto')?`
+  <div class="card mt">
+    <h2>Suporte remoto</h2>
+    <p class="muted" style="font-size:12px">Abre um túnel temporário pra quem está dando suporte acessar esta máquina remotamente. Use só quando pedirem, e clique em "Encerrar" ao terminar.</p>
+    <div class="row mt">
+      <button class="btn ok" onclick="iniciarSuporteRemoto()">▶ Iniciar túnel</button>
+      <button class="btn warn" onclick="pararSuporteRemoto()">■ Encerrar túnel</button>
+    </div>
+    <div id="suporteRemotoArea" class="mt"></div>
+  </div>`:''}`;
+}
+
+async function iniciarSuporteRemoto(){
+  const area=$('suporteRemotoArea');
+  area.innerHTML='<div class="spin" style="margin:10px auto"></div><p class="muted" style="font-size:12px;text-align:center">Abrindo túnel, pode levar até 20 segundos...</p>';
+  try{
+    const r=await api('/sistema/suporte-remoto/iniciar',{method:'POST'});
+    area.innerHTML=`<p style="font-size:14px">Passe este endereço para quem vai te ajudar:</p>
+      <p style="font-size:20px;font-weight:bold;user-select:all;background:var(--bg2);padding:10px;border-radius:8px;word-break:break-all">${esc(r.url)}</p>`;
+  }catch(e){ area.innerHTML=`<p style="color:var(--bad);font-size:12px">Erro: ${esc(e.message)}</p>`; }
+}
+
+async function pararSuporteRemoto(){
+  try{ const r=await api('/sistema/suporte-remoto/parar',{method:'POST'}); toast(r.msg||'Túnel encerrado'); $('suporteRemotoArea').innerHTML=''; }
+  catch(e){ toast('Erro: '+e.message); }
 }
 
 async function saveConfig(){
