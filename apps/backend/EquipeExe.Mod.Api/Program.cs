@@ -5499,12 +5499,15 @@ sealed class AuthStore
     private const int MaxLoginFails = 5;
     private static readonly TimeSpan LoginLockDuration = TimeSpan.FromMinutes(15);
     private static readonly TimeSpan LoginWindowDuration = TimeSpan.FromMinutes(15);
+    // Desativado temporariamente a pedido do cliente (2026-08-01) durante a instalação/configuração
+    // inicial da máquina nova — reativar depois voltando isto para "true".
+    private const bool BruteForceLockoutEnabled = false;
 
     public LoginResponse? Login(string username, string password, string? ip)
     {
         var key = username.Trim().ToLowerInvariant();
         var now = DateTimeOffset.UtcNow;
-        if (_loginAttempts.TryGetValue(key, out var throttle) && throttle.LockedUntil is { } until && until > now)
+        if (BruteForceLockoutEnabled && _loginAttempts.TryGetValue(key, out var throttle) && throttle.LockedUntil is { } until && until > now)
         {
             Audit(username, "auth.login.blocked_lockout", $"ip={ip}");
             throw new InvalidOperationException("Muitas tentativas de login. Tente novamente em alguns minutos.");
