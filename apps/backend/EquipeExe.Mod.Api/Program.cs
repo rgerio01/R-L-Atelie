@@ -5180,6 +5180,12 @@ static class SystemCommands
                 RedirectStandardError = true,
                 CreateNoWindow = true
             };
+            // Forca locale C/POSIX para utilitarios de sistema (lpstat, lpinfo, nmcli...)
+            // sempre responderem em ingles — o appliance roda em pt_BR, e texto localizado
+            // (ex.: "impressora X esta inativa" em vez de "printer X is idle") quebra os
+            // parsers abaixo que esperam o formato em ingles.
+            psi.EnvironmentVariables["LC_ALL"] = "C";
+            psi.EnvironmentVariables["LANG"] = "C";
             foreach (var a in args) psi.ArgumentList.Add(a);
 
             using var p = System.Diagnostics.Process.Start(psi);
@@ -5319,10 +5325,11 @@ static class SystemCommands
     // Kiosk não tem terminal acessível pro cliente/técnico local abrir na mão —
     // este botão (só administrador) instala o cloudflared se preciso e sobe um
     // "quick tunnel" apontando pro sshd local, mostrando a URL na tela pra quem
-    // for prestar suporte remoto entrar via SSH. É sempre temporário: o processo
-    // morre com "Encerrar túnel" ou com o reboot da máquina (nada fica persistido
-    // como serviço systemd).
-    private static System.Diagnostics.Process? _tunnelProcess;
+    // for prestar suporte remoto entrar via SSH. Roda como unidade systemd
+    // transiente própria (systemd-run), fora do cgroup da atelie-api — assim
+    // sobrevive a reinícios/atualizações da API e só cai com "Encerrar túnel"
+    // ou reboot da máquina.
+    private const string SuporteRemotoUnit = "atelie-suporte-remoto";
 
     public static async Task<(bool ok, string urlOuErro)> IniciarSuporteRemoto()
     {
@@ -5337,50 +5344,26 @@ static class SystemCommands
             if (!okInstall) return (false, "Falha ao instalar cloudflared: " + outInstall);
         }
 
-        await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
+        await RunAsync("sudo", new[] { "systemctl", "stop", SuporteRemotoUnit });
 
-        var psi = new System.Diagnostics.ProcessStartInfo
+        var (okStart, outStart) = await RunAsync("sudo", new[]
         {
-            FileName = "cloudflared",
-            UseShellExecute = false,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            CreateNoWindow = true,
-        };
-        psi.ArgumentList.Add("tunnel");
-        psi.ArgumentList.Add("--url");
-        psi.ArgumentList.Add("ssh://localhost:22");
-
-        System.Diagnostics.Process? p;
-        try { p = System.Diagnostics.Process.Start(psi); }
-        catch (Exception ex) { return (false, "Não foi possível iniciar o cloudflared: " + ex.Message); }
-        if (p is null) return (false, "Não foi possível iniciar o cloudflared.");
-        _tunnelProcess = p;
-
-        // Um único leitor dedicado do stderr (é lá que o cloudflared loga a URL)
-        // pela vida inteira do processo — nunca mais nada toca em p.StandardError
-        // depois disso, evitando "stream in use by a previous operation" de duas
-        // leituras concorrentes no mesmo stream.
-        var urlAchada = new TaskCompletionSource<string>();
-        _ = Task.Run(async () =>
-        {
-            try
-            {
-                string? line;
-                while ((line = await p.StandardError.ReadLineAsync()) is not null)
-                {
-                    var m = System.Text.RegularExpressions.Regex.Match(line, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
-                    if (m.Success) urlAchada.TrySetResult(m.Value); // TrySetResult so "pega" na primeira vez; segue drenando depois
-                }
-            }
-            catch { /* processo encerrado/túnel derrubado — sem problema */ }
-            finally { urlAchada.TrySetResult(""); }
+            "systemd-run", $"--unit={SuporteRemotoUnit}", "--collect",
+            "cloudflared", "tunnel", "--url", "ssh://localhost:22"
         });
-        // drena o stdout pro resto da vida do processo, senão o pipe enche e trava o cloudflared
-        _ = Task.Run(async () => { try { while (await p.StandardOutput.ReadLineAsync() is not null) { } } catch { } });
+        if (!okStart) return (false, "Falha ao iniciar o túnel: " + outStart);
 
-        var vencedor = await Task.WhenAny(urlAchada.Task, Task.Delay(TimeSpan.FromSeconds(20)));
-        var url = vencedor == urlAchada.Task ? await urlAchada.Task : "";
+        // A URL sai no log da unidade (journalctl) — o processo em si roda
+        // desacoplado da API, então só dá pra ler a saída dele pelo journal.
+        var deadline = DateTime.UtcNow.AddSeconds(20);
+        var url = "";
+        while (DateTime.UtcNow < deadline && url == "")
+        {
+            await Task.Delay(1000);
+            var (_, journalOut) = await RunAsync("journalctl", new[] { "-u", SuporteRemotoUnit, "--no-pager", "-o", "cat" });
+            var m = System.Text.RegularExpressions.Regex.Match(journalOut, @"https://[a-zA-Z0-9\-]+\.trycloudflare\.com");
+            if (m.Success) url = m.Value;
+        }
 
         return url != ""
             ? (true, url)
@@ -5389,8 +5372,7 @@ static class SystemCommands
 
     public static async Task<(bool ok, string msg)> PararSuporteRemoto()
     {
-        await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
-        _tunnelProcess = null;
+        await RunAsync("sudo", new[] { "systemctl", "stop", SuporteRemotoUnit });
         return (true, "Túnel encerrado.");
     }
 
