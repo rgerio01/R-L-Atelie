@@ -391,6 +391,21 @@ app.MapGet("/rol/{id}/impressao", (int id, HttpRequest req, string tipo = "rol")
     return Results.Text(db.GerarImpressaoRolTexto(id, tipo), "text/plain; charset=utf-8");
 });
 
+// Imprime de verdade na impressora térmica configurada em Impressoras (CUPS raw) —
+// antes disso o botão "Imprimir" só abria window.print() do navegador, que nunca
+// usava a fila configurada aqui, dando a impressão de que a config "não salvava".
+app.MapPost("/rol/{id}/imprimir", async (int id, HttpRequest http, string tipo = "rol") =>
+{
+    auth.RequireSession(http);
+    var nome = db.GetConfiguracao("impressora_termica");
+    if (string.IsNullOrWhiteSpace(nome))
+        return Results.BadRequest(new { error = "Nenhuma impressora térmica configurada. Configure em 🖨 Impressoras primeiro." });
+    var texto = db.GerarImpressaoRolTexto(id, tipo);
+    var conteudo = "\x1b@" + texto + "\n\n\n\x1dV\x01";
+    var (ok, saida) = await SystemCommands.ImprimirRaw(nome, conteudo);
+    return ok ? Results.Ok(new { ok = true }) : Results.BadRequest(new { error = saida });
+});
+
 app.MapGet("/rol/{id}/etiqueta-argox", (int id, HttpRequest req) =>
 {
     auth.RequireSession(req);
@@ -5291,16 +5306,37 @@ static class SystemCommands
 
     public static async Task<(bool ok, string output)> ImpressoraTestar(string nome, string tipo)
     {
+        if (string.Equals(tipo, "termica", StringComparison.OrdinalIgnoreCase))
+        {
+            var esc = "\x1b@Ateliê da Luci\nTeste de impressao termica\n" + DateTime.Now.ToString("g") + "\n\n\n\x1dV\x01";
+            return await ImprimirRaw(nome, esc);
+        }
+        var texto = $"Ateliê da Luci\nTeste de impressão A4\n{DateTime.Now:g}\n";
+        return await ImprimirTexto(nome, texto);
+    }
+
+    /// Envia texto puro (ESC/POS ja embutido, se for o caso) direto pra fila do CUPS
+    /// via "lp -o raw" — usado tanto no teste de impressora quanto na impressao real
+    /// de recibo (ver /rol/{id}/imprimir).
+    public static async Task<(bool ok, string output)> ImprimirRaw(string nome, string texto)
+    {
         var tmp = Path.GetTempFileName();
         try
         {
-            if (string.Equals(tipo, "termica", StringComparison.OrdinalIgnoreCase))
-            {
-                var esc = "\x1b@Ateliê da Luci\nTeste de impressao termica\n" + DateTime.Now.ToString("g") + "\n\n\n\x1dV\x01";
-                await File.WriteAllTextAsync(tmp, esc);
-                return await RunAsync("lp", new[] { "-d", nome, "-o", "raw", tmp });
-            }
-            var texto = $"Ateliê da Luci\nTeste de impressão A4\n{DateTime.Now:g}\n";
+            await File.WriteAllTextAsync(tmp, texto);
+            return await RunAsync("lp", new[] { "-d", nome, "-o", "raw", tmp });
+        }
+        finally
+        {
+            try { File.Delete(tmp); } catch { /* arquivo temporário, sem problema se falhar */ }
+        }
+    }
+
+    public static async Task<(bool ok, string output)> ImprimirTexto(string nome, string texto)
+    {
+        var tmp = Path.GetTempFileName();
+        try
+        {
             await File.WriteAllTextAsync(tmp, texto);
             return await RunAsync("lp", new[] { "-d", nome, tmp });
         }

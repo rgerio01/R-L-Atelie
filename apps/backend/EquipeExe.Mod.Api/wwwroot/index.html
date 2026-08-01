@@ -2148,7 +2148,16 @@ async function imprimirRol(id){
   }
   $('printArea').textContent=txt;
   dlg('Impressão / Recibo',`<div class="prt">${esc(txt)}</div>`,
-  [{txt:'🖨 Imprimir',cls:'primary',fn:()=>window.print()},{txt:'📋 Copiar',cls:'',fn:()=>{navigator.clipboard.writeText(txt);toast('Copiado')}}]);
+  [{txt:'🖨 Imprimir na térmica',cls:'primary',fn:()=>imprimirRolTermica(id)},
+   {txt:'Abrir diálogo do navegador',cls:'',fn:()=>window.print()},
+   {txt:'📋 Copiar',cls:'',fn:()=>{navigator.clipboard.writeText(txt);toast('Copiado')}}]);
+}
+
+async function imprimirRolTermica(id){
+  try{
+    await api(`/rol/${id}/imprimir`,{method:'POST'});
+    toast('Enviado para a impressora térmica');
+  }catch(e){ toast('Erro ao imprimir: '+e.message); }
 }
 
 function formatoRecibo(r){
