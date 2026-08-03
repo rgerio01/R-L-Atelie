@@ -9,15 +9,19 @@ namespace Atelie.Desktop;
 /// de um WebView2 preenchendo a janela inteira — sem barra de endereço,
 /// sem abas, sem cara de navegador. Mesmo princípio do modo quiosque que
 /// já usamos no appliance Linux (Chromium --kiosk apontado pro localhost),
-/// só que como programa Windows instalado de verdade.
+/// só que como programa Windows instalado de verdade. Também roda o
+/// AutoUpdater em segundo plano, puxando novas versões do backend
+/// direto dos releases públicos do GitHub, sem precisar de pendrive.
 public class MainForm : Form
 {
     private const string BackendUrl = "http://127.0.0.1:8095";
-    private const int BackendPort = 8095;
 
     private readonly WebView2 _webView = new() { Dock = DockStyle.Fill };
+    private readonly string _backendDir = Path.Combine(AppContext.BaseDirectory, "backend");
+    private readonly string _dadosDir = Path.Combine(AppContext.BaseDirectory, "dados");
     private Process? _backendProcess;
     private Label? _statusLabel;
+    private AutoUpdater? _updater;
 
     public MainForm()
     {
@@ -35,11 +39,9 @@ public class MainForm : Form
     {
         MostrarStatus("Iniciando o sistema...");
 
-        var backendDir = Path.Combine(AppContext.BaseDirectory, "backend");
-        var jaRodando = await BackendRespondeAsync();
-        if (!jaRodando)
+        if (!await BackendRespondeAsync())
         {
-            IniciarBackend(backendDir);
+            IniciarBackend();
             var pronto = await EsperarBackendAsync(TimeSpan.FromSeconds(30));
             if (!pronto)
             {
@@ -52,33 +54,60 @@ public class MainForm : Form
         _webView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
         RemoverStatus();
         _webView.CoreWebView2.Navigate(BackendUrl);
+
+        var logDir = Path.Combine(_dadosDir, "logs");
+        Directory.CreateDirectory(logDir);
+        var logPath = Path.Combine(logDir, "auto-update.log");
+        _updater = new AutoUpdater(
+            appRoot: AppContext.BaseDirectory,
+            backendDir: _backendDir,
+            pararBackend: PararBackendAsync,
+            iniciarBackend: async () =>
+            {
+                IniciarBackend();
+                await EsperarBackendAsync(TimeSpan.FromSeconds(30));
+                if (_webView.CoreWebView2 is not null)
+                    _webView.CoreWebView2.Reload();
+            },
+            log: msg => File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {msg}\n"));
+        _updater.StartBackground();
     }
 
-    private void IniciarBackend(string backendDir)
+    private void IniciarBackend()
     {
-        var exe = Path.Combine(backendDir, "EquipeExe.Mod.Api.exe");
+        var exe = Path.Combine(_backendDir, "EquipeExe.Mod.Api.exe");
         if (!File.Exists(exe))
         {
             MostrarStatus($"Arquivo do sistema não encontrado em:\n{exe}");
             return;
         }
 
-        var dadosDir = Path.Combine(AppContext.BaseDirectory, "dados");
-        Directory.CreateDirectory(dadosDir);
+        Directory.CreateDirectory(_dadosDir);
 
         var psi = new ProcessStartInfo
         {
             FileName = exe,
-            WorkingDirectory = backendDir,
+            WorkingDirectory = _backendDir,
             UseShellExecute = false,
             CreateNoWindow = true,
             WindowStyle = ProcessWindowStyle.Hidden,
         };
         psi.EnvironmentVariables["ASPNETCORE_URLS"] = BackendUrl;
-        psi.EnvironmentVariables["EquipeExe__DataDirectory"] = dadosDir;
-        psi.EnvironmentVariables["EquipeExe__AuditDirectory"] = Path.Combine(dadosDir, "audit");
+        psi.EnvironmentVariables["EquipeExe__DataDirectory"] = _dadosDir;
+        psi.EnvironmentVariables["EquipeExe__AuditDirectory"] = Path.Combine(_dadosDir, "audit");
 
         _backendProcess = Process.Start(psi);
+    }
+
+    private Task PararBackendAsync()
+    {
+        try
+        {
+            if (_backendProcess is { HasExited: false })
+                _backendProcess.Kill(entireProcessTree: true);
+        }
+        catch { /* processo já pode ter encerrado sozinho */ }
+        return Task.CompletedTask;
     }
 
     private static async Task<bool> BackendRespondeAsync()
@@ -86,7 +115,7 @@ public class MainForm : Form
         try
         {
             using var http = new HttpClient { Timeout = TimeSpan.FromSeconds(2) };
-            var resp = await http.GetAsync(BackendUrl);
+            await http.GetAsync(BackendUrl);
             return true;
         }
         catch { return false; }
@@ -129,13 +158,8 @@ public class MainForm : Form
         _statusLabel = null;
     }
 
-    private void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
+    private async void MainForm_FormClosing(object? sender, FormClosingEventArgs e)
     {
-        try
-        {
-            if (_backendProcess is { HasExited: false })
-                _backendProcess.Kill(entireProcessTree: true);
-        }
-        catch { /* processo já pode ter encerrado sozinho */ }
+        await PararBackendAsync();
     }
 }
