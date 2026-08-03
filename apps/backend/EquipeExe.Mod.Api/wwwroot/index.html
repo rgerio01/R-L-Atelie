@@ -136,7 +136,7 @@ tr:last-child td{border-bottom:0}tr:hover td{background:#fafbff}td .row{flex-wra
 #toast.on{display:block}
 /* Print */
 .prt{font-family:Consolas,monospace;font-size:13px;white-space:pre;background:#fff;border:1px dashed #ccc;padding:12px;border-radius:6px;overflow-x:auto;color:#000}
-@media print{body>*{display:none}#printArea{display:block!important}}
+@media print{body>*{display:none!important}#printArea{display:block!important}}
 #printArea{display:none;padding:20px;font-family:Consolas,monospace;font-size:12px;white-space:pre}
 /* Tabs */
 .tabs{display:flex;gap:0;border-bottom:2px solid var(--line);margin-bottom:14px}
@@ -1094,12 +1094,12 @@ async function cancelarAgenda(id){
    CLIENTES
 ═══════════════════════════════════════════════════════════════════ */
 let _cliQ='';
-async function vClientes(){
+async function vClientes(fromSearch=false){
   const r=await api(`/clientes?pg=${S.pg.cli}&tam=30`+(_cliQ?'&q='+encodeURIComponent(_cliQ):''));
   const rows=r.items||[]; const tot=r.total||0; const pages=Math.ceil(tot/30)||1;
   pg().innerHTML=`
   <div class="tb">
-    <div class="f"><label>Busca</label><input id="cliQ" value="${esc(_cliQ)}" placeholder="Nome, fone, CPF…" oninput="_cliQ=this.value;S.pg.cli=1;vClientes()"></div>
+    <div class="f"><label>Busca</label><input id="cliQ" value="${esc(_cliQ)}" placeholder="Nome, fone, CPF…" oninput="_cliQ=this.value;S.pg.cli=1;clearTimeout(_cliQTimer);_cliQTimer=setTimeout(()=>vClientes(true),350)"></div>
     <div class="grow"></div>
     <button class="btn primary" onclick="clienteModal()">+ Novo cliente</button>
   </div>
@@ -1125,6 +1125,7 @@ async function vClientes(){
     <span style="font-size:12px">Pág ${S.pg.cli}/${pages}</span>
     <button class="btn sm" ${S.pg.cli>=pages?'disabled':''} onclick="S.pg.cli++;vClientes()">›</button>
   </div>`;
+  if(fromSearch){const el=$('cliQ');if(el){el.focus();el.setSelectionRange(el.value.length,el.value.length);}}
 }
 
 function clienteModal(c={},cb=null){
@@ -1141,6 +1142,7 @@ function clienteModal(c={},cb=null){
     <div class="fld"><label>CEP</label><input id="cCep" value="${esc(c.cep||'')}"></div>
     <div class="fld"><label>Logradouro</label><input id="cLog" value="${esc(c.logradouro||'')}"></div>
     <div class="fld"><label>Número</label><input id="cNr" value="${esc(c.numero||'')}"></div>
+    <div class="fld"><label>Complemento (apto/bloco/casa)</label><input id="cComp" value="${esc(c.complemento||'')}"></div>
     <div class="fld"><label>Bairro</label><input id="cBai" value="${esc(c.bairro||'')}"></div>
     <div class="fld"><label>Cidade</label><input id="cCid" value="${esc(c.cidade||'')}"></div>
     <div class="fld"><label>UF</label><input id="cUF" value="${esc(c.estado||'')}"></div>
@@ -1154,7 +1156,7 @@ function clienteModal(c={},cb=null){
 async function salvarCliente(id,cb){
   const b={nome:$('cNome').value.trim(),telefone:$('cTel').value,celular:$('cCel').value,
     documento:$('cDoc').value,email:$('cEmail').value,logradouro:$('cLog').value,
-    numero:$('cNr').value,bairro:$('cBai').value,cidade:$('cCid').value,estado:$('cUF').value,
+    numero:$('cNr').value,complemento:$('cComp').value||null,bairro:$('cBai').value,cidade:$('cCid').value,estado:$('cUF').value,
     cep:$('cCep').value,observacoes:$('cObs').value,
     limiteCredito:Number($('cLim').value||0),descontoPercent:Number($('cDesc').value||0),
     dataNascimento:$('cDatNas').value||null,contato:$('cContato').value||null,

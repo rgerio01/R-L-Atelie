@@ -1114,8 +1114,11 @@ app.MapPost("/sistema/impressoras/termica/auto-configurar", async (AutoConfigura
     auth.RequireAnyPermission(http, Perm.ConfigWrite, Perm.ImpressorasConfig);
     var (ok, saida) = await SystemCommands.ImpressoraAutoConfigurarTermica(body.Uri);
     if (!ok) return Results.BadRequest(new { error = saida });
-    var (testeOk, testeSaida) = await SystemCommands.ImpressoraTestar("termica", "termica");
-    db.SetConfiguracao("impressora_termica", "termica");
+    // No Windows nao existe fila "termica" separada -- o proprio nome da
+    // impressora do Windows e' o identificador usado no resto do sistema.
+    var nomeFila = OperatingSystem.IsWindows() ? body.Uri : "termica";
+    var (testeOk, testeSaida) = await SystemCommands.ImpressoraTestar(nomeFila, "termica");
+    db.SetConfiguracao("impressora_termica", nomeFila);
     return Results.Ok(new { ok = true, msg = saida, testeImpressao = testeOk, testeDetalhe = testeSaida });
 });
 
@@ -1637,6 +1640,7 @@ INSERT OR IGNORE INTO configuracoes(chave, valor) VALUES
         EnsureColumn(con, "clientes", "data_nascimento", "TEXT");
         EnsureColumn(con, "clientes", "cartao_fidelidade", "TEXT");
         EnsureColumn(con, "clientes", "contato", "TEXT");
+        EnsureColumn(con, "clientes", "complemento", "TEXT");
         EnsureColumn(con, "ordens_servico", "legacy_rol", "TEXT");
         EnsureColumn(con, "ordens_servico", "legacy_payload", "TEXT");
         EnsureColumn(con, "os_itens", "legacy_payload", "TEXT");
@@ -2157,8 +2161,8 @@ WHERE updated_by IS NULL";
                 if (string.IsNullOrWhiteSpace(cod) || string.IsNullOrWhiteSpace(nome)) continue;
                 using var cmd = con.CreateCommand();
                 cmd.CommandText = @"INSERT OR IGNORE INTO clientes(
-legacy_codigo,nome,documento,telefone,celular,email,logradouro,bairro,cidade,estado,cep,observacoes,limite_credito,desconto_percent,ativo,created_by,data_nascimento,cartao_fidelidade,contato)
-VALUES($legacy,$nome,$doc,$tel,$cel,$email,$log,$bairro,$cidade,$uf,$cep,$obs,$lim,$desc,$ativo,'legacy-paradox',$datnas,$cartfid,$contato)";
+legacy_codigo,nome,documento,telefone,celular,email,logradouro,bairro,cidade,estado,cep,observacoes,limite_credito,desconto_percent,ativo,created_by,data_nascimento,cartao_fidelidade,contato,complemento)
+VALUES($legacy,$nome,$doc,$tel,$cel,$email,$log,$bairro,$cidade,$uf,$cep,$obs,$lim,$desc,$ativo,'legacy-paradox',$datnas,$cartfid,$contato,$comp)";
                 cmd.Parameters.AddWithValue("$legacy", cod);
                 cmd.Parameters.AddWithValue("$nome", nome);
                 cmd.Parameters.AddWithValue("$doc", Db(FirstNonEmpty(V(row, "CPFCli"), V(row, "CgcCli"))));
@@ -2177,6 +2181,7 @@ VALUES($legacy,$nome,$doc,$tel,$cel,$email,$log,$bairro,$cidade,$uf,$cep,$obs,$l
                 cmd.Parameters.AddWithValue("$datnas", DbDate(V(row, "DatNas")));
                 cmd.Parameters.AddWithValue("$cartfid", Db(V(row, "CartaoFid")));
                 cmd.Parameters.AddWithValue("$contato", Db(V(row, "Contato")));
+                cmd.Parameters.AddWithValue("$comp", Db(V(row, "CompEnd")));
                 cmd.ExecuteNonQuery();
             }
             return;
@@ -3138,8 +3143,8 @@ SELECT last_insert_rowid();";
         using var con = Open();
         using var cmd = con.CreateCommand();
         cmd.CommandText = @"
-INSERT INTO clientes(nome,documento,telefone,celular,email,logradouro,numero,bairro,cidade,estado,cep,observacoes,limite_credito,desconto_percent,created_by,data_nascimento,cartao_fidelidade,contato)
-VALUES($nm,$doc,$tel,$cel,$eml,$log,$num,$bai,$cid,$est,$cep,$obs,$lim,$desc,$usr,$datnas,$cartfid,$contato);
+INSERT INTO clientes(nome,documento,telefone,celular,email,logradouro,numero,bairro,cidade,estado,cep,observacoes,limite_credito,desconto_percent,created_by,data_nascimento,cartao_fidelidade,contato,complemento)
+VALUES($nm,$doc,$tel,$cel,$eml,$log,$num,$bai,$cid,$est,$cep,$obs,$lim,$desc,$usr,$datnas,$cartfid,$contato,$comp);
 SELECT last_insert_rowid();";
         SetClienteParams(cmd, req, usuario);
         var id = (int)(long)(cmd.ExecuteScalar() ?? 0L);
@@ -3155,7 +3160,7 @@ SELECT last_insert_rowid();";
 UPDATE clientes SET nome=$nm,documento=$doc,telefone=$tel,celular=$cel,email=$eml,
   logradouro=$log,numero=$num,bairro=$bai,cidade=$cid,estado=$est,cep=$cep,
   observacoes=$obs,limite_credito=$lim,desconto_percent=$desc,updated_at=datetime('now'),
-  data_nascimento=$datnas,cartao_fidelidade=$cartfid,contato=$contato
+  data_nascimento=$datnas,cartao_fidelidade=$cartfid,contato=$contato,complemento=$comp
 WHERE id=$id";
         SetClienteParams(cmd, req, usuario);
         cmd.Parameters.AddWithValue("$id", id);
@@ -4928,6 +4933,7 @@ FROM caixa_movimentos WHERE sessao_id=$id";
         cmd.Parameters.AddWithValue("$datnas", string.IsNullOrWhiteSpace(req.DataNascimento) ? DBNull.Value : (object)req.DataNascimento.Trim());
         cmd.Parameters.AddWithValue("$cartfid", string.IsNullOrWhiteSpace(req.CartaoFidelidade) ? DBNull.Value : (object)req.CartaoFidelidade.Trim());
         cmd.Parameters.AddWithValue("$contato", string.IsNullOrWhiteSpace(req.Contato) ? DBNull.Value : (object)req.Contato.Trim());
+        cmd.Parameters.AddWithValue("$comp", string.IsNullOrWhiteSpace(req.Complemento) ? DBNull.Value : (object)req.Complemento.Trim());
     }
 
     private static void SetRolFilterParams(SqliteCommand cmd, string? status, int? clienteId, string? de, string? ate, string? q)
@@ -4969,7 +4975,8 @@ FROM caixa_movimentos WHERE sessao_id=$id";
             createdAt = r.GetString(16), updatedAt = r.GetString(17),
             dataNascimento = GetStringByNameSafe(r, "data_nascimento"),
             cartaoFidelidade = GetStringByNameSafe(r, "cartao_fidelidade"),
-            contato = GetStringByNameSafe(r, "contato")
+            contato = GetStringByNameSafe(r, "contato"),
+            complemento = GetStringByNameSafe(r, "complemento")
         };
     }
 
@@ -5193,6 +5200,61 @@ static class Perm
 // Ausência dos binários (ex.: ambiente de desenvolvimento) é tratada como erro
 // recuperável — nunca derruba a API.
 // ═════════════════════════════════════════════════════════════════════════════
+// ═════════════════════════════════════════════════════════════════════════════
+// RawPrinterHelper — envia bytes crus (ESC/POS) direto pro spooler do Windows,
+// via winspool.drv. Equivalente ao "lp -o raw" do CUPS no Linux: sem driver
+// gráfico interpretando nada no meio do caminho.
+// ═════════════════════════════════════════════════════════════════════════════
+static class RawPrinterHelper
+{
+    [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential, CharSet = System.Runtime.InteropServices.CharSet.Ansi)]
+    private struct DOCINFOA
+    {
+        [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPStr)] public string pDocName;
+        [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPStr)] public string? pOutputFile;
+        [System.Runtime.InteropServices.MarshalAs(System.Runtime.InteropServices.UnmanagedType.LPStr)] public string pDataType;
+    }
+
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "OpenPrinterA", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Ansi, ExactSpelling = true)]
+    private static extern bool OpenPrinter(string szPrinter, out IntPtr hPrinter, IntPtr pd);
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "ClosePrinter", SetLastError = true, ExactSpelling = true)]
+    private static extern bool ClosePrinter(IntPtr hPrinter);
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "StartDocPrinterA", SetLastError = true, CharSet = System.Runtime.InteropServices.CharSet.Ansi, ExactSpelling = true)]
+    private static extern bool StartDocPrinter(IntPtr hPrinter, int level, [System.Runtime.InteropServices.In] ref DOCINFOA di);
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "EndDocPrinter", SetLastError = true, ExactSpelling = true)]
+    private static extern bool EndDocPrinter(IntPtr hPrinter);
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "StartPagePrinter", SetLastError = true, ExactSpelling = true)]
+    private static extern bool StartPagePrinter(IntPtr hPrinter);
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "EndPagePrinter", SetLastError = true, ExactSpelling = true)]
+    private static extern bool EndPagePrinter(IntPtr hPrinter);
+    [System.Runtime.InteropServices.DllImport("winspool.Drv", EntryPoint = "WritePrinter", SetLastError = true, ExactSpelling = true)]
+    private static extern bool WritePrinter(IntPtr hPrinter, byte[] pBytes, int dwCount, out int dwWritten);
+
+    public static (bool ok, string output) Enviar(string nomeImpressora, byte[] bytes)
+    {
+        if (!OpenPrinter(nomeImpressora, out var hPrinter, IntPtr.Zero))
+            return (false, $"Não foi possível abrir a impressora '{nomeImpressora}' (verifique o nome exato no Windows).");
+        try
+        {
+            var di = new DOCINFOA { pDocName = "Ateliê PDV", pOutputFile = null, pDataType = "RAW" };
+            if (!StartDocPrinter(hPrinter, 1, ref di)) return (false, "Falha ao iniciar o job de impressão (StartDocPrinter).");
+            try
+            {
+                if (!StartPagePrinter(hPrinter)) return (false, "Falha ao iniciar a página (StartPagePrinter).");
+                try
+                {
+                    if (!WritePrinter(hPrinter, bytes, bytes.Length, out var escritos) || escritos != bytes.Length)
+                        return (false, "Falha ao enviar os dados pro spooler (WritePrinter).");
+                }
+                finally { EndPagePrinter(hPrinter); }
+            }
+            finally { EndDocPrinter(hPrinter); }
+        }
+        finally { ClosePrinter(hPrinter); }
+        return (true, "Enviado pro spooler do Windows.");
+    }
+}
+
 static class SystemCommands
 {
     static async Task<(bool ok, string output)> RunAsync(string file, string[] args, int timeoutMs = 15000)
@@ -5312,10 +5374,17 @@ static class SystemCommands
     // ── Impressoras ─────────────────────────────────────────────────────────
     public static async Task<(bool disponivel, string? erro, List<object> lista)> ImpressorasListar()
     {
+        if (OperatingSystem.IsWindows())
+        {
+            var (okWin, nomes) = await ListarImpressorasWindows();
+            if (!okWin) return (false, "Não foi possível listar impressoras do Windows.", new List<object>());
+            return (true, null, nomes.Select(nome => (object)new { nome, ativa = true }).ToList());
+        }
+
         var (ok, saida) = await RunAsync("lpstat", new[] { "-p" });
         if (!ok) return (false, saida, new List<object>());
 
-        var lista = saida.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+        var lista2 = saida.Split('\n', StringSplitOptions.RemoveEmptyEntries)
             .Where(l => l.StartsWith("printer "))
             .Select(l =>
             {
@@ -5324,14 +5393,23 @@ static class SystemCommands
                 var ativa = l.Contains("idle") || l.Contains("printing");
                 return (object)new { nome, ativa };
             }).ToList();
-        return (true, null, lista);
+        return (true, null, lista2);
     }
 
-    /// Detecta impressoras USB conectadas (via lpinfo -v) que ainda nao tem fila
-    /// no CUPS — usado pelo botao "Detectar impressora" na tela de Configuracoes,
-    /// pra nao precisar de SSH/terminal na maquina fisica.
+    /// Detecta impressoras conectadas ainda sem fila configurada. No Linux, via
+    /// lpinfo -v (USB sem fila no CUPS). No Windows não existe esse conceito —
+    /// o Windows já instala o driver e a fila sozinho quando o USB é plugado —
+    /// então aqui só devolvemos as impressoras já instaladas, prontas pra
+    /// escolher (ver ImpressorasListar), sem precisar de "auto-configurar".
     public static async Task<(bool ok, string? erro, List<object> candidatos)> ImpressorasDetectarUsb()
     {
+        if (OperatingSystem.IsWindows())
+        {
+            var (okWin, nomes) = await ListarImpressorasWindows();
+            if (!okWin) return (false, "Não foi possível listar impressoras do Windows.", new List<object>());
+            return (true, null, nomes.Select(nome => (object)new { uri = nome, label = nome }).ToList());
+        }
+
         var (ok, saida) = await RunAsync("lpinfo", new[] { "-v" });
         if (!ok) return (false, saida, new List<object>());
 
@@ -5460,6 +5538,35 @@ static class SystemCommands
     /// sudo ja usado em /admin/reboot e WifiConectar.
     public static async Task<(bool ok, string output)> ImpressoraAutoConfigurarTermica(string uri)
     {
+        if (OperatingSystem.IsWindows())
+        {
+            var (okWin, nomes) = await ListarImpressorasWindows();
+            var existe = okWin && nomes.Any(n => string.Equals(n, uri, StringComparison.OrdinalIgnoreCase));
+            return existe
+                ? (true, $"Impressora '{uri}' encontrada no Windows.")
+                : (false, $"Impressora '{uri}' não está instalada no Windows. Instale o driver primeiro.");
+        }
+        return await ImpressoraAutoConfigurarTermicaLinux(uri);
+    }
+
+    /// Lista impressoras instaladas no Windows via PowerShell (Get-Printer) —
+    /// evita depender de System.Drawing.Common (não referenciado neste projeto
+    /// cross-platform) só pra enumerar nomes.
+    private static async Task<(bool ok, List<string> nomes)> ListarImpressorasWindows()
+    {
+        var (ok, saida) = await RunAsync("powershell", new[]
+        {
+            "-NoProfile", "-Command",
+            "Get-Printer | Select-Object -ExpandProperty Name"
+        });
+        if (!ok) return (false, new List<string>());
+        var nomes = saida.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+            .Select(l => l.Trim()).Where(l => l.Length > 0).ToList();
+        return (true, nomes);
+    }
+
+    private static async Task<(bool ok, string output)> ImpressoraAutoConfigurarTermicaLinux(string uri)
+    {
         var (okAdd, outAdd) = await RunAsync("sudo", new[] { "lpadmin", "-p", "termica", "-E", "-v", uri, "-m", "raw" });
         if (!okAdd) return (false, outAdd);
         await RunAsync("sudo", new[] { "cupsenable", "termica" });
@@ -5481,7 +5588,14 @@ static class SystemCommands
     /// Envia texto puro (ESC/POS ja embutido, se for o caso) direto pra fila do CUPS
     /// via "lp -o raw" — usado tanto no teste de impressora quanto na impressao real
     /// de recibo (ver /rol/{id}/imprimir).
-    public static async Task<(bool ok, string output)> ImprimirRaw(string nome, string texto)
+    public static Task<(bool ok, string output)> ImprimirRaw(string nome, string texto)
+    {
+        if (OperatingSystem.IsWindows())
+            return Task.FromResult(RawPrinterHelper.Enviar(nome, Encoding.UTF8.GetBytes(texto)));
+        return ImprimirRawLinux(nome, texto);
+    }
+
+    private static async Task<(bool ok, string output)> ImprimirRawLinux(string nome, string texto)
     {
         var tmp = Path.GetTempFileName();
         try
@@ -5495,7 +5609,14 @@ static class SystemCommands
         }
     }
 
-    public static async Task<(bool ok, string output)> ImprimirTexto(string nome, string texto)
+    public static Task<(bool ok, string output)> ImprimirTexto(string nome, string texto)
+    {
+        if (OperatingSystem.IsWindows())
+            return Task.FromResult(RawPrinterHelper.Enviar(nome, Encoding.UTF8.GetBytes(texto)));
+        return ImprimirTextoLinux(nome, texto);
+    }
+
+    private static async Task<(bool ok, string output)> ImprimirTextoLinux(string nome, string texto)
     {
         var tmp = Path.GetTempFileName();
         try
@@ -6076,7 +6197,7 @@ record ClienteRequest(
     string Nome, string? Documento, string? Telefone, string? Celular, string? Email,
     string? Logradouro, string? Numero, string? Bairro, string? Cidade, string? Estado, string? Cep,
     string? Observacoes, double LimiteCredito, double DescontoPercent,
-    string? DataNascimento = null, string? CartaoFidelidade = null, string? Contato = null);
+    string? DataNascimento = null, string? CartaoFidelidade = null, string? Contato = null, string? Complemento = null);
 
 record ServicoRequest(string Codigo, string Descricao, string Categoria, double Preco);
 record AjustarPrecosRequest(List<int>? Ids, string? Categoria, string Tipo, string Modo, double Valor, bool? TodasCategorias);

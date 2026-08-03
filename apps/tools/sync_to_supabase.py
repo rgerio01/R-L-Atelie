@@ -49,9 +49,9 @@ TABLES: dict[str, dict] = {
     "clientes": {
         "pk": ["id"],
         "cols": ["id", "nome", "documento", "telefone", "celular", "email", "logradouro",
-                 "numero", "bairro", "cidade", "estado", "cep", "observacoes",
+                 "numero", "complemento", "bairro", "cidade", "estado", "cep", "observacoes",
                  "limite_credito", "desconto_percent", "ativo", "created_at", "updated_at",
-                 "created_by"],
+                 "created_by", "legacy_codigo", "data_nascimento", "cartao_fidelidade", "contato"],
         "bool_cols": ["ativo"],
     },
     "clientes_historico": {
