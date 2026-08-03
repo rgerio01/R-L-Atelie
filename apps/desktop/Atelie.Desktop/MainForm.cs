@@ -66,8 +66,10 @@ public class MainForm : Form
             {
                 IniciarBackend();
                 await EsperarBackendAsync(TimeSpan.FromSeconds(30));
-                if (_webView.CoreWebView2 is not null)
-                    _webView.CoreWebView2.Reload();
+                // CoreWebView2 so pode ser acessado na UI thread -- este callback
+                // roda na thread de fundo do AutoUpdater.
+                if (IsHandleCreated)
+                    Invoke(() => { if (_webView.CoreWebView2 is not null) _webView.CoreWebView2.Reload(); });
             },
             log: msg => File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {msg}\n"));
         _updater.StartBackground();
