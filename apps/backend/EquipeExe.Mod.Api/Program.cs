@@ -1603,6 +1603,8 @@ INSERT OR IGNORE INTO configuracoes(chave, valor) VALUES
  ('empresa_cnpj',      ''),
  ('empresa_iss_percent', COALESCE((SELECT valor FROM legacy_params WHERE secao='NOTAFISCAL' AND chave='PorISS'   LIMIT 1), '5')),
  ('prazo_entrega_dias','3'),
+ ('empresa_horario_semana', 'Terca a Sexta das 09:00 as 17:00h'),
+ ('empresa_horario_sabado', 'Sabado das 08:00 as 13:00h'),
  ('moeda',             'R$'),
  ('versao',            '1.0.0'),
  ('email_url',         'https://mail.google.com'),
@@ -1670,6 +1672,7 @@ INSERT OR IGNORE INTO configuracoes(chave, valor) VALUES
         EnsureColumn(con, "ordens_servico", "localizacao_rol", "TEXT");
         EnsureColumn(con, "ordens_servico", "data_cancelamento", "TEXT");
         EnsureColumn(con, "ordens_servico", "motivo_desconto", "TEXT");
+        EnsureColumn(con, "ordens_servico", "hora_promessa", "TEXT");
         con.Execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_clientes_legacy_codigo ON clientes(legacy_codigo) WHERE legacy_codigo IS NOT NULL");
         con.Execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_ordens_legacy_rol ON ordens_servico(legacy_rol) WHERE legacy_rol IS NOT NULL");
     }
@@ -3411,12 +3414,13 @@ WHERE os.id=$id";
         using var cmd = con.CreateCommand();
         cmd.Transaction = tx;
         cmd.CommandText = @"
-INSERT INTO ordens_servico(numero,cliente_id,data_entrada,data_promessa,observacoes,usuario_entrada)
-VALUES('',$cli,$de,$pr,$obs,$usr);
+INSERT INTO ordens_servico(numero,cliente_id,data_entrada,data_promessa,hora_promessa,observacoes,usuario_entrada)
+VALUES('',$cli,$de,$pr,$hp,$obs,$usr);
 SELECT last_insert_rowid();";
         cmd.Parameters.AddWithValue("$cli", req.ClienteId);
         cmd.Parameters.AddWithValue("$de", req.DataEntrada ?? DateTime.Today.ToString("yyyy-MM-dd"));
         cmd.Parameters.AddWithValue("$pr", req.DataPromessa ?? (object)DBNull.Value);
+        cmd.Parameters.AddWithValue("$hp", string.IsNullOrWhiteSpace(req.HoraPromessa) ? (object)DBNull.Value : req.HoraPromessa.Trim());
         cmd.Parameters.AddWithValue("$obs", req.Observacoes ?? (object)DBNull.Value);
         cmd.Parameters.AddWithValue("$usr", usuario);
         var id = (int)(long)(cmd.ExecuteScalar() ?? 0L);
@@ -3437,8 +3441,9 @@ SELECT last_insert_rowid();";
     {
         EnsureRolEditavel(id);
         using var con = Open();
-        con.Execute(@"UPDATE ordens_servico SET cliente_id=$cli,data_promessa=$pr,observacoes=$obs,updated_at=datetime('now') WHERE id=$id",
+        con.Execute(@"UPDATE ordens_servico SET cliente_id=$cli,data_promessa=$pr,hora_promessa=$hp,observacoes=$obs,updated_at=datetime('now') WHERE id=$id",
             ("$cli", req.ClienteId), ("$pr", req.DataPromessa ?? (object)DBNull.Value),
+            ("$hp", string.IsNullOrWhiteSpace(req.HoraPromessa) ? (object)DBNull.Value : req.HoraPromessa.Trim()),
             ("$obs", req.Observacoes ?? (object)DBNull.Value), ("$id", id));
     }
 
@@ -3674,7 +3679,7 @@ VALUES($os,$srv,$desc,$tec,$cor,$mar,$def,$qty,$vu,$vt,$obs,$obs2,$peso,$ident,$
     public string GerarImpressaoRolTexto(int id, string tipo)
     {
         using var con = Open();
-        var (numero, cliente, telefone, status, total, dataEntrada, dataPromessa) = GetRolPrintHeader(con, id);
+        var (numero, cliente, telefone, status, total, dataEntrada, dataPromessa, horaPromessa) = GetRolPrintHeader(con, id);
         var itens = GetRolPrintItems(con, id);
         var cfg = GetConfiguracoes();
         var vias = GetLegacyParamInt("INDUSTRIAL", tipo.Equals("pagamento", StringComparison.OrdinalIgnoreCase) ? "QdeViasPag" : "QdeViasRol", 1);
@@ -3714,16 +3719,50 @@ VALUES($os,$srv,$desc,$tec,$cor,$mar,$def,$qty,$vu,$vt,$obs,$obs2,$peso,$ident,$
             }
             sb.AppendLine(new string('-', width));
             sb.AppendLine($"TOTAL: {Money(total)}");
+            if (!string.IsNullOrWhiteSpace(dataPromessa))
+                sb.Append(FormatarBlocoRetirada(dataPromessa, horaPromessa, cfg, width));
             sb.AppendLine($"IMPRESSO: {DateTime.Now:dd/MM/yyyy HH:mm}");
             sb.AppendLine(Center("Obrigado pela preferencia", width));
         }
         return sb.ToString();
     }
 
+    private static readonly string[] DiasSemana =
+        ["DOMINGO", "SEGUNDA-FEIRA", "TERCA-FEIRA", "QUARTA-FEIRA", "QUINTA-FEIRA", "SEXTA-FEIRA", "SABADO"];
+
+    /// Bloco "RETIRA NA LOJA" no fim do recibo — dia da semana + data prometida,
+    /// horario (se preenchido), aviso de doacao apos 90 dias, telefone e
+    /// horario de funcionamento (configuraveis em Configuracoes).
+    private string FormatarBlocoRetirada(string dataPromessa, string? horaPromessa, Dictionary<string, string> cfg, int width)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine();
+        sb.AppendLine(Center("RETIRA NA LOJA", width));
+        if (DateTime.TryParse(dataPromessa, out var dp))
+            sb.AppendLine(Center(DiasSemana[(int)dp.DayOfWeek], width));
+        var linhaData = DateTime.TryParse(dataPromessa, out var dp2) ? dp2.ToString("dd/MM/yyyy") : dataPromessa;
+        sb.AppendLine(Center(linhaData, width));
+        if (!string.IsNullOrWhiteSpace(horaPromessa))
+            sb.AppendLine(Center($"APOS {horaPromessa}h", width));
+        sb.AppendLine();
+        sb.AppendLine("Confira suas pecas na retirada. Pecas nao");
+        sb.AppendLine("retiradas em ate 90 dias serao doadas.");
+        sb.AppendLine("Retorno ate 15 dias apos a data da retirada.");
+        sb.AppendLine();
+        var telefone = cfg.GetValueOrDefault("empresa_telefone", "");
+        if (!string.IsNullOrWhiteSpace(telefone)) sb.AppendLine(Center(telefone, width));
+        var horSemana = cfg.GetValueOrDefault("empresa_horario_semana", "");
+        var horSabado = cfg.GetValueOrDefault("empresa_horario_sabado", "");
+        if (!string.IsNullOrWhiteSpace(horSemana)) sb.AppendLine(horSemana);
+        if (!string.IsNullOrWhiteSpace(horSabado)) sb.AppendLine(horSabado);
+        sb.AppendLine();
+        return sb.ToString();
+    }
+
     public string GerarEtiquetaArgox(int id)
     {
         using var con = Open();
-        var (numero, cliente, _, status, total, _, dataPromessa) = GetRolPrintHeader(con, id);
+        var (numero, cliente, _, status, total, _, dataPromessa, _) = GetRolPrintHeader(con, id);
         var widthDots = GetLegacyParamInt("INICIO", "Linha2", 300);
         var sb = new StringBuilder();
         sb.AppendLine("N");
@@ -3740,15 +3779,16 @@ VALUES($os,$srv,$desc,$tec,$cor,$mar,$def,$qty,$vu,$vt,$obs,$obs2,$peso,$ident,$
         return sb.ToString();
     }
 
-    private (string Numero, string Cliente, string? Telefone, string Status, double Total, string DataEntrada, string? DataPromessa) GetRolPrintHeader(SqliteConnection con, int id)
+    private (string Numero, string Cliente, string? Telefone, string Status, double Total, string DataEntrada, string? DataPromessa, string? HoraPromessa) GetRolPrintHeader(SqliteConnection con, int id)
     {
         using var cmd = con.CreateCommand();
-        cmd.CommandText = @"SELECT os.numero,c.nome,COALESCE(c.telefone,c.celular,''),os.status,os.valor_final,os.data_entrada,os.data_promessa
+        cmd.CommandText = @"SELECT os.numero,c.nome,COALESCE(c.telefone,c.celular,''),os.status,os.valor_final,os.data_entrada,os.data_promessa,os.hora_promessa
 FROM ordens_servico os JOIN clientes c ON c.id=os.cliente_id WHERE os.id=$id";
         cmd.Parameters.AddWithValue("$id", id);
         using var r = cmd.ExecuteReader();
         if (!r.Read()) throw new KeyNotFoundException("ROL nao encontrada.");
-        return (r.GetString(0), r.GetString(1), r.IsDBNull(2) ? null : r.GetString(2), r.GetString(3), r.GetDouble(4), r.GetString(5), r.IsDBNull(6) ? null : r.GetString(6));
+        return (r.GetString(0), r.GetString(1), r.IsDBNull(2) ? null : r.GetString(2), r.GetString(3), r.GetDouble(4), r.GetString(5),
+            r.IsDBNull(6) ? null : r.GetString(6), r.IsDBNull(7) ? null : r.GetString(7));
     }
 
     private List<PrintItem> GetRolPrintItems(SqliteConnection con, int id)
@@ -6232,7 +6272,7 @@ record ClienteRequest(
 record ServicoRequest(string Codigo, string Descricao, string Categoria, double Preco);
 record AjustarPrecosRequest(List<int>? Ids, string? Categoria, string Tipo, string Modo, double Valor, bool? TodasCategorias);
 
-record RolRequest(int ClienteId, string? DataEntrada, string? DataPromessa, string? Observacoes);
+record RolRequest(int ClienteId, string? DataEntrada, string? DataPromessa, string? Observacoes, string? HoraPromessa = null);
 
 record RolItemRequest(
     int? ServicoId, string Descricao, string? TipoTecido, string? Cor,
@@ -6410,7 +6450,7 @@ static class SupabaseSync
         new("clientes_credito_movimentos", ["id"], ["id", "cliente_id", "tipo", "valor", "descricao", "referencia", "usuario", "created_at"], []),
         new("servicos", ["id"], ["id", "codigo", "descricao", "categoria", "preco", "ativo", "created_at", "updated_at"], ["ativo"]),
         new("ordens_servico", ["id"], ["id", "numero", "cliente_id", "status", "data_entrada", "data_promessa",
-            "data_entrega", "data_pagamento", "valor_total", "desconto", "valor_final",
+            "hora_promessa", "data_entrega", "data_pagamento", "valor_total", "desconto", "valor_final",
             "valor_pago", "metodo_pagamento", "troco", "observacoes",
             "motivo_cancelamento", "usuario_entrada", "usuario_entrega",
             "usuario_pagamento", "created_at", "updated_at"], []),

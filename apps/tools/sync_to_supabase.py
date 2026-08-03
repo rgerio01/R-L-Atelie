@@ -80,7 +80,7 @@ TABLES: dict[str, dict] = {
     "ordens_servico": {
         "pk": ["id"],
         "cols": ["id", "numero", "cliente_id", "status", "data_entrada", "data_promessa",
-                 "data_entrega", "data_pagamento", "valor_total", "desconto", "valor_final",
+                 "hora_promessa", "data_entrega", "data_pagamento", "valor_total", "desconto", "valor_final",
                  "valor_pago", "metodo_pagamento", "troco", "observacoes",
                  "motivo_cancelamento", "usuario_entrada", "usuario_entrega",
                  "usuario_pagamento", "created_at", "updated_at"],
