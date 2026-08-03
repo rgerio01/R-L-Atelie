@@ -1134,6 +1134,13 @@ app.MapPost("/sistema/suporte-remoto/parar", async (HttpRequest http) =>
     return Results.Ok(new { ok, msg });
 });
 
+app.MapPost("/sistema/suporte-remoto/anydesk", async (HttpRequest http) =>
+{
+    auth.RequirePermission(http, Perm.SuporteRemoto);
+    var (ok, id, erro) = await SystemCommands.InstalarOuObterAnyDesk();
+    return ok ? Results.Ok(new { ok = true, id }) : Results.BadRequest(new { error = erro });
+});
+
 // ── Navegador auxiliar (e-mail / consultas) ───────────────────────────────────
 app.MapPost("/sistema/navegador/abrir", async (NavegadorAbrirRequest body, HttpRequest http) =>
 {
@@ -5419,6 +5426,33 @@ static class SystemCommands
         await RunAsync("pkill", new[] { "-f", "cloudflared tunnel" });
         _tunnelProcess = null;
         return (true, "Túnel encerrado.");
+    }
+
+    // ── AnyDesk (acesso remoto assistido — instala e mostra o ID) ─────────────
+    // Sem senha de acesso não-assistido: quem for prestar suporte se conecta
+    // pelo ID e a pessoa na máquina precisa clicar em "Aceitar" na tela dela.
+    public static async Task<(bool ok, string id, string erro)> InstalarOuObterAnyDesk()
+    {
+        var (temAnydesk, _) = await RunAsync("which", new[] { "anydesk" });
+        if (!temAnydesk)
+        {
+            var (okRepo, outRepo) = await RunAsync("bash", new[]
+            {
+                "-c",
+                "curl -fsSL https://keys.anydesk.com/repos/DEB-GPG-KEY | sudo gpg --dearmor -o /usr/share/keyrings/anydesk.gpg && " +
+                "echo 'deb [signed-by=/usr/share/keyrings/anydesk.gpg] http://deb.anydesk.com/ all main' | sudo tee /etc/apt/sources.list.d/anydesk-stable.list >/dev/null && " +
+                "sudo apt-get update -y && sudo apt-get install -y anydesk"
+            }, timeoutMs: 120000);
+            if (!okRepo) return (false, "", "Falha ao instalar AnyDesk: " + outRepo);
+            await RunAsync("sudo", new[] { "systemctl", "enable", "--now", "anydesk" });
+        }
+
+        var (okId, idSaida) = await RunAsync("anydesk", new[] { "--get-id" });
+        var id = idSaida.Trim();
+        if (!okId || string.IsNullOrWhiteSpace(id))
+            return (false, "", "AnyDesk instalado, mas o ID ainda não ficou pronto. Clique de novo em alguns segundos.");
+
+        return (true, id, "");
     }
 
     /// Cria (ou recria) a fila "termica" no CUPS como raw — sem driver/PPD, o app
