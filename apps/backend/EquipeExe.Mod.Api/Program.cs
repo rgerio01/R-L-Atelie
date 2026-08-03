@@ -28,6 +28,12 @@ db.Initialize();
 
 TrustedClock.StartBackgroundSync();
 
+// Espelho pro Supabase embutido no proprio processo -- sem depender de Python
+// nem de Tarefa Agendada externa, funciona em qualquer maquina que rode este
+// exe. So liga se SUPABASE_DB_URL estiver configurada (env var, ou arquivo
+// supabase.env no diretorio de dados); senao fica inerte, nunca bloqueia o app.
+SupabaseSync.StartBackground(Path.Combine(dataDirectory, "pdv.db"), dataDirectory);
+
 var app = builder.Build();
 app.UseCors();
 app.UseDefaultFiles();
@@ -1641,6 +1647,11 @@ INSERT OR IGNORE INTO configuracoes(chave, valor) VALUES
         EnsureColumn(con, "clientes", "cartao_fidelidade", "TEXT");
         EnsureColumn(con, "clientes", "contato", "TEXT");
         EnsureColumn(con, "clientes", "complemento", "TEXT");
+        EnsureColumn(con, "clientes", "telefone3", "TEXT");
+        EnsureColumn(con, "clientes", "sexo", "TEXT");
+        EnsureColumn(con, "clientes", "grupo_cliente", "TEXT");
+        EnsureColumn(con, "clientes", "vendedor_codigo", "TEXT");
+        EnsureColumn(con, "clientes", "limite_faturamento", "REAL");
         EnsureColumn(con, "ordens_servico", "legacy_rol", "TEXT");
         EnsureColumn(con, "ordens_servico", "legacy_payload", "TEXT");
         EnsureColumn(con, "os_itens", "legacy_payload", "TEXT");
@@ -3143,8 +3154,8 @@ SELECT last_insert_rowid();";
         using var con = Open();
         using var cmd = con.CreateCommand();
         cmd.CommandText = @"
-INSERT INTO clientes(nome,documento,telefone,celular,email,logradouro,numero,bairro,cidade,estado,cep,observacoes,limite_credito,desconto_percent,created_by,data_nascimento,cartao_fidelidade,contato,complemento)
-VALUES($nm,$doc,$tel,$cel,$eml,$log,$num,$bai,$cid,$est,$cep,$obs,$lim,$desc,$usr,$datnas,$cartfid,$contato,$comp);
+INSERT INTO clientes(nome,documento,telefone,celular,email,logradouro,numero,bairro,cidade,estado,cep,observacoes,limite_credito,desconto_percent,created_by,data_nascimento,cartao_fidelidade,contato,complemento,telefone3,sexo,grupo_cliente,vendedor_codigo,limite_faturamento)
+VALUES($nm,$doc,$tel,$cel,$eml,$log,$num,$bai,$cid,$est,$cep,$obs,$lim,$desc,$usr,$datnas,$cartfid,$contato,$comp,$tel3,$sexo,$grupo,$vend,$limfat);
 SELECT last_insert_rowid();";
         SetClienteParams(cmd, req, usuario);
         var id = (int)(long)(cmd.ExecuteScalar() ?? 0L);
@@ -3160,7 +3171,8 @@ SELECT last_insert_rowid();";
 UPDATE clientes SET nome=$nm,documento=$doc,telefone=$tel,celular=$cel,email=$eml,
   logradouro=$log,numero=$num,bairro=$bai,cidade=$cid,estado=$est,cep=$cep,
   observacoes=$obs,limite_credito=$lim,desconto_percent=$desc,updated_at=datetime('now'),
-  data_nascimento=$datnas,cartao_fidelidade=$cartfid,contato=$contato,complemento=$comp
+  data_nascimento=$datnas,cartao_fidelidade=$cartfid,contato=$contato,complemento=$comp,
+  telefone3=$tel3,sexo=$sexo,grupo_cliente=$grupo,vendedor_codigo=$vend,limite_faturamento=$limfat
 WHERE id=$id";
         SetClienteParams(cmd, req, usuario);
         cmd.Parameters.AddWithValue("$id", id);
@@ -4934,6 +4946,11 @@ FROM caixa_movimentos WHERE sessao_id=$id";
         cmd.Parameters.AddWithValue("$cartfid", string.IsNullOrWhiteSpace(req.CartaoFidelidade) ? DBNull.Value : (object)req.CartaoFidelidade.Trim());
         cmd.Parameters.AddWithValue("$contato", string.IsNullOrWhiteSpace(req.Contato) ? DBNull.Value : (object)req.Contato.Trim());
         cmd.Parameters.AddWithValue("$comp", string.IsNullOrWhiteSpace(req.Complemento) ? DBNull.Value : (object)req.Complemento.Trim());
+        cmd.Parameters.AddWithValue("$tel3", string.IsNullOrWhiteSpace(req.Telefone3) ? DBNull.Value : (object)req.Telefone3.Trim());
+        cmd.Parameters.AddWithValue("$sexo", string.IsNullOrWhiteSpace(req.Sexo) ? DBNull.Value : (object)req.Sexo.Trim());
+        cmd.Parameters.AddWithValue("$grupo", string.IsNullOrWhiteSpace(req.GrupoCliente) ? DBNull.Value : (object)req.GrupoCliente.Trim());
+        cmd.Parameters.AddWithValue("$vend", string.IsNullOrWhiteSpace(req.VendedorCodigo) ? DBNull.Value : (object)req.VendedorCodigo.Trim());
+        cmd.Parameters.AddWithValue("$limfat", (object?)req.LimiteFaturamento ?? DBNull.Value);
     }
 
     private static void SetRolFilterParams(SqliteCommand cmd, string? status, int? clienteId, string? de, string? ate, string? q)
@@ -4976,7 +4993,12 @@ FROM caixa_movimentos WHERE sessao_id=$id";
             dataNascimento = GetStringByNameSafe(r, "data_nascimento"),
             cartaoFidelidade = GetStringByNameSafe(r, "cartao_fidelidade"),
             contato = GetStringByNameSafe(r, "contato"),
-            complemento = GetStringByNameSafe(r, "complemento")
+            complemento = GetStringByNameSafe(r, "complemento"),
+            telefone3 = GetStringByNameSafe(r, "telefone3"),
+            sexo = GetStringByNameSafe(r, "sexo"),
+            grupoCliente = GetStringByNameSafe(r, "grupo_cliente"),
+            vendedorCodigo = GetStringByNameSafe(r, "vendedor_codigo"),
+            limiteFaturamento = GetDoubleByNameSafe(r, "limite_faturamento")
         };
     }
 
@@ -5126,6 +5148,12 @@ FROM caixa_movimentos WHERE sessao_id=$id";
     private static string? GetStringByNameSafe(SqliteDataReader r, string name)
     {
         try { var ix = r.GetOrdinal(name); return r.IsDBNull(ix) ? null : r.GetString(ix); }
+        catch { return null; }
+    }
+
+    private static double? GetDoubleByNameSafe(SqliteDataReader r, string name)
+    {
+        try { var ix = r.GetOrdinal(name); return r.IsDBNull(ix) ? null : r.GetDouble(ix); }
         catch { return null; }
     }
 
@@ -6197,7 +6225,9 @@ record ClienteRequest(
     string Nome, string? Documento, string? Telefone, string? Celular, string? Email,
     string? Logradouro, string? Numero, string? Bairro, string? Cidade, string? Estado, string? Cep,
     string? Observacoes, double LimiteCredito, double DescontoPercent,
-    string? DataNascimento = null, string? CartaoFidelidade = null, string? Contato = null, string? Complemento = null);
+    string? DataNascimento = null, string? CartaoFidelidade = null, string? Contato = null, string? Complemento = null,
+    string? Telefone3 = null, string? Sexo = null, string? GrupoCliente = null, string? VendedorCodigo = null,
+    double? LimiteFaturamento = null);
 
 record ServicoRequest(string Codigo, string Descricao, string Categoria, double Preco);
 record AjustarPrecosRequest(List<int>? Ids, string? Categoria, string Tipo, string Modo, double Valor, bool? TodasCategorias);
@@ -6352,4 +6382,216 @@ static class LicencaPlanos
         new { plano = "anual",      label = "Anual (12 meses, 20% de desconto)",    valor = (double?)Anual,      meses = (int?)12 },
         new { plano = "vitalicio",  label = "Vitalício — aquisição do programa (sob consulta, negociar com o fornecedor)", valor = (double?)null, meses = (int?)null },
     ];
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
+// SupabaseSync — espelho SQLite -> Postgres embutido no proprio processo.
+// Porta em C# do apps/tools/sync_to_supabase.py: mesmas tabelas, mesma logica
+// de upsert (ON CONFLICT por pk, synced_at=now()). Existe pra nao depender de
+// Python instalado na maquina que roda o app desktop (ex.: computador da
+// cliente) -- so precisa do Npgsql, que já vem embutido no exe self-contained.
+// Nunca derruba o app: qualquer erro (sem internet, sem SUPABASE_DB_URL) so é
+// logado, e o processo segue rodando normalmente offline.
+// ═════════════════════════════════════════════════════════════════════════════
+static class SupabaseSync
+{
+    private sealed record TableSpec(string Nome, string[] Pk, string[] Cols, string[] BoolCols);
+
+    private static readonly TableSpec[] Tabelas =
+    [
+        new("configuracoes", ["chave"], ["chave", "valor", "updated_at"], []),
+        new("clientes", ["id"], ["id", "nome", "documento", "telefone", "celular", "email", "logradouro",
+            "numero", "complemento", "bairro", "cidade", "estado", "cep", "observacoes",
+            "limite_credito", "desconto_percent", "ativo", "created_at", "updated_at",
+            "created_by", "legacy_codigo", "data_nascimento", "cartao_fidelidade", "contato",
+            "telefone3", "sexo", "grupo_cliente", "vendedor_codigo", "limite_faturamento"], ["ativo"]),
+        new("clientes_historico", ["id"], ["id", "cliente_id", "evento", "detalhe", "usuario", "created_at"], []),
+        new("clientes_credito", ["cliente_id"], ["cliente_id", "saldo", "updated_at"], []),
+        new("clientes_credito_movimentos", ["id"], ["id", "cliente_id", "tipo", "valor", "descricao", "referencia", "usuario", "created_at"], []),
+        new("servicos", ["id"], ["id", "codigo", "descricao", "categoria", "preco", "ativo", "created_at", "updated_at"], ["ativo"]),
+        new("ordens_servico", ["id"], ["id", "numero", "cliente_id", "status", "data_entrada", "data_promessa",
+            "data_entrega", "data_pagamento", "valor_total", "desconto", "valor_final",
+            "valor_pago", "metodo_pagamento", "troco", "observacoes",
+            "motivo_cancelamento", "usuario_entrada", "usuario_entrega",
+            "usuario_pagamento", "created_at", "updated_at"], []),
+        new("os_itens", ["id"], ["id", "os_id", "servico_id", "descricao", "tipo_tecido", "cor", "marca",
+            "defeito", "quantidade", "valor_unitario", "valor_total", "status", "observacao", "created_at"], []),
+        new("os_historico", ["id"], ["id", "os_id", "evento", "status_anterior", "status_novo", "detalhe", "usuario", "created_at"], []),
+        new("pagamentos", ["id"], ["id", "os_id", "metodo", "valor", "troco", "usuario", "created_at"], []),
+        new("caixa_sessoes", ["id"], ["id", "data", "usuario", "valor_abertura", "valor_contado", "status", "observacao_fechamento", "created_at", "fechado_em"], []),
+        new("caixa_movimentos", ["id"], ["id", "sessao_id", "tipo", "valor", "descricao", "os_id", "usuario", "created_at"], []),
+        new("financeiro", ["id"], ["id", "cliente_id", "os_id", "tipo", "status", "valor", "vencimento",
+            "data_recebimento", "valor_recebido", "metodo_recebimento", "observacao", "usuario", "created_at", "updated_at"], []),
+        new("legacy_records", ["id"], ["id", "tabela", "legacy_pk", "payload", "imported_at"], []),
+        new("orcamentos", ["id"], ["id", "numero", "cliente_id", "status", "data_entrada", "data_promessa",
+            "data_validade", "valor_total", "desconto", "valor_final", "observacoes",
+            "convertido_rol_id", "usuario_entrada", "created_at", "updated_at"], []),
+        new("orc_itens", ["id"], ["id", "orc_id", "servico_id", "descricao", "tipo_tecido", "cor", "marca",
+            "quantidade", "valor_unitario", "valor_total", "observacao", "created_at"], []),
+        new("agenda", ["id"], ["id", "rol_id", "orc_id", "cliente_id", "data_agendamento",
+            "hora_agendamento", "duracao_minutos", "tipo", "observacao", "status", "usuario", "created_at"], []),
+        new("legacy_params", ["id"], ["id", "fonte", "secao", "chave", "valor"], []),
+        new("legacy_coverage", ["id"], ["id", "area", "item", "fonte", "status", "observacao", "updated_by", "updated_at"], []),
+        new("catalogos", ["id"], ["id", "tipo", "codigo", "descricao", "ativo", "created_at"], ["ativo"]),
+        new("indenizacoes", ["id"], ["id", "os_id", "cliente_id", "descricao", "valor", "status", "motivo", "observacao", "usuario", "created_at", "updated_at"], []),
+        new("guardaroupa", ["id"], ["id", "cliente_id", "descricao", "categoria", "cor", "marca", "quantidade",
+            "localizacao", "data_entrada", "data_saida", "status", "observacao", "usuario", "created_at"], []),
+        new("terceirizacao", ["id"], ["id", "os_id", "fornecedor", "descricao", "valor", "data_envio",
+            "data_retorno_prevista", "data_retorno", "status", "observacao", "usuario", "created_at"], []),
+        new("fidelidade", ["cliente_id"], ["cliente_id", "pontos", "updated_at"], []),
+        new("fidelidade_movimentos", ["id"], ["id", "cliente_id", "pontos", "tipo", "referencia", "observacao", "usuario", "created_at"], []),
+        new("doacoes", ["id"], ["id", "os_id", "cliente_id", "descricao", "valor", "data_doacao", "status", "motivo_cancelamento", "observacao", "usuario", "created_at"], []),
+    ];
+
+    private const int BatchSize = 300;
+
+    public static void StartBackground(string pdvDbPath, string dataDirectory)
+    {
+        _ = Task.Run(async () =>
+        {
+            // Primeira sincronizacao 2 minutos depois do boot (deixa o app
+            // terminar de subir e a rede estabilizar), depois a cada 3h --
+            // mesmo intervalo do timer systemd usado no appliance Linux.
+            await Task.Delay(TimeSpan.FromMinutes(2));
+            while (true)
+            {
+                await RunOnceSafe(pdvDbPath, dataDirectory);
+                await Task.Delay(TimeSpan.FromHours(3));
+            }
+        });
+    }
+
+    private static async Task RunOnceSafe(string pdvDbPath, string dataDirectory)
+    {
+        var logDir = Path.Combine(dataDirectory, "logs");
+        Directory.CreateDirectory(logDir);
+        var logPath = Path.Combine(logDir, "supabase-sync.log");
+        void Log(string msg) => File.AppendAllText(logPath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {msg}\n");
+
+        var dbUrl = GetSupabaseDbUrl(dataDirectory);
+        if (string.IsNullOrWhiteSpace(dbUrl))
+        {
+            Log("SUPABASE_DB_URL nao configurado -- pulando (crie supabase.env no diretorio de dados)");
+            return;
+        }
+
+        try
+        {
+            await using var pg = new Npgsql.NpgsqlConnection(ParaConnectionStringNpgsql(dbUrl));
+            await pg.OpenAsync();
+
+            using var sqlite = new SqliteConnection($"Data Source={pdvDbPath};Mode=ReadOnly");
+            sqlite.Open();
+
+            var totalLinhas = 0;
+            foreach (var t in Tabelas)
+            {
+                try
+                {
+                    if (pg.State != System.Data.ConnectionState.Open) await pg.OpenAsync();
+                    totalLinhas += await SyncTabela(sqlite, pg, t);
+                }
+                catch (Exception exTabela) { Log($"ERRO tabela {t.Nome}: {exTabela.Message}"); }
+            }
+            Log($"Sincronizacao concluida: {totalLinhas} linhas");
+        }
+        catch (Exception ex)
+        {
+            Log($"Falha ao conectar no Supabase: {ex.Message} -- seguindo offline");
+        }
+    }
+
+    private static async Task<int> SyncTabela(SqliteConnection sqlite, Npgsql.NpgsqlConnection pg, TableSpec t)
+    {
+        using var cmd = sqlite.CreateCommand();
+        cmd.CommandText = $"SELECT {string.Join(",", t.Cols)} FROM {t.Nome}";
+        using var reader = cmd.ExecuteReader();
+
+        var linhas = new List<object?[]>();
+        while (reader.Read())
+        {
+            var linha = new object?[t.Cols.Length];
+            for (var i = 0; i < t.Cols.Length; i++)
+            {
+                if (reader.IsDBNull(i)) { linha[i] = null; continue; }
+                var valor = reader.GetValue(i);
+                if (t.BoolCols.Contains(t.Cols[i])) { linha[i] = Convert.ToInt64(valor) != 0; continue; }
+                // SQLite guarda data/hora como TEXT; o Npgsql manda string
+                // como tipo "text" no protocolo, e o Postgres nao aceita
+                // atribuir text a coluna timestamptz/date num parametro
+                // (so aceita em literal). Convertendo pra DateTimeOffset
+                // aqui, o Npgsql manda no tipo certo e a coluna aceita direto.
+                if (valor is string s && DateTimeOffset.TryParse(s, CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal, out var dto))
+                { linha[i] = dto.ToUniversalTime(); continue; }
+                linha[i] = valor;
+            }
+            linhas.Add(linha);
+        }
+        if (linhas.Count == 0) return 0;
+
+        var updateCols = t.Cols.Where(c => !t.Pk.Contains(c)).ToArray();
+        var setClause = string.Join(", ", updateCols.Select(c => $"{c}=EXCLUDED.{c}"));
+        setClause = (setClause.Length > 0 ? setClause + ", " : "") + "synced_at=now()";
+
+        for (var offset = 0; offset < linhas.Count; offset += BatchSize)
+        {
+            var lote = linhas.Skip(offset).Take(BatchSize).ToList();
+            var valuesSql = new List<string>();
+            await using var cmdPg = pg.CreateCommand();
+            var p = 0;
+            foreach (var linha in lote)
+            {
+                var placeholders = new List<string>();
+                foreach (var valor in linha)
+                {
+                    var nome = $"p{p++}";
+                    cmdPg.Parameters.AddWithValue(nome, valor ?? DBNull.Value);
+                    placeholders.Add("@" + nome);
+                }
+                valuesSql.Add($"({string.Join(",", placeholders)})");
+            }
+            cmdPg.CommandText =
+                $"INSERT INTO {t.Nome} ({string.Join(",", t.Cols)}) VALUES {string.Join(",", valuesSql)} " +
+                $"ON CONFLICT ({string.Join(",", t.Pk)}) DO UPDATE SET {setClause}";
+            await cmdPg.ExecuteNonQueryAsync();
+        }
+        return linhas.Count;
+    }
+
+    /// Npgsql nao entende URI "postgresql://user:pass@host:port/db" (so
+    /// psycopg2/libpq entendem esse formato) -- converte pro formato de
+    /// connection string keyword=value que o Npgsql espera.
+    private static string ParaConnectionStringNpgsql(string uriString)
+    {
+        var uri = new Uri(uriString);
+        var userInfo = uri.UserInfo.Split(':', 2);
+        var usuario = Uri.UnescapeDataString(userInfo[0]);
+        var senha = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "";
+        var banco = uri.AbsolutePath.TrimStart('/');
+        return $"Host={uri.Host};Port={uri.Port};Username={usuario};Password={senha};Database={banco};SSL Mode=Require;Trust Server Certificate=true";
+    }
+
+    /// Le SUPABASE_DB_URL da variavel de ambiente; se nao existir, tenta um
+    /// arquivo "supabase.env" (formato CHAVE=valor) no diretorio de dados ou
+    /// na pasta do executavel -- mesmo padrao usado no appliance Linux
+    /// (EnvironmentFile do systemd), so que sem precisar de systemd no Windows.
+    private static string? GetSupabaseDbUrl(string dataDirectory)
+    {
+        var env = Environment.GetEnvironmentVariable("SUPABASE_DB_URL");
+        if (!string.IsNullOrWhiteSpace(env)) return env;
+
+        foreach (var dir in new[] { dataDirectory, AppContext.BaseDirectory })
+        {
+            var path = Path.Combine(dir, "supabase.env");
+            if (!File.Exists(path)) continue;
+            foreach (var linha in File.ReadAllLines(path))
+            {
+                var l = linha.Trim();
+                if (l.Length == 0 || l.StartsWith('#') || !l.Contains('=')) continue;
+                var partes = l.Split('=', 2);
+                if (partes[0].Trim() == "SUPABASE_DB_URL") return partes[1].Trim();
+            }
+        }
+        return null;
+    }
 }

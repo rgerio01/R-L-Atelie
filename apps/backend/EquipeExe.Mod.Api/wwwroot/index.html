@@ -1148,6 +1148,11 @@ function clienteModal(c={},cb=null){
     <div class="fld"><label>UF</label><input id="cUF" value="${esc(c.estado||'')}"></div>
     <div class="fld"><label>Limite crédito (R$)</label><input id="cLim" type="number" step="0.01" value="${c.limiteCredito||0}"></div>
     <div class="fld"><label>Desconto padrão (%)</label><input id="cDesc" type="number" step="0.01" value="${c.descontoPercent||0}"></div>
+    <div class="fld"><label>Telefone 3</label><input id="cTel3" value="${esc(c.telefone3||'')}"></div>
+    <div class="fld"><label>Sexo</label><input id="cSexo" value="${esc(c.sexo||'')}"></div>
+    <div class="fld"><label>Grupo do cliente</label><input id="cGrupo" value="${esc(c.grupoCliente||'')}"></div>
+    <div class="fld"><label>Vendedor (código)</label><input id="cVend" value="${esc(c.vendedorCodigo||'')}"></div>
+    <div class="fld"><label>Limite faturamento (R$)</label><input id="cLimFat" type="number" step="0.01" value="${c.limiteFaturamento||0}"></div>
   </div>
   <div class="fld mt"><label>Observações</label><textarea id="cObs">${esc(c.observacoes||'')}</textarea></div>`,
   [{txt:'Salvar',cls:'primary',fn:()=>salvarCliente(c.id,cb)}]);
@@ -1160,7 +1165,9 @@ async function salvarCliente(id,cb){
     cep:$('cCep').value,observacoes:$('cObs').value,
     limiteCredito:Number($('cLim').value||0),descontoPercent:Number($('cDesc').value||0),
     dataNascimento:$('cDatNas').value||null,contato:$('cContato').value||null,
-    cartaoFidelidade:$('cCartFid').value||null};
+    cartaoFidelidade:$('cCartFid').value||null,
+    telefone3:$('cTel3').value||null,sexo:$('cSexo').value||null,grupoCliente:$('cGrupo').value||null,
+    vendedorCodigo:$('cVend').value||null,limiteFaturamento:Number($('cLimFat').value||0)};
   if(!b.nome) return toast('Nome obrigatório');
   if(!id && !(await confirmarNaoDuplicado(b))) return;
   const r=await api(id?'/clientes/'+id:'/clientes',{method:id?'PUT':'POST',body:JSON.stringify(b)});
