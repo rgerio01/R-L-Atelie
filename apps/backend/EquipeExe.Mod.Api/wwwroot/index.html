@@ -1876,6 +1876,12 @@ async function vConfig(){
     </div>
     <p class="muted" style="font-size:12px">Clique em "AnyDesk" e passe o código pra quem vai te ajudar. Você vai precisar clicar em "Aceitar" na tela quando a pessoa tentar entrar.</p>
     <div id="anydeskArea" class="mt"></div>
+    <hr class="sep">
+    <div class="row">
+      <button class="btn primary" onclick="sincronizarSupabaseAgora()">🔄 Atualizar dados agora</button>
+    </div>
+    <p class="muted" style="font-size:12px">Manda os dados pra nuvem na hora, sem esperar a atualização automática.</p>
+    <div id="syncArea" class="mt"></div>
   </div>`:''}`;
 }
 
@@ -1902,6 +1908,15 @@ async function ativarAnyDesk(){
     area.innerHTML=`<p style="font-size:14px">Passe este código pra quem vai te ajudar:</p>
       <p style="font-size:24px;font-weight:bold;user-select:all;background:var(--bg2);padding:10px;border-radius:8px;text-align:center;letter-spacing:1px">${esc(r.id)}</p>
       <p class="muted" style="font-size:12px">Quando a pessoa tentar entrar, vai aparecer uma janela pedindo pra você clicar em "Aceitar".</p>`;
+  }catch(e){ area.innerHTML=`<p style="color:var(--bad);font-size:12px">Erro: ${esc(e.message)}</p>`; }
+}
+
+async function sincronizarSupabaseAgora(){
+  const area=$('syncArea');
+  area.innerHTML='<div class="spin" style="margin:10px auto"></div><p class="muted" style="font-size:12px;text-align:center">Enviando dados pra nuvem...</p>';
+  try{
+    const r=await api('/sistema/sincronizar-supabase',{method:'POST'});
+    area.innerHTML=`<p style="color:var(--ok);font-size:13px">✓ ${esc(r.msg)}</p>`;
   }catch(e){ area.innerHTML=`<p style="color:var(--bad);font-size:12px">Erro: ${esc(e.message)}</p>`; }
 }
 

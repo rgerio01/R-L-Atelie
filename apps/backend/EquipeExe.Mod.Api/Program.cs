@@ -1143,6 +1143,13 @@ app.MapPost("/sistema/suporte-remoto/parar", async (HttpRequest http) =>
     return Results.Ok(new { ok, msg });
 });
 
+app.MapPost("/sistema/sincronizar-supabase", async (HttpRequest http) =>
+{
+    auth.RequireAnyPermission(http, Perm.ConfigWrite, Perm.SuporteRemoto);
+    var (ok, msg) = await SupabaseSync.RunNowAsync();
+    return ok ? Results.Ok(new { ok = true, msg }) : Results.BadRequest(new { error = msg });
+});
+
 app.MapPost("/sistema/suporte-remoto/anydesk", async (HttpRequest http) =>
 {
     auth.RequirePermission(http, Perm.SuporteRemoto);
@@ -6485,8 +6492,14 @@ static class SupabaseSync
 
     private const int BatchSize = 300;
 
+    private static string? _pdvDbPath;
+    private static string? _dataDirectory;
+    private static readonly SemaphoreSlim _lock = new(1, 1);
+
     public static void StartBackground(string pdvDbPath, string dataDirectory)
     {
+        _pdvDbPath = pdvDbPath;
+        _dataDirectory = dataDirectory;
         _ = Task.Run(async () =>
         {
             // Primeira sincronizacao 2 minutos depois do boot (deixa o app
@@ -6501,7 +6514,20 @@ static class SupabaseSync
         });
     }
 
-    private static async Task RunOnceSafe(string pdvDbPath, string dataDirectory)
+    /// Dispara uma sincronizacao imediata (botao "Atualizar dados" na tela) —
+    /// nao espera as 3h do ciclo automatico. Semaforo evita duas sincronizacoes
+    /// simultaneas (manual + automatica caindo no mesmo instante).
+    public static async Task<(bool ok, string mensagem)> RunNowAsync()
+    {
+        if (_pdvDbPath is null || _dataDirectory is null)
+            return (false, "Sincronizacao ainda nao inicializada.");
+        if (!await _lock.WaitAsync(0))
+            return (false, "Ja tem uma sincronizacao em andamento, aguarde.");
+        try { return await RunOnceSafe(_pdvDbPath, _dataDirectory); }
+        finally { _lock.Release(); }
+    }
+
+    private static async Task<(bool ok, string mensagem)> RunOnceSafe(string pdvDbPath, string dataDirectory)
     {
         var logDir = Path.Combine(dataDirectory, "logs");
         Directory.CreateDirectory(logDir);
@@ -6511,8 +6537,9 @@ static class SupabaseSync
         var dbUrl = GetSupabaseDbUrl(dataDirectory);
         if (string.IsNullOrWhiteSpace(dbUrl))
         {
-            Log("SUPABASE_DB_URL nao configurado -- pulando (crie supabase.env no diretorio de dados)");
-            return;
+            const string msg = "SUPABASE_DB_URL nao configurado -- crie supabase.env no diretorio de dados";
+            Log(msg);
+            return (false, msg);
         }
 
         try
@@ -6524,6 +6551,7 @@ static class SupabaseSync
             sqlite.Open();
 
             var totalLinhas = 0;
+            var erros = 0;
             foreach (var t in Tabelas)
             {
                 try
@@ -6531,13 +6559,17 @@ static class SupabaseSync
                     if (pg.State != System.Data.ConnectionState.Open) await pg.OpenAsync();
                     totalLinhas += await SyncTabela(sqlite, pg, t);
                 }
-                catch (Exception exTabela) { Log($"ERRO tabela {t.Nome}: {exTabela.Message}"); }
+                catch (Exception exTabela) { erros++; Log($"ERRO tabela {t.Nome}: {exTabela.Message}"); }
             }
-            Log($"Sincronizacao concluida: {totalLinhas} linhas");
+            var resumo = $"Sincronizacao concluida: {totalLinhas} linhas" + (erros > 0 ? $", {erros} tabela(s) com erro" : "");
+            Log(resumo);
+            return (true, resumo);
         }
         catch (Exception ex)
         {
-            Log($"Falha ao conectar no Supabase: {ex.Message} -- seguindo offline");
+            var msg = $"Falha ao conectar no Supabase: {ex.Message}";
+            Log(msg);
+            return (false, msg);
         }
     }
 
