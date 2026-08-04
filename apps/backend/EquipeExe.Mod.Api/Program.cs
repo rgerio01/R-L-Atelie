@@ -5844,6 +5844,13 @@ sealed class AuthStore
 
     public void ImportLegacyUsers()
     {
+        // Migracao do legado ja concluida (ver historico do projeto) -- essa
+        // funcao so existe pra nao quebrar nada que ainda a chame; um
+        // Usuarios.csv perdido em alguma pasta de build antiga recriou
+        // usuarios ja excluidos manualmente pelo administrador, silenciosamente.
+        // Desativada de proposito: nunca mais roda, mesmo que o arquivo apareca.
+        return;
+#pragma warning disable CS0162
         var path = FindImportFile(@"legacy\Usuarios.csv");
         if (path is null) return;
 
