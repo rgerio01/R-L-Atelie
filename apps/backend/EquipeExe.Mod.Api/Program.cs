@@ -6510,13 +6510,12 @@ static class SupabaseSync
         _ = Task.Run(async () =>
         {
             // Primeira sincronizacao 2 minutos depois do boot (deixa o app
-            // terminar de subir e a rede estabilizar), depois a cada 3h --
-            // mesmo intervalo do timer systemd usado no appliance Linux.
+            // terminar de subir e a rede estabilizar), depois a cada 5 minutos.
             await Task.Delay(TimeSpan.FromMinutes(2));
             while (true)
             {
                 await RunOnceSafe(pdvDbPath, dataDirectory);
-                await Task.Delay(TimeSpan.FromHours(3));
+                await Task.Delay(TimeSpan.FromMinutes(5));
             }
         });
     }
